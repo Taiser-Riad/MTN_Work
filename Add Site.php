@@ -266,119 +266,119 @@ oci_close($conn);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Add Site page </title>
     <style>
-    .footer {
-        background: #1c355c;
-        font-size: 17px;
-        margin-top: 10px;
-        color: white;
-        width: 99%;
-        padding-left: 10px;
-        padding-bottom: 10px;
-        padding-top: 30px;
+        .footer {
+            background: #1c355c;
+            font-size: 17px;
+            margin-top: 10px;
+            color: white;
+            width: 99%;
+            padding-left: 10px;
+            padding-bottom: 10px;
+            padding-top: 30px;
 
 
 
-    }
+        }
+
+        .submit {
+            width: 20%;
+
+            float: right;
+            display: flex;
 
 
+        }
 
+        .submit input {
 
-    .submit {
-        width: 20%;
+            width: 70%;
+            Height: 35px;
+            font-size: 17px;
+            font-weight: bold;
+            margin: 10px;
+            border-radius: 10px;
+            text-align: center;
+            border: none;
+            color: #1c355c;
 
-        float: right;
-        display: flex;
+        }
 
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: goldenrod;
+        }
 
-    }
+        .container {
+            width: 60%;
+            background: whitesmoke;
+            padding: 20px;
+            margin-top: 0;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+            border: 2px solid gray;
+            border-radius: 5px;
+            color: #1c355c;
+        }
 
-    .submit input {
+        h1 {
+            text-align: center;
+            width: 100%;
+            height: 100px;
+            margin-top: 0;
+            color: white;
+            margin-bottom: 0px;
+        }
 
-        width: 70%;
-        Height: 35px;
-        font-size: 17px;
-        font-weight: bold;
-        margin: 10px;
-        border-radius: 10px;
-        text-align: center;
-        border: none;
-        color: #1c355c;
+        .header {
 
-    }
+            width: 100%;
+            background: #1c355c;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-bottom: 20px;
+        }
 
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
 
-    body {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: goldenrod;
+        .form1 {
+            width: 100%;
+        }
 
+        .form1 label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
 
-    }
+        input {
+            background-color: #e1e6ed;
+            border: 1px solid #ddd;
+            border-radius: 5px;
 
-    .container {
-        /*position: relative;*/
+        }
 
-        width: 60%;
-        background: whitesmoke;
-        padding-top: 0;
-        margin-top: 0px;
-        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+        select {
+            background-color: #e1e6ed;
+            border: 0.5px solid #e1e6ed;
+        }
 
-        border: 2px solid gray;
-        color: #1c355c;
-        border-radius: 5px;
+        input[type=text]:focus,
+        input[type=date]:focus {
+            border-color: #1c355c;
+            background-color: #fff;
+        }
 
-    }
+        input[type=select]:focus {
+            border: 0.8px solid #ff9317;
 
-    h1 {
-        text-align: center;
-        width: 100%;
-        height: 100px;
-        margin-top: 0;
-        color: white;
-        margin-bottom: 0px;
-
-
-    }
-
-
-    .header {
-
-        width: 100%;
-        background: #1c355c;
-        color: white;
-        text-align: center;
-
-
-    }
-
-    .form1 {
-        margin-top: 15px;
-        width: 80%;
-        padding: 40px;
-
-    }
-
-    input {
-        background-color: #e1e6ed;
-        border: 0.5px solid #e1e6ed;
-    }
-
-    select {
-        background-color: #e1e6ed;
-        border: 0.5px solid #e1e6ed;
-    }
-
-    input[type=text]:focus {
-        border: 0.8px solid #e1e6ed;
-    }
-
-    input[type=select]:focus {
-        border: 0.8px solid #e1e6ed;
-
-    }
+        }
     </style>
 
 
@@ -393,7 +393,7 @@ oci_close($conn);
             Please fill basic site informations before moving to add technologies.</br>
             </br>
         </div>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+        <form action="<?php echo htmlspecialchars($_SERVER[" PHP_SELF"]); ?>" method="POST">
             <div class="form1">
                 <div>
                     <label for="code">Site Code</label>
