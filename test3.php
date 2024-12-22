@@ -46,8 +46,9 @@ if ($mysqli->query($deleteQuery) === TRUE) {
 // Close the connection
 $mysqli->close();
 ?>
-SELECT c.CID_Key, c.Cell_code, c.Cell_Name, c.Cell_ID,c.Cell_On_Air_Date, c.Note ,c.Serving_Area, c.serving_Area_IN_English FROM `2gcells`
+SELECT c.CID_Key, c.Cell_code, c.Cell_Name, c.Cell_ID,c.Cell_On_Air_Date, c.Note ,c.Serving_Area,
+c.serving_Area_IN_English FROM `2gcells`
 
-SELECT   t.900GSM_RBS_Type, t.1800GSM_RBS_Type` FROM `2gsites`
+SELECT t.900GSM_RBS_Type, t.1800GSM_RBS_Type` FROM `2gsites`
 
-SELECT  s.Site_code, s.Site_Name, s.Zone, s.Province, s.CR, s.Supplier, s.BSC,  FROM `new_sites`
+SELECT s.Site_code, s.Site_Name, s.Zone, s.Province, s.CR, s.Supplier, s.BSC, FROM `new_sites`

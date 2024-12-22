@@ -6,37 +6,65 @@ if(isset($_GET['id14']))
 {
     $id =$_GET['id14'];
 
-    $sqll= "SELECT s.*, t.* , c.*   FROM new_sites s INNER JOIN 4gsites t ON(s.ID = t.SID)    JOIN 4gcells c ON (t.Cell_ID_KEY = c.CID_Key) WHERE s.ID = '$id'";
+    $sqll= "SELECT s.*, t.* , c.*   FROM NEW_SITES s INNER JOIN FOUR_G_SITES t ON(s.ID = t.SID)    JOIN FOUR_G_CELLS c ON (t.CELL_ID_KEY = c.CID_KEY) WHERE s.ID = :id";
 
-    $resultt = mysqli_query($conn,$sqll);
+
+    $resultt = oci_parse($conn, $sqll);
+    oci_bind_by_name($resultt, ":id", $id);
+    oci_execute($resultt);
     $cancelldate = date("m-d-Y h:i:s A");
 
 
-
-    if($row4 = mysqli_fetch_assoc($resultt)){
-        $cellid   = $row4['CID_Key'];
-        $cellcode = $row4['Cell_code'];
-        $sitecode = $row4['Site_code'];
+    if($row4 = oci_fetch_array($resultt)){
+        $cellid   = $row4['CID_KEY'];
+        $cellcode = $row4['CELL_CODE'];
+        $sitecode = $row4['SITE_CODE'];
         $tech = "4G";
-        $query ="INSERT INTO `cancelled_sites`(Site_ID, Site_Code, Site_Name, Zone, Province, CR, Supplier,  Status_Before, On_Air_Date, Note, Coordinates_E, Coordinates_N, Site_Adress)
-        SELECT  s.ID, t.Site_code, s.Site_Name,s.Zone, s.Province, s.CR, s.Supplier, t.Status, t.Activation_Date, t.Note ,s.Coordinates_E, s.Coordinates_N, s.Site_Adress FROM new_sites s INNER JOIN 4gsites t ON(s.ID = t.SID)
-        WHERE s.ID = '$id'";
+        // $query ="INSERT INTO CANCELLED_SITES(SITE_ID, SITE_CODE, SITE_NAME, ZONE, PROVINCE, CR, SUPPLIER,  STATUS_BEFORE, ON_AIR_DATE, NOTE, Coordinates_E, Coordinates_N, Site_Adress)
+        // SELECT  s.ID, t.SITE_CODE, s.SITE_NAME,s.ZONE, s.PROVINCE, s.CR, s.SUPPLIER, t.Status, t.Activation_Date, t.NOTE ,s.Coordinates_E, s.Coordinates_N, s.Site_Adress FROM NEW_SITES s INNER JOIN FOUR_G_SITES t ON(s.ID = t.SID)
+        // WHERE s.ID = :id";
+
+
+        $query ="INSERT INTO CANCELLED_SITES(SITE_ID, SITE_CODE, SITE_NAME, ZONE, PROVINCE, CR, SUPPLIER,  STATUS_BEFORE, ON_AIR_DATE, NOTE, COORDINATES_E, COORDINATES_N, SITE_ADRESS)
+        SELECT  s.ID, t.SITE_CODE, s.SITE_NAME,s.ZONE, s.PROVINCE, s.CR, s.SUPPLIER, t.STATUS, t.ACTIVATION_DATE, t.NOTE ,s.COORDINATES_E, s.COORDINATES_N, s.SITE_ADDRESS FROM NEW_SITES s INNER JOIN FOUR_G_SITES t ON(s.ID = t.SID)
+        WHERE s.ID = :id";
        
-       $resultquery= mysqli_query($conn,$query);
-    
-       $query22 ="INSERT INTO `cancelled_cells`(Cell_ID_KEY, Cell_Code, Cell_Name, Cell_ID, Site_code, Site_name, Zone, Province, CR, Supplier, BSC, On_air_Date, Note, Serving_Area, serving_Area_IN_English)
-        SELECT c.CID_Key, c.Cell_code, c.Cell_Name, c.Cell_ID, t.Site_code, s.Site_Name, s.Zone, s.Province, s.CR, s.Supplier, s.BSC, c.On_Air_Date, c.Notes ,c.Serving_Area, c.serving_Area_IN_English FROM new_sites s INNER JOIN 4gsites t ON(s.ID = t.SID) INNER JOIN 4gcells c ON (t.Cell_ID_KEY = c.CID_Key)
-       WHERE (c.CID_Key = '$cellid' AND s.ID = '$id')";
+       //$resultquery= mysqli_query($conn,$query);
+       $resultquery = oci_parse($conn, $query);
+       oci_bind_by_name($resultquery, ":id", $id);
+       oci_execute($resultquery);
+
+
+       $query22 ="INSERT INTO CANCELLED_CELLS(CELL_ID_KEY, CELL_CODE, CELL_NAME, CELL_ID, SITE_CODE, SITE_NAME, ZONE, PROVINCE, CR, SUPPLIER, BSC, ON_AIR_DATE, NOTE, SERVING_AREA, SERVING_AREA_IN_ENGLISH)
+        SELECT c.CID_KEY, c.CELL_CODE, c.CELL_NAME, c.CELL_ID, t.SITE_CODE, s.SITE_NAME, s.ZONE, s.PROVINCE, s.CR, s.SUPPLIER, s.BSC, c.ON_AIR_DATE, c.NOTES ,c.SERVING_AREA, c.SERVING_AREA_IN_ENGLISH FROM NEW_SITES s INNER JOIN FOUR_G_SITES t ON(s.ID = t.SID) INNER JOIN FOUR_G_CELLS c ON (t.CELL_ID_KEY = c.CID_KEY)
+       WHERE (c.CID_KEY = :cellid AND s.ID = :id)";
        
-      
-       $resultquery22= mysqli_query($conn,$query22);
        
-       $query3  = "UPDATE `cancelled_cells` SET `Cancelled_Date`= '$cancelldate' WHERE Cell_ID_KEY= '$cellid' AND Cell_Code = '$cellcode'";
-       $resultquery3= mysqli_query($conn,$query3);
+       $resultquery12= oci_parse($conn, $query22);
+       oci_bind_by_name($resultquery12, ":id", $id);
+       oci_bind_by_name($resultquery12, ":cellid", $cellid);
+       oci_execute($resultquery12);
+       
+       
+       $query3  = "UPDATE CANCELLED_CELLS SET CANCELLED_DATE= :cancelldate WHERE CELL_ID_KEY= :cellid AND CELL_CODE = :cellcode";
+       $resultquery13 = oci_parse($conn, $query3);
+       oci_bind_by_name($resultquery13, ":cellid", $cellid);
+       oci_bind_by_name($resultquery13, ":cancelldate", $cancelldate);
+       oci_bind_by_name($resultquery13, ":cellcode", $cellcode);
+       oci_execute($resultquery13);
+
+
+
     
-       $query4 = "UPDATE `cancelled_sites` SET `Cancellation_Date`= '$cancelldate' ,`Cell_ID`= '$cellid' ,`Cancelled_Technologies` = '$tech'  WHERE Site_ID= '$id' AND Site_Code= '$sitecode'";
-       $resultquery4= mysqli_query($conn, $query4);
-    
+       $query4 = "UPDATE CANCELLED_SITES SET CANCELLATION_DATE= :cancelldate, CELL_ID = :cellid , CANCELLED_TECHNOLOGIES = :tech  WHERE SITE_ID= :id AND SITE_CODE= :sitecode";
+       
+       $resultquery4 = oci_parse($conn, $query4);
+       oci_bind_by_name($resultquery4, ":cellid", $cellid);
+       oci_bind_by_name($resultquery4, ":tech", $tech);
+       oci_bind_by_name($resultquery4, ":cancelldate", $cancelldate);
+       oci_bind_by_name($resultquery4, ":id", $id);
+       oci_bind_by_name($resultquery4, ":sitecode", $sitecode);
+       oci_execute($resultquery4);
     
     
        }
@@ -46,66 +74,74 @@ if(isset($_GET['id14']))
         }
 
 
-        /*$queryy = "SELECT `Cancelled_Technologies` FROM `cancelled_sites` WHERE Site_ID= '$id'";
-        $resultqueryy = mysqli_query($conn,$queryy);
-        $roww = mysqli_fetch_assoc($resultqueryy);
 
-       
-        if ($roww['Cancelled_Technologies'] == ' '){
-         $tech = "4G";
-            $insert = "INSERT INTO `cancelled_sites`(`Cancelled_Technologies`) VALUES ('$tech') WHERE Site_ID= '$id'";
-            $res = mysqli_query($conn, $insert);
+        $deleteCells = "DELETE FROM FOUR_G_CELLS WHERE CID_KEY = :id";
+        $stidCells = oci_parse($conn, $deleteCells);
+          oci_bind_by_name($stidCells, ':id', $cellid);
+          $resultDeleteCells = oci_execute($stidCells);
+            if (!$resultDeleteCells) {
+                $e = oci_error($stidCells);
+                echo htmlentities($e['message'], ENT_QUOTES);
             }
-        elseif($roww['Cancelled_Technologies']  == '2G') {
-         $tech = "2G/4G";
-           $updated = "UPDATE `cancelled_sites` SET  `Cancelled_Technologies`='$tech' WHERE  Site_ID= '$id'"; 
-           $res = mysqli_query($conn, $updated);
-        }
-        elseif($roww['Cancelled_Technologies'] == '3G') {
-          $tech = "3G/4G";
-           $updated1 = "UPDATE `cancelled_sites` SET  `Cancelled_Technologies`='$tech' WHERE  Site_ID= '$id'";
-           $res1 = mysqli_query($conn, $updated1);
-        }
 
-        elseif($roww['Cancelled_Technologies'] == '2G/3G') {
-            $tech = "All";
-             $updated1 = "UPDATE `cancelled_sites` SET  `Cancelled_Technologies`='$tech' WHERE  Site_ID= '$id'";
-             $res1 = mysqli_query($conn, $updated1);
-          }*/
-
-
-        $delete1 = "DELETE 4gsites, 4gcells FROM 4gsites INNER JOIN 4gcells ON (4gsites.Cell_ID_KEY = 4gcells.CID_Key) WHERE 4gsites.Cell_ID_KEY = '$id'";
-        $resultdelete1 = mysqli_query($conn, $delete1);
-
-        echo '<script>alert("'.$row4["Site_code"].' site and cells deleted Successfully")</script>';  
+            $deleteSites = "DELETE FROM FOUR_G_SITES WHERE CELL_ID_KEY = :id";
+            $stidSites = oci_parse($conn, $deleteSites);
+            oci_bind_by_name($stidSites, ':id', $cellid);
+            $resultDeleteSites = oci_execute($stidSites);
+            if ($resultDeleteSites) {
+              echo '<script>alert("'.$row4["SITE_CODE"].' site and cells deleted Successfully")</script>';  
+            } else {
+                $e = oci_error($stidSites);
+                echo htmlentities($e['message'], ENT_QUOTES);
+            }
 
        
-   
-                $sql1 ="SELECT *  FROM 2gsites t JOIN 2gcells c ON (t.Cell_ID = c.CID_Key)     WHERE t.Site_ID = '$id'";
-                $sql2 = "SELECT * FROM 3gsites t JOIN 3gcells c ON (t.Cell_ID = c.CID)         WHERE t.Site_ID = '$id'";
+                $sql1 = "SELECT *  FROM TWO_G_SITES t   JOIN TWO_G_CELLS c ON (t.CELL_ID = c.CID_KEY) WHERE t.SITE_ID = :id";
+                $sql2 = "SELECT * FROM THREE_G_SITES t JOIN THREE_G_CELLS c ON (t.CELL_ID = c.CID)   WHERE t.SITE_ID = :id";
        
              
-                $stmt  = mysqli_query($conn, $sql1);
-                $stmt1 = mysqli_query($conn ,$sql2);
-             
-                $num1 = mysqli_num_rows($stmt);
-                $num2 = mysqli_num_rows($stmt1);
+                $stid13 = oci_parse($conn, $sql1);
+                oci_bind_by_name($stid13, ':id', $id);
+                oci_execute($stid13);
+                $num1 = oci_fetch_all($stid13, $res1);
+                
+                $stid23 = oci_parse($conn, $sql2);
+                oci_bind_by_name($stid23, ':id', $id);
+                oci_execute($stid23);
+                $num2 = oci_fetch_all($stid23, $res2);
              
                 if($num1 == 0 && $num2 == 0){
                     $tech1 = "All";
-                    $sitecode1 = $row4['Site_code'] ;
+                    $sitecode1 = $row4['SITE_CODE'] ;
 
              
-                 echo '<script>alert("'.$row["Site_code"].' site and will Cancelled")</script>'; 
+                 echo '<script>alert("'.$row4["SITE_CODE"].' site and will Cancelled")</script>'; 
 
-                 $updatetech = "UPDATE `cancelled_sites` SET `Cancelled_Technologies` = '$tech1 ' WHERE  Site_ID= '$id' AND Site_Code ='$sitecode1'";
-                 $resupd = mysqli_query($conn, $updatetech);
+                 $updatetech = "UPDATE CANCELLED_SITES SET CANCELLED_TECHNOLOGIES = :tech1  WHERE  SITE_ID= :id AND SITE_CODE =:sitecode1";
+                 $stid31 = oci_parse($conn, $updatetech);
+                 oci_bind_by_name($stid31, ':tech1', $tech1);
+                 oci_bind_by_name($stid31, ':id', $id);
+                 oci_bind_by_name($stid31, ':sitecode1', $sitecode1);
+                 $resupd = oci_execute($stid31);
+
+                 $delete4 = "DELETE FROM NEW_SITES  WHERE ID = :id";
+                 //$resultdelete3 = mysqli_query($conn, $delete4);
+
+                 $stid4 = oci_parse($conn, $delete4);
+                 oci_bind_by_name($stid4, ':id', $id);
+                 $resultdelete3 = oci_execute($stid4);
+             
+                 if ($resultdelete3) {
+                     echo '<script>alert("Site deleted successfully.")</script>';
+                 } else {
+                     $e = oci_error($stid4);
+                     echo htmlentities($e['message'], ENT_QUOTES);
+                 }
 
 
-                 $delete4 = "DELETE FROM new_sites  WHERE ID = '$id'";
-                 $resultdelete3 = mysqli_query($conn, $delete4);
              
                 }
+                header("Location:Delete_Thankyou.html");
 
 }
 ?>

@@ -5,205 +5,217 @@ include "config.php";
 <!DOCTYPE html>
 <html lang="en">
 <html>
+
 <head>
-<meta charset="UTF-8" />
-<link rel="stylesheet" href= "fontawesome-free-6.5.2-web\css\all.min.css">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Search data</title>
-<style>
-body
-{
-min-height: 100vh;
-display: flex;
-align-items: center;
-justify-content: center;
-background: goldenrod;
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="fontawesome-free-6.5.2-web\css\all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search data</title>
+    <style>
+    body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: goldenrod;
 
 
-}
+    }
 
-.container
-{
-    /*position: relative;*/
-display:flex;
-flex-direction:column;
-width:60%;
-max-height:100vh;
-min-height:60%;
-background: whitesmoke;
-padding-top:0;
-margin-top:0px;
-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-padding:10px;
-border:2px solid gray;
-color: #1c355c;
-border-radius:5px;
-overflow:hidden;
+    .container {
+        /*position: relative;*/
+        display: flex;
+        flex-direction: column;
+        width: 60%;
+        max-height: 100vh;
+        min-height: 60%;
+        background: whitesmoke;
+        padding-top: 0;
+        margin-top: 0px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+        padding: 10px;
+        border: 2px solid gray;
+        color: #1c355c;
+        border-radius: 5px;
+        overflow: hidden;
 
 
 
-}
+    }
 
-.header {
-   
-    flex:0 0 auto;
-    background: #1c355c;
-    color: white;
-    text-align: center;
-    margin-top:0px;
-    align-items: center;
-  justify-content: center;
-  padding:10px;
-    
-   
-}
+    .header {
 
-.footer
-{
-    flex:0 0 auto;
-    background: #1c355c;
-    font-size: 17px;
-    margin-top:10px;
-    color: white;
-    /* width: 100%;*/
-    padding:10px;
-    padding-bottom:10px;
-    padding-top:30px;
-    height:20%;
-    
- 
-
-}
-
-.form1{
-    flex:0 0 auto;
-    margin-top: 15px;
-    /*width: 80%;*/
-    padding: 40px;
-    vertical-align: center;
-    
-   
-}
+        flex: 0 0 auto;
+        background: #1c355c;
+        color: white;
+        text-align: center;
+        margin-top: 0px;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
 
 
-.input1 {
-    background-color:#e1e6ed;
-    border:0.5px solid #e1e6ed;
-    width:30%;
-    Height:30px;
-    margin-left:200px;
-   
+    }
 
-}
-.input1[type=text]:focus{
-    border:0.8px solid #e1e6ed;
-    
-}
-.input1[type=select]:focus{
-    border:0.8px solid #e1e6ed;
-
-}
-button{
-    width:15%;
-    Height:33px;
-    background: #1c355c;
-    border:none;
-    color:white;
-    font-size: 15px;
-   font-weight: bold;
-}
-table, th, td {
-    border:2px solid #b4c5e0;
-    border-collapse: collapse;
-    text-align:center;
-    
-    
-}
-table, tr, td {
-  
-    font-size: 14px;
-    
-    
-}
-.result{
-    flex:1 1 auto;
-    margin-left:10px;
-    padding: 10px;
-    overflow:auto;
-    
-}
-h2{
-    background-color:#1c355c;
-    color: white;
-    margin-left:0px;
-    padding-left:5px;
-    width:100%;
- 
-    
-}
-
-.table-wrapper{
-    display:flex;
-flex-direction:column;
-align-items: stretch;
-width:100%;
-
-}
+    .footer {
+        flex: 0 0 auto;
+        background: #1c355c;
+        font-size: 17px;
+        margin-top: 10px;
+        color: white;
+        /* width: 100%;*/
+        padding: 10px;
+        padding-bottom: 10px;
+        padding-top: 30px;
+        height: 20%;
 
 
- .table-wrapper table{
-width:100%;
-border-collapse:collapse;
-margin-bottom:20px;
- }
 
- button a {
-    color: white;
-    font-size:13px;
-    font-weight:bold;
-    text-decoration:none;
- }
- .Rfloat{
-    float: right;
-    width:16%;
-    overflow: hidden;
-    border:2px solid #b4c5e0;
-}
-.Lfloat{
-    float: left;
-    width:16%;
-    overflow: hidden;
-    border:2px solid #b4c5e0;
-}
-.btn{
-    width:100%
+    }
 
-}
-.btnn{
-    float: right;
-}
+    .form1 {
+        flex: 0 0 auto;
+        margin-top: 15px;
+        /*width: 80%;*/
+        padding: 40px;
+        vertical-align: center;
 
-</style>
+
+    }
+
+
+    .input1 {
+        background-color: #e1e6ed;
+        border: 0.5px solid #e1e6ed;
+        width: 30%;
+        Height: 30px;
+        margin-left: 200px;
+
+
+    }
+
+    .input1[type=text]:focus {
+        border: 0.8px solid #e1e6ed;
+
+    }
+
+    .input1[type=select]:focus {
+        border: 0.8px solid #e1e6ed;
+
+    }
+
+    button {
+        width: 15%;
+        Height: 33px;
+        background: #1c355c;
+        border: none;
+        color: white;
+        font-size: 15px;
+        font-weight: bold;
+    }
+
+    table,
+    th,
+    td {
+        border: 2px solid #b4c5e0;
+        border-collapse: collapse;
+        text-align: center;
+
+
+    }
+
+    table,
+    tr,
+    td {
+
+        font-size: 14px;
+
+
+    }
+
+    .result {
+        flex: 1 1 auto;
+        margin-left: 10px;
+        padding: 10px;
+        overflow: auto;
+
+    }
+
+    h2 {
+        background-color: #1c355c;
+        color: white;
+        margin-left: 0px;
+        padding-left: 5px;
+        width: 100%;
+
+
+    }
+
+    .table-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+
+    }
+
+
+    .table-wrapper table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    button a {
+        color: white;
+        font-size: 13px;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .Rfloat {
+        float: right;
+        width: 16%;
+        overflow: hidden;
+        border: 2px solid #b4c5e0;
+    }
+
+    .Lfloat {
+        float: left;
+        width: 16%;
+        overflow: hidden;
+        border: 2px solid #b4c5e0;
+    }
+
+    .btn {
+        width: 100%
+    }
+
+    .btnn {
+        float: right;
+    }
+    </style>
 </head>
-<body>
-<div class="container">
-    <div class="header">
-            <h1></br> Search.Edit.Delete </h1>
-             Enter Site Code</br>
-        </br>
-        </div>
-    <div class="form1">
-        <form method="POST">
-        <input type="text" class="input1" name="search" placeholder="Search data">
-        <button name="submit">Search</button>
-        </form>
-     
 
-    </div>
-    <div class="result">
-        <div class="table-wrapper">
-        <table class="table1">
-                <?php 
+<body>
+    <div class="container">
+        <div class="header">
+            <h1></br> Search.Edit.Delete </h1>
+            Enter Site Code</br>
+            </br>
+        </div>
+        <div class="form1">
+            <form method="POST">
+                <input type="text" class="input1" name="search" placeholder="Search data">
+                <button name="submit">Search</button>
+            </form>
+
+
+        </div>
+        <div class="result">
+            <div class="table-wrapper">
+                <table class="table1">
+                    <?php 
 
                 
                 if(isset($_GET['id'])){
@@ -258,9 +270,9 @@ margin-bottom:20px;
                     
                    
                     ?>
-                    </table>
-                    
-                    <?php
+                </table>
+
+                <?php
                     
                      echo"<div><div class= 'Lfloat'><button type='button' class= 'btn'><a href='Info.php?id2=". $id ."'> >>>>More Details</a></button></div>";
                      echo"<div class='Rfloat'><button type='button' class='btn' class ='btnn'><a href='delete_all.php?id2=". $id ."'>Cancel Site with all technologies</a></button></div><div style='clear:both;'></div></div>";
@@ -270,15 +282,15 @@ margin-bottom:20px;
                         else {
                     echo "Site Is Not Exist!!";
                     }
-                       ?> 
-                </div>
+                       ?>
+            </div>
 
 
 
 
-                <div class="table-wrapper">
-                    <table class="table2">
-                <?php
+            <div class="table-wrapper">
+                <table class="table2">
+                    <?php
 
                     if(mysqli_num_rows($resultt)>0){
 
@@ -321,12 +333,12 @@ margin-bottom:20px;
                         else {
                     echo "2G Site Is Not Exist!!";
                     }
-                       ?> 
+                       ?>
             </div>
 
             <div class="table-wrapper">
                 <table class="table3">
-            <?php
+                    <?php
             if(mysqli_num_rows($resultt2)>0){
                             
                 echo "<div class='title'>";
@@ -366,8 +378,8 @@ margin-bottom:20px;
         
             
              ?>
-        </table>
-        <?php
+                </table>
+                <?php
 
                 echo"<div><div class= 'Lfloat'><button type='button' class= 'btn'><a href='Info3G.php?id3=". $id3 ."'> >>>>More Details</a></button></div>";
                 echo"<div class='Rfloat'><button type='button' class='btn' class ='btnn'><a href='delete3G.php?id13=". $id3 ."'> >>>>Cancell 3G Site</a></button></div><div style='clear:both;'></div></div>";
@@ -377,12 +389,12 @@ margin-bottom:20px;
                     echo "3G Site Is Not Exist!!";
                     }
 
-                       ?> 
+                       ?>
 
-    </div>
-    <div class="table-wrapper">
+            </div>
+            <div class="table-wrapper">
                 <table class="table4">
-        <?php
+                    <?php
             if(mysqli_num_rows($resultt3)>0){
                 echo "<div class='title'>";        
                 echo '<h2> 4G Site Info</h2>
@@ -422,8 +434,8 @@ margin-bottom:20px;
 
             
             ?>
-    </table>
-    <?php
+                </table>
+                <?php
 
                     echo"<div><div class= 'Lfloat'><button type='button' class= 'btn'><a href='Info4G.php?id4=". $id4 ."'> >>>>More Details</a></button></div>";
                     echo"<div class='Rfloat'><button type='button' class='btn' class ='btnn'><a href='delete4G.php?id14=". $id4 ."'> >>>>Cancell 4G Site</a></button></div><div style='clear:both;'></div></div>";
@@ -434,13 +446,14 @@ margin-bottom:20px;
                     echo "4G Site Is Not Exist!!";
                     }
                 }
-                       ?> 
-        </div>
+                       ?>
+            </div>
         </div>
         <div class="footer">
 
 
-</div>
-</div>
+        </div>
+    </div>
 </body>
+
 </html>

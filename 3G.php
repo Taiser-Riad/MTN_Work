@@ -441,131 +441,119 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
     <title> 3G Site page </title>
 
     <style>
-        .footer {
-            background: #1c355c;
-            font-size: 17px;
-            margin-top: 10px;
-            color: white;
-            width: 99%;
-            padding-left: 10px;
-            padding-bottom: 10px;
-            padding-top: 30px;
+    .footer {
+        background: #1c355c;
+        font-size: 17px;
+        margin-top: 10px;
+        color: white;
+        width: 99%;
+        padding-left: 10px;
+        padding-bottom: 10px;
+        padding-top: 30px;
 
 
 
-        }
+    }
 
 
 
 
-        .submit {
-            width: 20%;
+    .submit {
+        width: 20%;
 
-            float: right;
-            display: flex;
-
-
-        }
-
-        .submit input {
-
-            width: 70%;
-            Height: 35px;
-            font-size: 17px;
-            font-weight: bold;
-            margin: 10px;
-            border-radius: 10px;
-            text-align: center;
-            border: none;
-            color: #1c355c;
-
-        }
+        float: right;
+        display: flex;
 
 
-        body {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: goldenrod;
+    }
+
+    .submit input {
+
+        width: 70%;
+        Height: 35px;
+        font-size: 17px;
+        font-weight: bold;
+        margin: 10px;
+        border-radius: 10px;
+        text-align: center;
+        border: none;
+        color: #1c355c;
+
+    }
 
 
-
-        }
-
-        .container {
-            /*position: relative;*/
-
-            width: 60%;
-            background: whitesmoke;
-            padding-top: 0;
-            margin-top: 0px;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-
-            border: 2px solid gray;
-            color: #1c355c;
-            border-radius: 5px;
-
-        }
-
-        h1 {
-            text-align: center;
-            width: 100%;
-            height: 100px;
-            margin-top: 0;
-            color: white;
-            margin-bottom: 0px;
+    body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: goldenrod;
 
 
-        }
+    }
+
+    .container {
+        /*position: relative;*/
+
+        width: 60%;
+        background: whitesmoke;
+        padding-top: 0;
+        margin-top: 0px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+
+        border: 2px solid gray;
+        color: #1c355c;
+        border-radius: 5px;
+
+    }
+
+    h1 {
+        text-align: center;
+        width: 100%;
+        height: 100px;
+        margin-top: 0;
+        color: white;
+        margin-bottom: 0px;
 
 
-        .header {
-
-            width: 100%;
-            background: #1c355c;
-            color: white;
-            text-align: center;
+    }
 
 
-        }
+    .header {
 
-        .form1 {
-            margin-top: 15px;
-            width: 80%;
-            padding: 40px;
+        width: 100%;
+        background: #1c355c;
+        color: white;
+        text-align: center;
 
-        }
 
-        input {
-            background-color: #e1e6ed;
-            border: 0.5px solid #e1e6ed;
-        }
+    }
 
-        select {
-            background-color: #e1e6ed;
-            border: 0.5px solid #e1e6ed;
-        }
+    .form1 {
+        margin-top: 15px;
+        width: 80%;
+        padding: 40px;
 
-        input[type=text]:focus {
-            border: 0.8px solid #e1e6ed;
-        }
+    }
 
-        input[type=select]:focus {
-            border: 0.8px solid #e1e6ed;
+    input {
+        background-color: #e1e6ed;
+        border: 0.5px solid #e1e6ed;
+    }
 
-        }
+    select {
+        background-color: #e1e6ed;
+        border: 0.5px solid #e1e6ed;
+    }
 
-        .required-field::after {
-            content: " *";
-            color: red;
-        }
+    input[type=text]:focus {
+        border: 0.8px solid #e1e6ed;
+    }
 
-        @media (max-width: 600px) {
-            body {
-                font-size: 14px;
-            }
-        }
+    input[type=select]:focus {
+        border: 0.8px solid #e1e6ed;
+
+    }
     </style>
 
 
@@ -578,11 +566,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
     <div class="container">
         <div class="header">
             <h1></br> 3G Site Informations </h1>
-            Fill
-            <?php echo $row['SITE_CODE']."U"?> details Informations.</br>
+            Fill <?php echo $row['SITE_CODE']."U"?> details Informations.</br>
             </br>
         </div>
-        <form action="<?php echo htmlspecialchars($_SERVER[" PHP_SELF"]); ?>" method="POST">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
             <div class="form1">
                 <div>
                     <input type="hidden" name="id" value="<?php echo $siteid; ?>">
@@ -590,13 +577,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                     <input type="hidden" name="sitename" value="<?php echo $row['SITE_NAME']; ?>">
                 </div>
                 <div>
-                    <label class="required-field" for="wbts">WBTS ID:</label>
-                    <input type="text" name="wbts" size="5" id="wbts" required></br></br>
+                    <label for="wbts">WBTS ID:</label>
+                    <input type="text" name="wbts" size="5" id="wbts"></br></br>
                 </div>
 
                 <div>
-                    <label class="required-field">RNC :</label>
-                    <select name="RNC" required>
+                    RNC: <select name="RNC">
                         <option value="">--</option>
                         <option value="RNC_ALP2">RNC_ALP2</option>
                         <option value="RNC_ALP3">RNC_ALP3</option>
@@ -619,13 +605,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 
 
                 <div>
-                    <label class="required-field" for="air date">3G On Air Date:</label>
+                    <label for="air date">3G On Air Date:</label>
                     <input type="date" name="onairdate" size="15" id="air date"></br></br>
                 </div>
 
                 <div>
-                    <label class="required-field">BTS Type: </label>
-                    <select name="bts">
+                    BTS Type: <select name="bts">
                         <option value="">--</option>
                         <option value="BTS3900">BTS3900</option>
                         <option value="BTS3900A">BTS3900A</option>
@@ -670,12 +655,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                     <input type="date" name="restoration" size="15" id="rest"></br></br>
                 </div>
                 <div>
-                    <label class="required-field" for="lac">LAC:</label>
-                    <input type="text" name="lac" size="4" id="lac" required></br></br>
+                    <label for="lac">LAC:</label>
+                    <input type="text" name="lac" size="4" id="lac"></br></br>
                 </div>
                 <div>
                     <label for="note1">Site Notes:</label>
-                    <input type="text" name="snotes" id="note1"></br></br>
+                    <input type="text" name="snotes" size="89" id="note1"></br></br>
                 </div>
 
                 <div>
@@ -694,7 +679,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                         value="<?php echo $row2 !== false ? $earea1 : ''; ?>">
                     <input type="text" name="area2a" size="15" placeholder="English Serving Area"
                         value="<?php echo $row2 !== false ? $aarea1 : ''; ?>"></br>
-                    <input type="text" name="cnotea" placeholder="Cell Note">
+                    <input type="text" name="cnotea" size="90" placeholder="Cell Note">
 
                 </div>
 
@@ -715,7 +700,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                         value="<?php echo $row3 !== false ? $earea2: ''; ?>">
                     <input type="text" name="area2b" size="15" placeholder="English Serving Area"
                         value="<?php echo $row3 !== false ? $aarea2: '';?>"></br>
-                    <input type="text" name="cnoteb"  placeholder="Cell Note">
+                    <input type="text" name="cnoteb" size="90" placeholder="Cell Note">
 
                 </div>
                 <div>
@@ -733,7 +718,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                         value="<?php echo $row4 !== false ? $earea3: ''; ?>">
                     <input type="text" name="area2C" size="15" placeholder="English Serving Area"
                         value="<?php echo $row4 !== false ? $aarea3: ''; ?>"></br>
-                    <input type="text" name="cnoteC" placeholder="Cell Note">
+                    <input type="text" name="cnoteC" size="90" placeholder="Cell Note">
                 </div>
                 <div>
                     </br>
@@ -750,7 +735,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                         value="<?php echo $row5 !== false ? $earea4: ''; ?>">
                     <input type="text" name="area2d" size="15" placeholder="English Serving Area"
                         value="<?php echo $row5 !== false ? $aarea4: ''; ?>"></br>
-                    <input type="text" name="cnoted" placeholder="Cell Note">
+                    <input type="text" name="cnoted" size="90" placeholder="Cell Note">
 
                 </div>
 
@@ -772,7 +757,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                     <input type="text" name="etiltv" size="5" placeholder="E_TILT">
                     <input type="text" name="area1v" size="15" placeholder="Arabic Serving Area">
                     <input type="text" name="area2v" size="15" placeholder="English Serving Area"></br>
-                    <input type="text" name="cnotev" placeholder="Cell Note">
+                    <input type="text" name="cnotev" size="90" placeholder="Cell Note">
                     </br></br>
                 </div>
                 <div>
@@ -784,7 +769,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                     <input type="text" name="etiltu" size="5" placeholder="E_TILT">
                     <input type="text" name="area1u" size="15" placeholder="Arabic Serving Area">
                     <input type="text" name="area2u" size="15" placeholder="English Serving Area"></br>
-                    <input type="text" name="cnoteu" placeholder="Cell Note">
+                    <input type="text" name="cnoteu" size="90" placeholder="Cell Note">
                     </br></br>
                 </div>
                 <div>
@@ -795,7 +780,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                     <input type="text" name="etilte" size="5" placeholder="E_TILT">
                     <input type="text" name="area1e" size="15" placeholder="Arabic Serving Area">
                     <input type="text" name="area2e" size="15" placeholder="English Serving Area"></br>
-                    <input type="text" name="cnotee" placeholder="Cell Note">
+                    <input type="text" name="cnotee" size="90" placeholder="Cell Note">
                     </br></br>
                 </div>
 

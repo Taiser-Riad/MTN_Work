@@ -1,27 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE-edge" />
-    <meta name="viewport" content="width=device-width , initial-scale=1.0">
-    <link rel="stylesheet" href= "fontawesome-free-6.5.2-web\css\all.min.css">
-    <link rel="stylesheet" href= "homestyle.css">
-    <tittle>Home Page</tittle>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="fontawesome-free-6.5.2-web">
+  <title>Sites Mangment</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #1c355c;
+      color: white;
+      padding: 10px 20px;
+    }
+    header .logo {
+       
+        font-size: 24px;
+        font-weight: bold;
+        width:8%;
+        height: 90px;
+        min-width:90px;
+        background: url('MTN-Logo.jpg') no-repeat center center/cover;
+        
+    }    
+    nav ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+    }
+    nav ul li {
+      margin: 0 10px;
+    }
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+    }
+    .hero {
+      height: 80vh;
+      background: url('img.jpg') no-repeat center center/cover;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-align: center;
+      opacity: 1;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      color:#1c355c;
+      opacity: 1;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      color:#1c355c;
+      opacity: 1;
+    }
+    .hero a {
+      background: #ff6600;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    .about, .features, .testimonials, .footer {
+      padding: 20px;
+      text-align: center;
 
+    }
+    .about img {
+      max-width: 100%;
+      height: auto;
+    }
+    .about{
+        background-color:goldenrod;
+        color:#1c355c;
+    }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      background-color:goldenrod;
+      color:#1c355c;
+      
+    }
+    .feature {
+     background: #f4f4f4;
+      padding: 20px;
+      border-radius: 8px;
+      
+    }
+    .testimonials {
+      background: #1c355c;
+      color: white;
+    }
+    footer {
+      background: #222;
+      color: white;
+      padding: 10px;
+    }
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+        display: none;
+      }
+      nav ul.active {
+        display: flex;
+      }
+      .menu-toggle {
+        display: block;
+        cursor: pointer;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="navbar">
-            <div class="logo"><a href="#">Web Dev Creative </a> </div>
-            <ul class= "links">
-                <li><a href="Add Site.php">Add New Site</a></li>
-                <li><a href="#">Update Site Info</a></li>
-                <li><a href="#">Cancell Site</a></li>
-                <li><a href="#">Add Multi Sector Site </a></li>
-                <li><a href="#">Search</a></li>
-            </ul>
-        <a href="#" class="action_btn">Get Started</a>
-        </div>
-    </header>
+  <!-- Header -->
+  <header>
+    <div class="logo"></div>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    <nav>
+      <ul>
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="Add Site.php" target='_blank'>Add New Site</a></li>
+        <li><a href="Search.php" target='_blank'>Search Date</a></li>
+        <li><a href="#contact" target='_blank'>Import & Export Data</a></li>
+
+
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <h1> Sites Mangement Website</h1>
+    <p></p>
+    <a href="#features">Learn More</a>
+  </section>
+
+  <!-- About Section -->
+  <section class="about" id="about">
+    <h2>About Us</h2>
+    <p>We Are  Quality & Performance Team in Network Department.</p>
+    <!-- <img src="https://via.placeholder.com/600x400" alt="About us"> -->
+  </section>
+
+  <!-- Features Section -->
+  <section class="features" id="features">
+    <h2>Our Features</h2>
+    <div class="feature">
+      <h3>Add New Site</h3>
+      <p>Now you can add new site with all technologies and cells by easy steps.</p>
+    </div>
+    <div class="feature">
+      <h3>Search</h3>
+      <p>You can search about any site you need by using "SITE CODE" and all data will appear.</p>
+    </div>
+    <div class="feature">
+      <h3>Cancellation of Sites </h3>
+      <p>You can cancell any site or any cell after searching.</p>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="testimonials" id="testimonials">
+    <h2>Suggestion and Feedback</h2>
+    <p>We would be delighted to receive your feedback and experiences with the first version of this website in order to enhance the quality of our service </br>Please do not hesitate to contact us via the provided email and phone.</p>
+    <p>  <br/>  </p>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>hwahby@mtn.com.sy  Ext:3369. &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  tkadilo@mtn.com.sy  Ext:3368. </p>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      document.querySelector('nav ul').classList.toggle('active');
+    }
+  </script>
 </body>
 </html>

@@ -266,137 +266,119 @@ oci_close($conn);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Add Site page </title>
     <style>
-        .footer {
-            background: #1c355c;
-            font-size: 17px;
-            margin-top: 10px;
-            color: white;
-            width: 99%;
-            padding-left: 10px;
-            padding-bottom: 10px;
-            padding-top: 30px;
+    .footer {
+        background: #1c355c;
+        font-size: 17px;
+        margin-top: 10px;
+        color: white;
+        width: 99%;
+        padding-left: 10px;
+        padding-bottom: 10px;
+        padding-top: 30px;
 
 
 
-        }
+    }
 
 
 
 
-        .submit {
-            width: 20%;
+    .submit {
+        width: 20%;
 
-            float: right;
-            display: flex;
-
-
-        }
-
-        .submit input {
-
-            width: 70%;
-            Height: 35px;
-            font-size: 17px;
-            font-weight: bold;
-            margin: 10px;
-            border-radius: 10px;
-            text-align: center;
-            border: none;
-            color: #1c355c;
-
-        }
+        float: right;
+        display: flex;
 
 
-        body {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: goldenrod;
+    }
+
+    .submit input {
+
+        width: 70%;
+        Height: 35px;
+        font-size: 17px;
+        font-weight: bold;
+        margin: 10px;
+        border-radius: 10px;
+        text-align: center;
+        border: none;
+        color: #1c355c;
+
+    }
 
 
-        }
-
-        .container {
-            /*position: relative;*/
-
-            width: 60%;
-            background: whitesmoke;
-            padding-top: 0;
-            margin-top: 0px;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-
-            border: 2px solid gray;
-            color: #1c355c;
-            border-radius: 5px;
-
-        }
-
-        h1 {
-            text-align: center;
-            width: 100%;
-            height: 100px;
-            margin-top: 0;
-            color: white;
-            margin-bottom: 0px;
+    body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: goldenrod;
 
 
-        }
+    }
+
+    .container {
+        /*position: relative;*/
+
+        width: 60%;
+        background: whitesmoke;
+        padding-top: 0;
+        margin-top: 0px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+
+        border: 2px solid gray;
+        color: #1c355c;
+        border-radius: 5px;
+
+    }
+
+    h1 {
+        text-align: center;
+        width: 100%;
+        height: 100px;
+        margin-top: 0;
+        color: white;
+        margin-bottom: 0px;
 
 
-        .header {
-
-            width: 100%;
-            background: #1c355c;
-            color: white;
-            text-align: center;
+    }
 
 
-        }
+    .header {
 
-        .form1 {
-            margin-top: 15px;
-            width: 80%;
-            padding: 40px;
+        width: 100%;
+        background: #1c355c;
+        color: white;
+        text-align: center;
 
-        }
-        .form-container {
-            display: flex;
-            flex-direction: column;
-        }
 
-        input {
-            background-color: #e1e6ed;
-            border: 0.5px solid #e1e6ed;
-        }
+    }
 
-        select {
-            background-color: #e1e6ed;
-            border: 0.5px solid #e1e6ed;
-        }
+    .form1 {
+        margin-top: 15px;
+        width: 80%;
+        padding: 40px;
 
-        input[type=text]:focus {
-            border: 0.8px solid #e1e6ed;
-        }
+    }
 
-        input[type=select]:focus {
-            border: 0.8px solid #e1e6ed;
+    input {
+        background-color: #e1e6ed;
+        border: 0.5px solid #e1e6ed;
+    }
 
-        }
+    select {
+        background-color: #e1e6ed;
+        border: 0.5px solid #e1e6ed;
+    }
 
-        .required-field::after {
-            content: " *";
-            color: red;
-        }
-        @media (max-width: 600px) {
-            body {
-                font-size: 14px;
-            }
-        }
+    input[type=text]:focus {
+        border: 0.8px solid #e1e6ed;
+    }
 
-        .error {
-            border: 2px solid red;
-        }
+    input[type=select]:focus {
+        border: 0.8px solid #e1e6ed;
+
+    }
     </style>
 
 
@@ -411,70 +393,69 @@ oci_close($conn);
             Please fill basic site informations before moving to add technologies.</br>
             </br>
         </div>
-        <form action="<?php echo htmlspecialchars($_SERVER[" PHP_SELF"]); ?>" method="POST">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
             <div class="form1">
                 <div>
-                    <label class="required-field" for="code">Site Code</label>
+                    <label for="code">Site Code</label>
                     <input type="text" name="sitecode" size="7" id="code" required></br></br>
 
                 </div>
 
                 <div>
-                    <label class="required-field" for="name">Site Name</label>
-                    <input type="text" name="sitename" id="name" required></br></br>
+                    <label for="name">Site Name</label>
+                    <input type="text" name="sitename" size="33" id="name" required></br></br>
                 </div>
 
 
                 <div>
-                    <label class="required-field" >City/Rural</label>
-                    <input  type="radio" id="city" name="C/R" value="City" > City
+                    <input type="radio" id="city" name="C/R" value="City">City
                     <input type="radio" id="rural" name="C/R" value="Rural">Rural</br></br>
                 </div>
                 <div>
-                    <label class="required-field">Supplier</label>
-                    <input type="radio" id="erc" name="supplier" value="Ericsson" >Ericsson
+
+                    <input type="radio" id="erc" name="supplier" value="Ericsson">Ericsson
                     <input type="radio" id="hu" name="supplier" value="Huawei">Huawei</br></br>
                 </div>
                 <div>
                     <label for="power">Power Backup:</label>
-                    <input type="text" name="powerbackup" id="power"></br></br>
+                    <input type="text" name="powerbackup" size="50" id="power"></br></br>
                 </div>
                 <div>
-                    <label class="required-field" for="air date">On Air Date:</label>
-                    <input type="date" name="onairdate" size="15" id="air date" required></br></br>
+                    <label for="air date">On Air Date:</label>
+                    <input type="date" name="onairdate" size="15" id="air date"></br></br>
                 </div>
                 <div>
-                    <label class="required-field" for="coorE">Coordinates E:</label>
-                    <input  type="text" name="coordinatesE" size="10" id="coorE" required></br></br>
+                    <label for="coorE">Coordinates E:</label>
+                    <input type="text" name="coordinatesE" size="10" id="coorE"></br></br>
                 </div>
                 <div>
-                    <label class="required-field" for="coorN">Coordinates N:</label>
-                    <input type="text" name="coordinatesN" size="10" id="coorN" required></br></br>
+                    <label for="coorN">Coordinates N:</label>
+                    <input type="text" name="coordinatesN" size="10" id="coorN"></br></br>
                 </div>
                 <div>
                     <label for="Att">Alttitude:</label>
                     <input type="text" name="alttitude" size="4" id="Att"></br></br>
                 </div>
                 <div>
-                    <label class="required-field" for="address">Site Address:</label>
-                    <input type="text" name="address"  id="address" required></br></br>
+                    <label for="address">Site Address:</label>
+                    <input type="text" name="address" size="60" id="address"></br></br>
                 </div>
                 <div>
-                    <label class="required-field" for="arname">Arabic Name:</label>
-                    <span lang="Ar"><input type="text" name="arabicname"  id="arname" required></span></br></br>
+                    <label for="arname">Arabic Name:</label>
+                    <span lang="Ar"><input type="text" name="arabicname" size="60" id="arname"></span></br></br>
                 </div>
                 <div>
                     <label for="admin">Adminstrative Area:</label>
-                    <input type="text" name="adminarea" id="admin"></br></br>
+                    <input type="text" name="adminarea" size="60" id="admin"></br></br>
                 </div>
                 <div>
                     <label for="node">TX Node:</label>
                     <input type="text" name="txnode" size="3" id="node"></br></br>
                 </div>
 
-                <div >
-                    Node Category: <select name="category" >
-                        <option value="Empty" >--</option>
+                <div>
+                    Node Category: <select name="category">
+                        <option value="Empty">--</option>
                         <option value="Normal">Normal</option>
                         <option value="Golden">Golden</option>
                         <option value="Silver">Silver</option>
@@ -504,8 +485,7 @@ oci_close($conn);
                     </br></br>
                 </div>
                 <div>
-                    <label class="required-field">Invoice Topology: </label>
-                    <select name="invoice" required>
+                    Invoice Topology: <select name="invoice">
                         <option value="Empty">--</option>
                         <option value="Tower / Generator / Solar and or TX Repeater">Tower / Generator / Solar and or TX
                             Repeater</option>
@@ -531,6 +511,7 @@ oci_close($conn);
                     </select>
                     </br></br>
                 </div>
+
             </div>
             <div class="footer">
                 <div>

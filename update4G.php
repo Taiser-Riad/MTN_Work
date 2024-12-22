@@ -215,7 +215,8 @@ $query1 = "UPDATE FOUR_G_SITES SET SITE_CODE =:sitecode, ENODEB_ID =:nodeb, BTS_
     oci_bind_by_name($result2, ':sid', $sid);
     
     if (oci_execute($result2)) {
-     echo "Data Updated Successfully";
+     //echo "Data Updated Successfully";
+     header("Location:Update_thankyou.html");
     } else {
      $e = oci_error($result2);
      echo "Error Updating Data: " . htmlentities($e['message']);
@@ -228,224 +229,269 @@ $query1 = "UPDATE FOUR_G_SITES SET SITE_CODE =:sitecode, ENODEB_ID =:nodeb, BTS_
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8" />
-<link rel="stylesheet" href= "fontawesome-free-6.5.2-web\css\all.min.css">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title> 4G Site page </title>
-
-<style>
-.footer
-{
-    background: #1c355c;
-    font-size: 17px;
-    margin-top:10px;
-    color: white;
-    width: 99%;
-    padding-left:10px;
-    padding-bottom:10px;
-    padding-top:30px;
- 
- 
-
-}
-
-
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="fontawesome-free-6.5.2-web\css\all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> 4G Site page </title>
+    <script>
+    function confirmupdate() {
+        const confirmed = confirm("Are you sure you want to update?");
+        return confirmed;
+    }
+    </script>
+    <style>
+    .footer {
+        background: #1c355c;
+        font-size: 17px;
+        margin-top: 10px;
+        color: white;
+        width: 99%;
+        padding-left: 10px;
+        padding-bottom: 10px;
+        padding-top: 30px;
 
 
-.submit{
-    width: 20%;
-    
-   float:right; 
-   display: flex;
- 
- 
-}
 
-.submit input {
-    
-   width: 70%;
-   Height: 35px;
-   font-size: 17px;
-   font-weight: bold;
-   margin:10px;
-   border-radius: 10px;
-text-align:center;
-  border:none;
-   color:#1c355c;
-
-}
+    }
 
 
-body
-{
-min-height: 100vh;
-display: flex;
-align-items: center;
-justify-content: center;
-background: goldenrod;
 
 
-}
+    .submit {
+        width: 20%;
 
-.container
-{
-    /*position: relative;*/
-
-width: 60%;
-background: whitesmoke;
-padding-top:0;
-margin-top:0px;
-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-
-border:2px solid gray;
-color: #1c355c;
-border-radius:5px;
-
-}
-h1{
-    text-align: center;
-    width: 100%;
-    height: 100px;
-    margin-top:0;
-    color: white;
-    margin-bottom:0px;
-    
-    
-}
+        float: right;
+        display: flex;
 
 
-.header {
-    
-    width: 100%;
-    background: #1c355c;
-    color: white;
-    text-align: center;
-    
-    
-}
+    }
 
-.form1{
-    margin-top: 15px;
-    width: 80%;
-    padding: 40px;
-   
-}
-input {
-    background-color:#e1e6ed;
-    border:0.5px solid #e1e6ed;
-}
-select {
-    background-color:#e1e6ed;
-    border:0.5px solid #e1e6ed;
-}
-input[type=text]:focus{
-    border:0.8px solid #e1e6ed;
-}
-input[type=select]:focus{
-    border:0.8px solid #e1e6ed;
-}
-button {
-            width: 70%;
-            Height: 35px;
-            font-size: 17px;
-            font-weight: bold;
-            margin: 10px;
-            border-radius: 10px;
-            text-align: center;
-            border: none;
-            color: #5c1c1c;
-            
-        }
+    .submit1 {
+        width: 20%;
 
-        .button:hover {
-            box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
-        }
+        float: left;
+        display: flex;
 
 
-</style>
+    }
+
+    .submit input {
+
+        width: 70%;
+        Height: 35px;
+        font-size: 17px;
+        font-weight: bold;
+        margin: 10px;
+        border-radius: 10px;
+        text-align: center;
+        border: none;
+        color: #1c355c;
+
+    }
+
+    .submit2 {
+
+        width: 70%;
+        Height: 35px;
+        font-size: 17px;
+        font-weight: bold;
+        margin: 10px;
+        border-radius: 10px;
+        text-align: center;
+        border: none;
+        color: #1c355c;
+
+    }
+
+    body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: goldenrod;
+
+
+    }
+
+    .container {
+        /*position: relative;*/
+
+        width: 65%;
+        background: whitesmoke;
+        padding-top: 0;
+        margin-top: 0px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+
+        border: 2px solid gray;
+        color: #1c355c;
+        border-radius: 5px;
+
+    }
+
+    h1 {
+        text-align: center;
+        width: 100%;
+        height: 100px;
+        margin-top: 0;
+        color: white;
+        margin-bottom: 0px;
+
+
+    }
+
+
+    .header {
+
+        width: 100%;
+        background: #1c355c;
+        color: white;
+        text-align: center;
+
+
+    }
+
+    .form1 {
+        margin-top: 15px;
+        width: 95%;
+        padding-left: 40px;
+
+    }
+
+    input {
+        background-color: #e1e6ed;
+        border: 0.5px solid #e1e6ed;
+    }
+
+    select {
+        background-color: #e1e6ed;
+        border: 0.5px solid #e1e6ed;
+    }
+
+    input[type=text]:focus {
+        border: 0.8px solid #e1e6ed;
+    }
+
+    input[type=select]:focus {
+        border: 0.8px solid #e1e6ed;
+
+    }
+
+    .field {
+        background-color: #e1e6ed;
+
+    }
+    </style>
 </head>
+
 <body>
-<div class="container">
-<div class="header">
+    <div class="container">
+        <div class="header">
             <h1></br> 4G Site Informations </h1>
-            <?php echo $row['SITE_CODE']; ?>  details.</br>
+            <?php echo $row['SITE_CODE']; ?> details.</br>
             </br>
-    </div>
-<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-<div class="form1">
-<div>
-<input type ="hidden" name ="id" value="<?php echo $id; ?>">
-Site Code:<input type ="text" name ="sitecode" value="<?php echo $row['SITE_CODE']; ?>"></br></br>
-Site Name:<input type ="text"   name ="sitename" disabled  value="<?php echo $row['SITE_NAME']; ?>"></br></br>
-</div>
-<div>
-    <label for="node">E NodeB_ID:</label>
-    <input type ="text" name="nodeb" size="5" id="node"  value="<?php echo $row['ENODEB_ID']; ?>"></br></br>
-</div>
+        </div>
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post"
+            onsubmit="return confirmupdate();">
+            <div class="form1">
+                <div>
+                    <input type="hidden" name="id" value="<?php echo $id; ?>">
+                    Site Code:<input type="text" name="sitecode" value="<?php echo $row['SITE_CODE']; ?>"></br></br>
+                    Site Name:<input type="text" name="sitename" disabled
+                        value="<?php echo $row['SITE_NAME']; ?>"></br></br>
+                </div>
+                <div>
+                    <label for="node">E NodeB_ID:</label>
+                    <input type="text" name="nodeb" size="5" id="node"
+                        value="<?php echo $row['ENODEB_ID']; ?>"></br></br>
+                </div>
 
-<div>
-    BTS Type:   <select name="BTS">    
-        <option value="">--</option>      
-        <option value="DBS3900" <?php if($row['BTS_TYPE'] == "DBS3900")      echo 'Selected' ;?> >DBS3900</option>
-        <option value="DBS5900" <?php if($row['BTS_TYPE'] == "DBS5900")      echo 'Selected' ;?> >DBS3900</option>
-        <option value="BTS3900A" <?php if($row['BTS_TYPE'] == "DBS3900A")    echo 'Selected' ;?>>BTS3900A</option>
-        <option value="BTS3900L" <?php if($row['BTS_TYPE'] == "BTS3900L")    echo 'Selected' ;?>>BTS3900L</option>
-        <option value="6102"    <?php if($row['BTS_TYPE'] == "6102")         echo 'Selected' ;?>>6102</option>
-        <option value="6103"    <?php if($row['BTS_TYPE'] == "6103")         echo 'Selected' ;?>>6103</option>
-        <option value="6150"    <?php if($row['BTS_TYPE'] == "DBS3900")       echo 'Selected' ;?>>6150</option>
-        <option value="6201"    <?php if($row['BTS_TYPE'] == "6201")          echo 'Selected' ;?>>6201</option>
-        <option value="6301" <?php if($row['BTS_TYPE'] == "6301")           echo 'Selected' ;?>>6301</option>
-        <option value="6601" <?php if($row['BTS_TYPE'] == "6601")    echo 'Selected' ;?>>6601</option>
-        <option value="6102L" <?php if($row['BTS_TYPE'] == "6102L")    echo 'Selected' ;?>>6102L</option>
-        <option value="6201L" <?php if($row['BTS_TYPE'] == "6201L")    echo 'Selected' ;?>>6201L</option>
-        <option value="5212" <?php if($row['BTS_TYPE'] == "5212")    echo 'Selected' ;?>>5212</option>
-        <option value="5216" <?php if($row['BTS_TYPE'] == "5216")    echo 'Selected' ;?>>5216</option>
-        <option value="BB5212" <?php if($row['BTS_TYPE'] == "BB5212")    echo 'Selected' ;?>>BB5212</option>
-        <option value="DUS3102" <?php if($row['BTS_TYPE'] == "DUS3102")    echo 'Selected' ;?>>DUS3102</option>
-        <option value="DUS5201" <?php if($row['BTS_TYPE'] == "DUS5201")    echo 'Selected' ;?>>DUS5201</option>
-        <option value="RBS6601" <?php if($row['BTS_TYPE'] == "RBS6601")    echo 'Selected' ;?>>RBS6601</option>
-        <option value="RBS6102L" <?php if($row['BTS_TYPE'] == "RBS6102L")    echo 'Selected' ;?>>RBS6102L</option>
-    </select>
-    </br></br>
-</div>
+                <div>
+                    BTS Type: <select name="BTS">
+                        <option value="">--</option>
+                        <option value="DBS3900" <?php if($row['BTS_TYPE'] == "DBS3900")      echo 'Selected' ;?>>DBS3900
+                        </option>
+                        <option value="DBS5900" <?php if($row['BTS_TYPE'] == "DBS5900")      echo 'Selected' ;?>>DBS3900
+                        </option>
+                        <option value="BTS3900A" <?php if($row['BTS_TYPE'] == "DBS3900A")    echo 'Selected' ;?>>
+                            BTS3900A</option>
+                        <option value="BTS3900L" <?php if($row['BTS_TYPE'] == "BTS3900L")    echo 'Selected' ;?>>
+                            BTS3900L</option>
+                        <option value="6102" <?php if($row['BTS_TYPE'] == "6102")         echo 'Selected' ;?>>6102
+                        </option>
+                        <option value="6103" <?php if($row['BTS_TYPE'] == "6103")         echo 'Selected' ;?>>6103
+                        </option>
+                        <option value="6150" <?php if($row['BTS_TYPE'] == "DBS3900")       echo 'Selected' ;?>>6150
+                        </option>
+                        <option value="6201" <?php if($row['BTS_TYPE'] == "6201")          echo 'Selected' ;?>>6201
+                        </option>
+                        <option value="6301" <?php if($row['BTS_TYPE'] == "6301")           echo 'Selected' ;?>>6301
+                        </option>
+                        <option value="6601" <?php if($row['BTS_TYPE'] == "6601")    echo 'Selected' ;?>>6601</option>
+                        <option value="6102L" <?php if($row['BTS_TYPE'] == "6102L")    echo 'Selected' ;?>>6102L
+                        </option>
+                        <option value="6201L" <?php if($row['BTS_TYPE'] == "6201L")    echo 'Selected' ;?>>6201L
+                        </option>
+                        <option value="5212" <?php if($row['BTS_TYPE'] == "5212")    echo 'Selected' ;?>>5212</option>
+                        <option value="5216" <?php if($row['BTS_TYPE'] == "5216")    echo 'Selected' ;?>>5216</option>
+                        <option value="BB5212" <?php if($row['BTS_TYPE'] == "BB5212")    echo 'Selected' ;?>>BB5212
+                        </option>
+                        <option value="DUS3102" <?php if($row['BTS_TYPE'] == "DUS3102")    echo 'Selected' ;?>>DUS3102
+                        </option>
+                        <option value="DUS5201" <?php if($row['BTS_TYPE'] == "DUS5201")    echo 'Selected' ;?>>DUS5201
+                        </option>
+                        <option value="RBS6601" <?php if($row['BTS_TYPE'] == "RBS6601")    echo 'Selected' ;?>>RBS6601
+                        </option>
+                        <option value="RBS6102L" <?php if($row['BTS_TYPE'] == "RBS6102L")    echo 'Selected' ;?>>
+                            RBS6102L</option>
+                    </select>
+                    </br></br>
+                </div>
 
-<div>
-    Site Status:  <select name="status">
-        
-   
-      <option value="Empty">--</option>
-        <option value="On Air"              <?php if($row['STATUS'] == "On Air")             echo 'Selected' ;?>>On Air </option>
-        <option value="On Air (Stopped)"    <?php if($row['STATUS'] == "On Air (Stopped)")   echo 'Selected' ;?>>On Air (Stopped)  </option>
-        <option value="On Air (Stopped_2)"  <?php if($row['STATUS'] == "On Air (Stopped_2)") echo 'Selected' ;?>>On Air (Stopped_2)</option>
-
-        </select>
-    </br></br>
-</div>
-<div>
-    <label for="air date">4G On Air Date:</label>
-    <input type ="text" name="onairdate" size="15" id="air date"  value="<?php echo $row['ACTIVATION_DATE']; ?>" ></br></br>
-</div>
-
-<div>
-    <label for="rest">Restoration Date:</label>
-    <input type ="text" name="restoration" size="15" id="rest" value="<?php echo $row['RESTORATION_DATE']; ?>" ></br></br>
-</div>
-
-<div>
-<label for="lac">LAC:</label>
-    <input type ="text" name="lac" size="4" id="lac" value="<?php echo $row['LAC']; ?>"></br></br>
-</div>
-<div>
-<label for="note">Site Notes:</label>
-    <input type ="text" name="snotes" size="89" id="note" value="<?php echo $row['NOTE']; ?>"></br></br>
-</div>
+                <div>
+                    Site Status: <select name="status">
 
 
+                        <option value="Empty">--</option>
+                        <option value="On Air" <?php if($row['STATUS'] == "On Air")             echo 'Selected' ;?>>On
+                            Air </option>
+                        <option value="On Air (Stopped)"
+                            <?php if($row['STATUS'] == "On Air (Stopped)")   echo 'Selected' ;?>>On Air (Stopped)
+                        </option>
+                        <option value="On Air (Stopped_2)"
+                            <?php if($row['STATUS'] == "On Air (Stopped_2)") echo 'Selected' ;?>>On Air (Stopped_2)
+                        </option>
 
-<div>
-    Select Cells:</br>
-    <?php 
+                    </select>
+                    </br></br>
+                </div>
+                <div>
+                    <label for="air date">4G On Air Date:</label>
+                    <input type="text" name="onairdate" size="15" id="air date"
+                        value="<?php echo $row['ACTIVATION_DATE']; ?>"></br></br>
+                </div>
+
+                <div>
+                    <label for="rest">Restoration Date:</label>
+                    <input type="text" name="restoration" size="15" id="rest"
+                        value="<?php echo $row['RESTORATION_DATE']; ?>"></br></br>
+                </div>
+
+                <div>
+                    <label for="lac">LAC:</label>
+                    <input type="text" name="lac" size="4" id="lac" value="<?php echo $row['LAC']; ?>"></br></br>
+                </div>
+                <div>
+                    <label for="note">Site Notes:</label>
+                    <input type="text" name="snotes" size="89" id="note" value="<?php echo $row['NOTE']; ?>"></br></br>
+                </div>
+
+
+
+                <div>
+                    Select Cells:</br>
+                    <?php 
 
   
 while ($row1 = oci_fetch_array($resultt , OCI_ASSOC + OCI_RETURN_NULLS)){
@@ -465,147 +511,207 @@ while ($row1 = oci_fetch_array($resultt , OCI_ASSOC + OCI_RETURN_NULLS)){
 
 
 
-    <div>
+                    <div>
 
 
-</br>
-    <input type = "checkbox" name="cell[]"     value="<?= 'A' ?>" <?php if ( $data['A']) echo 'checked'; ?> ><?= 'A' ?>
+                        </br>
+                        <input type="checkbox" name="cell[]" value="<?= 'A' ?>"
+                            <?php if ( $data['A']) echo 'checked'; ?>><?= 'A' ?>
 
-    <input type ="text"      name="cellida"   size="4"  placeholder="Cell ID"               value = "<?= $data['A']['CELL_ID']?? '' //echo CELL_ID and if it is null echo ''?>">
-    <input type ="text"      name="cellcodea" size="5"  placeholder="Cell Code"             value = "<?= $data['A']['CELL_CODE']?? 'empty' ?>" >
-    <input type ="text"      name="cellnamea" size="15"  placeholder="Cell Name"            value = "<?= $data['A']['CELL_NAME']?? 'woow' ?>" >
-    <input type ="text"      name="azimutha"  size="3"  placeholder="Azimuth"               value = "<?= $data['A']['AZIMUTH']?? '' ?>" >
-    <input type ="text"      name="celldatea" size="6"  placeholder="On Air Date"           value = "<?= $data['A']['On_Air_Date']?? '' ?>" >
-    <input type ="text"      name="heighta"   size="3"  placeholder="Height"                value = "<?= $data['A']['HEIGHT']?? '' ?>">
-    <input type ="text"      name="mtilta"    size="3"  placeholder="M_TILT"                value = "<?= $data['A']['M_TILT']?? '' ?>">
-    <input type ="text"      name="etilta"    size="3"  placeholder="E_TILT"                value = "<?= $data['A']['E_TILT']?? '' ?>"></br>
-    <input type ="text"      name="area1a"    size="30" placeholder="Arabic Serving Area"   value = "<?= $data['A']['SERVING_AREA']?? '' ?>">
-    <input type ="text"      name="area2a"    size="30" placeholder="English Serving Area"  value = "<?= $data['A']['SERVING_AREA_IN_ENGLISH']?? '' ?>"></br></br>
-    <input type ="text"      name="cnotesa"   size="100" placeholder="Note"                  value = "<?= $data['A']['NOTES']?? '' ?>">
+                        <input type="text" name="cellida" size="4" placeholder="Cell ID"
+                            value="<?= $data['A']['CELL_ID']?? '' //echo CELL_ID and if it is null echo ''?>">
+                        <input type="text" name="cellcodea" size="5" placeholder="Cell Code"
+                            value="<?= $data['A']['CELL_CODE']?? 'empty' ?>">
+                        <input type="text" name="cellnamea" size="15" placeholder="Cell Name"
+                            value="<?= $data['A']['CELL_NAME']?? 'woow' ?>">
+                        <input type="text" name="azimutha" size="3" placeholder="Azimuth"
+                            value="<?= $data['A']['AZIMUTH']?? '' ?>">
+                        <input type="text" name="celldatea" size="6" placeholder="On Air Date"
+                            value="<?= $data['A']['On_Air_Date']?? '' ?>">
+                        <input type="text" name="heighta" size="3" placeholder="Height"
+                            value="<?= $data['A']['HEIGHT']?? '' ?>">
+                        <input type="text" name="mtilta" size="3" placeholder="M_TILT"
+                            value="<?= $data['A']['M_TILT']?? '' ?>">
+                        <input type="text" name="etilta" size="3" placeholder="E_TILT"
+                            value="<?= $data['A']['E_TILT']?? '' ?>"></br>
+                        <input type="text" name="area1a" size="30" placeholder="Arabic Serving Area"
+                            value="<?= $data['A']['SERVING_AREA']?? '' ?>">
+                        <input type="text" name="area2a" size="30" placeholder="English Serving Area"
+                            value="<?= $data['A']['SERVING_AREA_IN_ENGLISH']?? '' ?>"></br></br>
+                        <input type="text" name="cnotesa" size="100" placeholder="Note"
+                            value="<?= $data['A']['NOTES']?? '' ?>">
 
-</div>
+                    </div>
 
-<?php } ?>
+                    <?php } ?>
 
 
-<?php 
+                    <?php 
 
 if ($cellcode_char =='B'){
 
 ?>
 
 
-<div>
+                    <div>
 
 
-</br>
-    <input type = "checkbox" name="cell[]"     value="<?= 'B' ?>" <?php if ( $data['B']) echo 'checked'; ?> ><?= 'B' ?>
+                        </br>
+                        <input type="checkbox" name="cell[]" value="<?= 'B' ?>"
+                            <?php if ( $data['B']) echo 'checked'; ?>><?= 'B' ?>
 
-    <input type ="text"      name="cellidb"   size="4"  placeholder="Cell ID"               value = "<?= $data['B']['CELL_ID']?? '' //echo CELL_ID and if it is null echo ''?>">
-    <input type ="text"      name="cellcodeb" size="5"  placeholder="Cell Code"             value = "<?= $data['B']['CELL_CODE']?? 'empty' ?>" >
-    <input type ="text"      name="cellnameb" size="15"  placeholder="Cell Name"            value = "<?= $data['B']['CELL_NAME']?? 'woow' ?>" >
-    <input type ="text"      name="azimuthb"  size="3"  placeholder="Azimuth"               value = "<?= $data['B']['AZIMUTH']?? '' ?>" >
-    <input type ="text"      name="celldateb" size="6"  placeholder="On Air Date"           value = "<?= $data['B']['On_Air_Date']?? '' ?>" >
-    <input type ="text"      name="heightb"   size="3"  placeholder="Height"                value = "<?= $data['B']['HEIGHT']?? '' ?>">
-    <input type ="text"      name="mtiltb"    size="3"  placeholder="M_TILT"                value = "<?= $data['B']['M_TILT']?? '' ?>">
-    <input type ="text"      name="etiltb"    size="3"  placeholder="E_TILT"                value = "<?= $data['B']['E_TILT']?? '' ?>"></br>
-    <input type ="text"      name="area1b"    size="30" placeholder="Arabic Serving Area"   value = "<?= $data['B']['SERVING_AREA']?? '' ?>">
-    <input type ="text"      name="area2b"    size="30" placeholder="English Serving Area"  value = "<?= $data['B']['SERVING_AREA_IN_ENGLISH']?? '' ?>"></br></br>
-    <input type ="text"      name="cnotesb"   size="100" placeholder="Note"                  value = "<?= $data['B']['NOTES']?? '' ?>">
+                        <input type="text" name="cellidb" size="4" placeholder="Cell ID"
+                            value="<?= $data['B']['CELL_ID']?? '' //echo CELL_ID and if it is null echo ''?>">
+                        <input type="text" name="cellcodeb" size="5" placeholder="Cell Code"
+                            value="<?= $data['B']['CELL_CODE']?? 'empty' ?>">
+                        <input type="text" name="cellnameb" size="15" placeholder="Cell Name"
+                            value="<?= $data['B']['CELL_NAME']?? 'woow' ?>">
+                        <input type="text" name="azimuthb" size="3" placeholder="Azimuth"
+                            value="<?= $data['B']['AZIMUTH']?? '' ?>">
+                        <input type="text" name="celldateb" size="6" placeholder="On Air Date"
+                            value="<?= $data['B']['On_Air_Date']?? '' ?>">
+                        <input type="text" name="heightb" size="3" placeholder="Height"
+                            value="<?= $data['B']['HEIGHT']?? '' ?>">
+                        <input type="text" name="mtiltb" size="3" placeholder="M_TILT"
+                            value="<?= $data['B']['M_TILT']?? '' ?>">
+                        <input type="text" name="etiltb" size="3" placeholder="E_TILT"
+                            value="<?= $data['B']['E_TILT']?? '' ?>"></br>
+                        <input type="text" name="area1b" size="30" placeholder="Arabic Serving Area"
+                            value="<?= $data['B']['SERVING_AREA']?? '' ?>">
+                        <input type="text" name="area2b" size="30" placeholder="English Serving Area"
+                            value="<?= $data['B']['SERVING_AREA_IN_ENGLISH']?? '' ?>"></br></br>
+                        <input type="text" name="cnotesb" size="100" placeholder="Note"
+                            value="<?= $data['B']['NOTES']?? '' ?>">
 
-</div>
+                    </div>
 
-<?php } ?>
+                    <?php } ?>
 
-<?php 
+                    <?php 
 
 if ($cellcode_char =='C'){
 
 ?>
 
 
-<div>
+                    <div>
 
 
-</br>
-    <input type = "checkbox" name="cell[]"     value="<?= 'C' ?>" <?php if ( $data['C']) echo 'checked'; ?> ><?= 'C' ?>
+                        </br>
+                        <input type="checkbox" name="cell[]" value="<?= 'C' ?>"
+                            <?php if ( $data['C']) echo 'checked'; ?>><?= 'C' ?>
 
-    <input type ="text"      name="cellidc"   size="4"  placeholder="Cell ID"               value = "<?= $data['C']['CELL_ID']?? '' //echo CELL_ID and if it is null echo ''?>">
-    <input type ="text"      name="cellcodec" size="5"  placeholder="Cell Code"             value = "<?= $data['C']['CELL_CODE']?? 'empty' ?>" >
-    <input type ="text"      name="cellnamec" size="15"  placeholder="Cell Name"            value = "<?= $data['C']['CELL_NAME']?? 'woow' ?>" >
-    <input type ="text"      name="azimuthc"  size="3"  placeholder="Azimuth"               value = "<?= $data['C']['AZIMUTH']?? '' ?>" >
-    <input type ="text"      name="celldatec" size="6"  placeholder="On Air Date"           value = "<?= $data['C']['On_Air_Date']?? '' ?>" >
-    <input type ="text"      name="heightc"   size="3"  placeholder="Height"                value = "<?= $data['C']['HEIGHT']?? '' ?>">
-    <input type ="text"      name="mtiltc"    size="3"  placeholder="M_TILT"                value = "<?= $data['C']['M_TILT']?? '' ?>">
-    <input type ="text"      name="etiltc"    size="3"  placeholder="E_TILT"                value = "<?= $data['C']['E_TILT']?? '' ?>"></br>
-    <input type ="text"      name="area1c"    size="30" placeholder="Arabic Serving Area"   value = "<?= $data['C']['SERVING_AREA']?? '' ?>">
-    <input type ="text"      name="area2c"    size="30" placeholder="English Serving Area"  value = "<?= $data['C']['SERVING_AREA_IN_ENGLISH']?? '' ?>"></br></br>
-    <input type ="text"      name="cnotesc"   size="100" placeholder="Note"                  value = "<?= $data['C']['NOTES']?? '' ?>">
+                        <input type="text" name="cellidc" size="4" placeholder="Cell ID"
+                            value="<?= $data['C']['CELL_ID']?? '' //echo CELL_ID and if it is null echo ''?>">
+                        <input type="text" name="cellcodec" size="5" placeholder="Cell Code"
+                            value="<?= $data['C']['CELL_CODE']?? 'empty' ?>">
+                        <input type="text" name="cellnamec" size="15" placeholder="Cell Name"
+                            value="<?= $data['C']['CELL_NAME']?? 'woow' ?>">
+                        <input type="text" name="azimuthc" size="3" placeholder="Azimuth"
+                            value="<?= $data['C']['AZIMUTH']?? '' ?>">
+                        <input type="text" name="celldatec" size="6" placeholder="On Air Date"
+                            value="<?= $data['C']['On_Air_Date']?? '' ?>">
+                        <input type="text" name="heightc" size="3" placeholder="Height"
+                            value="<?= $data['C']['HEIGHT']?? '' ?>">
+                        <input type="text" name="mtiltc" size="3" placeholder="M_TILT"
+                            value="<?= $data['C']['M_TILT']?? '' ?>">
+                        <input type="text" name="etiltc" size="3" placeholder="E_TILT"
+                            value="<?= $data['C']['E_TILT']?? '' ?>"></br>
+                        <input type="text" name="area1c" size="30" placeholder="Arabic Serving Area"
+                            value="<?= $data['C']['SERVING_AREA']?? '' ?>">
+                        <input type="text" name="area2c" size="30" placeholder="English Serving Area"
+                            value="<?= $data['C']['SERVING_AREA_IN_ENGLISH']?? '' ?>"></br></br>
+                        <input type="text" name="cnotesc" size="100" placeholder="Note"
+                            value="<?= $data['C']['NOTES']?? '' ?>">
 
-</div>
+                    </div>
 
-<?php } ?>
+                    <?php } ?>
 
-<?php 
+                    <?php 
 
 if ($cellcode_char =='D'){
 
 ?>
 
 
-<div>
+                    <div>
 
 
-</br>
-    <input type = "checkbox" name="cell[]"     value="<?= 'D' ?>" <?php if ( $data['D']) echo 'checked'; ?> ><?= 'D' ?>
+                        </br>
+                        <input type="checkbox" name="cell[]" value="<?= 'D' ?>"
+                            <?php if ( $data['D']) echo 'checked'; ?>><?= 'D' ?>
 
-    <input type ="text"      name="cellidd"   size="4"  placeholder="Cell ID"               value = "<?= $data['D']['CELL_ID']?? '' //echo CELL_ID and if it is null echo ''?>">
-    <input type ="text"      name="cellcoded" size="5"  placeholder="Cell Code"             value = "<?= $data['D']['CELL_CODE']?? '' ?>" >
-    <input type ="text"      name="cellnamed" size="15"  placeholder="Cell Name"            value = "<?= $data['D']['CELL_NAME']?? '' ?>" >
-    <input type ="text"      name="azimuthd"  size="3"  placeholder="Azimuth"               value = "<?= $data['D']['AZIMUTH']?? '' ?>" >
-    <input type ="text"      name="celldated" size="6"  placeholder="On Air Date"           value = "<?= $data['D']['On_Air_Date']?? '' ?>" >
-    <input type ="text"      name="heightd"   size="3"  placeholder="Height"                value = "<?= $data['D']['HEIGHT']?? '' ?>">
-    <input type ="text"      name="mtiltd"    size="3"  placeholder="M_TILT"                value = "<?= $data['D']['M_TILT']?? '' ?>">
-    <input type ="text"      name="etiltd"    size="3"  placeholder="E_TILT"                value = "<?= $data['D']['E_TILT']?? '' ?>"></br>
-    <input type ="text"      name="area1d"    size="30" placeholder="Arabic Serving Area"   value = "<?= $data['D']['SERVING_AREA']?? '' ?>">
-    <input type ="text"      name="area2d"    size="30" placeholder="English Serving Area"  value = "<?= $data['D']['SERVING_AREA_IN_ENGLISH']?? '' ?>"></br></br>
-    <input type ="text"      name="cnotesd"   size="100" placeholder="Note"                  value = "<?= $data['D']['NOTES']?? '' ?>">
+                        <input type="text" name="cellidd" size="4" placeholder="Cell ID"
+                            value="<?= $data['D']['CELL_ID']?? '' //echo CELL_ID and if it is null echo ''?>">
+                        <input type="text" name="cellcoded" size="5" placeholder="Cell Code"
+                            value="<?= $data['D']['CELL_CODE']?? '' ?>">
+                        <input type="text" name="cellnamed" size="15" placeholder="Cell Name"
+                            value="<?= $data['D']['CELL_NAME']?? '' ?>">
+                        <input type="text" name="azimuthd" size="3" placeholder="Azimuth"
+                            value="<?= $data['D']['AZIMUTH']?? '' ?>">
+                        <input type="text" name="celldated" size="6" placeholder="On Air Date"
+                            value="<?= $data['D']['On_Air_Date']?? '' ?>">
+                        <input type="text" name="heightd" size="3" placeholder="Height"
+                            value="<?= $data['D']['HEIGHT']?? '' ?>">
+                        <input type="text" name="mtiltd" size="3" placeholder="M_TILT"
+                            value="<?= $data['D']['M_TILT']?? '' ?>">
+                        <input type="text" name="etiltd" size="3" placeholder="E_TILT"
+                            value="<?= $data['D']['E_TILT']?? '' ?>"></br>
+                        <input type="text" name="area1d" size="30" placeholder="Arabic Serving Area"
+                            value="<?= $data['D']['SERVING_AREA']?? '' ?>">
+                        <input type="text" name="area2d" size="30" placeholder="English Serving Area"
+                            value="<?= $data['D']['SERVING_AREA_IN_ENGLISH']?? '' ?>"></br></br>
+                        <input type="text" name="cnotesd" size="100" placeholder="Note"
+                            value="<?= $data['D']['NOTES']?? '' ?>">
 
-</div>
+                    </div>
 
-<?php } ?>
+                    <?php } ?>
 
-<?php 
+                    <?php 
 if ($cellcode_char =='E'){
 
 ?>
 
 
-<div>
+                    <div>
 
 
-</br>
-    <input type = "checkbox" name="cell[]"     value="<?= 'E' ?>" <?php if ( $data['E']) echo 'checked'; ?> ><?= 'E' ?>
+                        </br>
+                        <input type="checkbox" name="cell[]" value="<?= 'E' ?>"
+                            <?php if ( $data['E']) echo 'checked'; ?>><?= 'E' ?>
 
-    <input type ="text"      name="cellide"   size="4"  placeholder="Cell ID"               value = "<?= $data['E']['CELL_ID']?? '' //echo CELL_ID and if it is null echo ''?>">
-    <input type ="text"      name="cellcodee" size="5"  placeholder="Cell Code"             value = "<?= $data['E']['CELL_CODE']?? 'empty' ?>" >
-    <input type ="text"      name="cellnamee" size="15"  placeholder="Cell Name"            value = "<?= $data['E']['CELL_NAME']?? 'woow' ?>" >
-    <input type ="text"      name="azimuthe"  size="3"  placeholder="Azimuth"               value = "<?= $data['E']['AZIMUTH']?? '' ?>" >
-    <input type ="text"      name="celldatee" size="6"  placeholder="On Air Date"           value = "<?= $data['E']['On_Air_Date']?? '' ?>" >
-    <input type ="text"      name="heighte"   size="3"  placeholder="Height"                value = "<?= $data['E']['HEIGHT']?? '' ?>">
-    <input type ="text"      name="mtilte"    size="3"  placeholder="M_TILT"                value = "<?= $data['E']['M_TILT']?? '' ?>">
-    <input type ="text"      name="etilte"    size="3"  placeholder="E_TILT"                value = "<?= $data['E']['E_TILT']?? '' ?>"></br>
-    <input type ="text"      name="area1e"    size="30" placeholder="Arabic Serving Area"   value = "<?= $data['E']['SERVING_AREA']?? '' ?>">
-    <input type ="text"      name="area2e"    size="30" placeholder="English Serving Area"  value = "<?= $data['E']['SERVING_AREA_IN_ENGLISH']?? '' ?>"></br></br>
-    <input type ="text"      name="cnotese"   size="100" placeholder="Note"                  value = "<?= $data['E']['Notes']?? '' ?>">
+                        <input type="text" name="cellide" size="4" placeholder="Cell ID"
+                            value="<?= $data['E']['CELL_ID']?? '' //echo CELL_ID and if it is null echo ''?>">
+                        <input type="text" name="cellcodee" size="5" placeholder="Cell Code"
+                            value="<?= $data['E']['CELL_CODE']?? 'empty' ?>">
+                        <input type="text" name="cellnamee" size="15" placeholder="Cell Name"
+                            value="<?= $data['E']['CELL_NAME']?? 'woow' ?>">
+                        <input type="text" name="azimuthe" size="3" placeholder="Azimuth"
+                            value="<?= $data['E']['AZIMUTH']?? '' ?>">
+                        <input type="text" name="celldatee" size="6" placeholder="On Air Date"
+                            value="<?= $data['E']['On_Air_Date']?? '' ?>">
+                        <input type="text" name="heighte" size="3" placeholder="Height"
+                            value="<?= $data['E']['HEIGHT']?? '' ?>">
+                        <input type="text" name="mtilte" size="3" placeholder="M_TILT"
+                            value="<?= $data['E']['M_TILT']?? '' ?>">
+                        <input type="text" name="etilte" size="3" placeholder="E_TILT"
+                            value="<?= $data['E']['E_TILT']?? '' ?>"></br>
+                        <input type="text" name="area1e" size="30" placeholder="Arabic Serving Area"
+                            value="<?= $data['E']['SERVING_AREA']?? '' ?>">
+                        <input type="text" name="area2e" size="30" placeholder="English Serving Area"
+                            value="<?= $data['E']['SERVING_AREA_IN_ENGLISH']?? '' ?>"></br></br>
+                        <input type="text" name="cnotese" size="100" placeholder="Note"
+                            value="<?= $data['E']['Notes']?? '' ?>">
 
-</div>
+                    </div>
 
-<?php } ?>
+                    <?php } ?>
 
 
 
-<?php 
+                    <?php 
 
 }
 
@@ -616,29 +722,29 @@ if ($cellcode_char =='E'){
 
 
 
-</div>
+                </div>
 
-</div>
+            </div>
 
 
-<div class="footer">
-<div class="type">
-    <label>Select Next Page:</br></label></br>
-   
-    <input type ="radio" id= "addsite" name="SiteType" value="addsite">Basic Site Info Page.
-    
-</div>
+            <div class="footer">
 
-<div class="submit">
-    <input type="submit" name="submit" value="Done">
-</div>
 
-<div class="submit">
-    <button type="button" onclick="if(window.confirm('Are you sure?')) { window.close(); }">Discard</button>
-</div>
-<div style="clear:both;"></div>
-</div>
-</form>
-</div>
+                <div class="submit">
+
+                    <input type="submit" name="submit" value="Update">
+                </div>
+                <div class="submit1">
+                    <button class="submit2"
+                        onclick="if(window.confirm('Are you sure to close without update?')) { window.close(); }">
+                        Discard </button>
+                </div>
+                <div style="clear:both;"></div>
+
+
+            </div>
+        </form>
+    </div>
 </body>
+
 </html>

@@ -1,6 +1,7 @@
 <?php 
 include "config.php";
 //echo phpinfo();
+header('Content-Type: text/html; charset=UTF-8');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -205,16 +206,14 @@ include "config.php";
             </br>
         </div>
         <div class="form1">
-            <form id="searchForm" method="POST">
-                <input type="text" class="input1" name="search" placeholder="Search Site Code">
-                <button type="submit" name="submit">Search</button>
+            <form method="POST">
+                <input type="text" class="input1" name="search" placeholder="Search data">
+                <button name="submit">Search</button>
             </form>
 
 
         </div>
-
         <div class="result">
-
             <div class="table-wrapper">
                 <table class="table1">
                     <?php 
@@ -269,7 +268,7 @@ include "config.php";
                                     <td>' . $row['PROVINCE'] . '</td>
                                     <td>' . $row['SITE_ON_AIR_DATE'] . '</td>
                                 
-                                    <td> <a href="update_basic_info.php?id='. $row['ID'] .'">Update</a></td>
+                                    <td> <a href="update_basic_info.php?id='. $row['ID'] .'" target="_blank">Update</a></td>
                                     <td> <a href="delete_all.php?id2='. $row['ID'] .'">Cancel Site</a></td>
                                     </tr>
                                     </tbody>';
@@ -291,11 +290,16 @@ include "config.php";
 
                         }
                         else {
-                    echo "Site Is Not Exist!!";
+                    echo "Site Is Not Exist!! ";
+                    
                     }
                 
                        ?>
             </div>
+
+
+
+
             <div class="table-wrapper">
                 <table class="table2">
                     <?php
@@ -321,7 +325,7 @@ include "config.php";
                          <td>'  .$roww['CELL_NAME']                 . '</td>
                          <td>' . $roww['CELL_ID']                   . '</td>
                          <td>' . $roww['CELL_ON_AIR_DATE']          . '</td>
-                         <td> <a href="update2G.php?id2='. $roww['SITE_ID'] .'">Update</a></td>
+                         <td> <a href="update2G.php?id2='. $roww['SITE_ID'] .'" " target="_blank">Update</a></td>
                          <td> <a href="delete2GCell.php?id2='. $roww['CELL_CODE'] .'">Delete Cell</a></td>
                        </tr>
                        </tbody>';
@@ -339,7 +343,9 @@ include "config.php";
                    
                 }
                         else {
-                    echo "2G Site Is Not Exist!!";
+                    echo "2G Site Is Not Exist!!
+                    </br> <div><div class= 'Lfloat'><button type='button' class= 'btn'><a href='2G.php?id=". $id ."' target='_blank'> Add 2G Tech</a></button></div>
+                    ";
                     }
                        ?>
             </div>
@@ -375,8 +381,8 @@ include "config.php";
                  <td>' . $roww2['CELL_ID']                   . '</td>
                  <td>'.  $roww2['THREE_G_ON_AIR_DATE']             . '</td>
                  <td>' . $roww2['ON_AIR_DATE']               . '</td>
-                 <td> <a href="update3G.php?id2='. $roww2['SITE_ID'] .'">Update</a></td>
-                 <td> <a href="delete3GCell.php?id2='. $roww2['CELL_CODE'] .'">Delete Cell</a></td>
+                 <td> <a href="update3G.php?id3='. $roww2['SITE_ID'] .'" " target="_blank">Update</a></td>
+                 <td> <a href="delete3GCell.php?id3='. $roww2['CELL_CODE'] .'">Delete Cell</a></td>
                 </tr>
                 </tbody>';
                 
@@ -398,7 +404,6 @@ include "config.php";
                     }
 
                        ?>
-
 
             </div>
             <div class="table-wrapper">
@@ -431,7 +436,7 @@ include "config.php";
                  <td>' . $roww3['CELL_ID']                   . '</td>
                  <td>'.  $roww3['ACTIVATION_DATE']           . '</td>
                  <td>' . $roww3['ON_AIR_DATE']               . '</td>
-                 <td> <a href="update4G.php?id4='. $roww3['SID'] .'">Update</a></td>
+                 <td> <a href="update4G.php?id4='. $roww3['SID'] .'" " target="_blank">Update</a></td>
                  <td> <a href="delete4GCell.php?id4='. $roww3['CELL_CODE'] .'">Delete Cell</a></td>
                 </tr>
                 </tbody>';

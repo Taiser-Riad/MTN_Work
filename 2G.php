@@ -1,23 +1,5 @@
 <?php 
 include "config.php";
-
-<!-- function validateForm() {
-    let isValid = true;
-
-    // Clear previous errors
-    document.querySelectorAll('.error-message').forEach(span => span.textContent = '');
-
-    // Example Validation: 2G On Air Date
-    const onAirDate = document.getElementById('onairdate').value;
-    if (onAirDate === '') {
-        document.getElementById('onairdate-error').textContent = 'Please select a 2G On Air Date.';
-        isValid = false;
-    }
-
-    // Add more validations as needed 
-    return isValid;
-} -->
-
 ?>
 <?php
 if(isset($_GET['id']))
@@ -61,6 +43,8 @@ $suppliers = [
     'Huawei' => ['HBSC1', 'HBSC2', 'HBSC4','HBSC7','HBSC8','HBSC10','HBSC11','HSKBSC2'],
 ];
 
+
+
 if($BSC == "HBSC1"){$LBSC = "HBSC1_Thawra";}
 elseif($BSC == "HBSC2"){$LBSC = "HBSC2_Thawra";}
 elseif($BSC == "HBSC4"){$LBSC = "HBSC4_DahietKudsaya";}
@@ -69,6 +53,8 @@ elseif($BSC == "HBSC8"){$LBSC = "HBSC8_Daraa";}
 elseif($BSC == "HBSC10"){$LBSC = "HBSC10_YouthCity";}
 elseif($BSC == "HBSC11"){$LBSC = "HBSC11_DahietQudsaya";}
 else {$LBSC = $BSC;}
+
+
 
 
 
@@ -101,6 +87,12 @@ if (!oci_execute($insert_stmt)) {
     $err = oci_error($insert_stmt); 
     die("Error executing: " . $err['message']);
 }
+
+
+
+
+
+
 
 
 //$Cell_ID = oci_parse($conn, "SELECT 2GSITES_SEQ.CURRVAL FROM TWOGSITES");
@@ -305,7 +297,7 @@ if (!oci_execute($insert_stmt)) {
             }
            
 
-        $sql = "INSERT INTO TWO_G_CELLS(CID_Key, Cell_code, Cell_Name, Cell_ID, AZIMUTH, Hieght, BSiC, M_TILT, E_TILT, Total_TILT, BSC, BCCH, Cell_On_Air_Date, Note, serving_Area_IN_English, Serving_Area) 
+        $sql = "INSERT INTO TWO_G_CELLS(CID_KEY, CELL_CODE, CELL_NAME, CELL_ID, AZIMUTH, HIEGHT, BSIC, M_TILT, E_TILT, TOTAL_TILT, BSC, BCCH, CELL_ON_AIR_DATE, NOTE, SERVING_AREA_IN_ENGLISH, SERVING_AREA) 
         VALUES (:cid_key, :cell_code, :cell_name, :cell_id, :azimuth, :height, :bsic, :m_tilt, :e_tilt, :total_tilt, :bsc, :bcch, :cell_on_air_date, :note, :serving_area_in_english, :serving_area)";
 
         $stid = oci_parse($conn, $sql);
@@ -340,6 +332,9 @@ if (!oci_execute($insert_stmt)) {
 
         }
     }
+
+  
+
     if($site_type == '3G')
     {
         header("location:3G.php?id2=$sid");
@@ -350,6 +345,19 @@ if (!oci_execute($insert_stmt)) {
     else if($site_type == 'addsite'){
         header("location:Add Site.php");
     }
+
+    else if($site_type == 'done'){
+        //header("location:Add Site.php");
+    }
+
+
+
+
+
+
+
+
+
 }
 
 
@@ -372,141 +380,161 @@ if (!oci_execute($insert_stmt)) {
 
     <title> 2G Site page </title>
     <style>
-        .content-div {
-            display: none;
-        }
+    .content-div {
+        display: none;
+    }
 
-        #option1:checked~#content-container #div1,
-        #option2:checked~#content-container #div2,
-        #option3:checked~#content-container #div3 {
-            display: block;
-        }
+    #option1:checked~#content-container #div1 {
+        display: block;
+    }
 
-        .content-div {
-            transition: all 0.5s ease-in-out;
-        }
+    #option2:checked~#content-container #div2 {
+        display: block;
+    }
 
-        .footer {
-            background: #1c355c;
-            font-size: 17px;
-            margin-top: 10px;
-            color: white;
-            width: 99%;
-            padding-left: 10px;
-            padding-bottom: 10px;
-            padding-top: 30px;
+    #option3:checked~#content-container #div3 {
+        display: block;
+    }
 
+    .content-div {
+        transition: all 0.5s ease-in-out;
+    }
 
-        }
-
-
-
-
-        .submit {
-            width: 20%;
-            float: right;
-            display: flex;
+    .footer {
+        background: #1c355c;
+        font-size: 17px;
+        margin-top: 10px;
+        color: white;
+        width: 99%;
+        padding-left: 10px;
+        padding-bottom: 10px;
+        padding-top: 30px;
 
 
-        }
 
-        .submit input {
-
-            width: 70%;
-            Height: 35px;
-            font-size: 17px;
-            font-weight: bold;
-            margin: 10px;
-            border-radius: 10px;
-            text-align: center;
-            border: none;
-            color: #1c355c;
-
-        }
+    }
 
 
-        body {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: goldenrod;
+    .submit1 {
+        width: 20%;
+
+        float: left;
+        display: flex;
 
 
-        }
+    }
 
-        .container {
-            /*position: relative;*/
+    .submit2 {
 
-            width: 60%;
-            background: whitesmoke;
-            padding-top: 0;
-            margin-top: 0px;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+        width: 70%;
+        Height: 35px;
+        font-size: 17px;
+        font-weight: bold;
+        margin: 10px;
+        border-radius: 10px;
+        text-align: center;
+        border: none;
+        color: #1c355c;
 
-            border: 2px solid gray;
-            color: #1c355c;
-            border-radius: 5px;
-
-        }
-
-        h1 {
-            text-align: center;
-            width: 100%;
-            height: 100px;
-            margin-top: 0;
-            color: white;
-            margin-bottom: 0px;
+    }
 
 
-        }
+    .submit {
+        width: 20%;
+
+        float: right;
+        display: flex;
 
 
-        .header {
+    }
 
-            width: 100%;
-            background: #1c355c;
-            color: white;
-            text-align: center;
+    .submit input {
+
+        width: 70%;
+        Height: 35px;
+        font-size: 17px;
+        font-weight: bold;
+        margin: 10px;
+        border-radius: 10px;
+        text-align: center;
+        border: none;
+        color: #1c355c;
+
+    }
 
 
-        }
+    body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: goldenrod;
 
-        .form1 {
-            margin-top: 15px;
-            width: 80%;
-            padding: 40px;
 
-        }
+    }
 
-        input {
-            background-color: #e1e6ed;
-            border: 0.5px solid #e1e6ed;
-        }
+    .container {
+        /*position: relative;*/
 
-        select {
-            background-color: #e1e6ed;
-            border: 0.5px solid #e1e6ed;
-        }
+        width: 60%;
+        background: whitesmoke;
+        padding-top: 0;
+        margin-top: 0px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
 
-        input[type=text]:focus {
-            border: 0.8px solid #e1e6ed;
-        }
+        border: 2px solid gray;
+        color: #1c355c;
+        border-radius: 5px;
 
-        input[type=select]:focus {
-            border: 0.8px solid #e1e6ed;
+    }
 
-        }
+    h1 {
+        text-align: center;
+        width: 100%;
+        height: 100px;
+        margin-top: 0;
+        color: white;
+        margin-bottom: 0px;
 
-        .required-field::after {
-            content: " *";
-            color: red;
-        }
-        @media (max-width: 600px) {
-            body {
-                font-size: 14px;
-            }
-        }
+
+    }
+
+
+    .header {
+
+        width: 100%;
+        background: #1c355c;
+        color: white;
+        text-align: center;
+
+
+    }
+
+    .form1 {
+        margin-top: 15px;
+        width: 80%;
+        padding: 40px;
+
+    }
+
+    input {
+        background-color: #e1e6ed;
+        border: 0.5px solid #e1e6ed;
+    }
+
+    select {
+        background-color: #e1e6ed;
+        border: 0.5px solid #e1e6ed;
+    }
+
+    input[type=text]:focus {
+        border: 0.8px solid #e1e6ed;
+    }
+
+    input[type=select]:focus {
+        border: 0.8px solid #e1e6ed;
+
+    }
     </style>
 
 
@@ -517,12 +545,11 @@ if (!oci_execute($insert_stmt)) {
 
         <div class="header">
             <h1></br> 2G Site Informations </h1>
-            Fill
-            <?php echo $row['SITE_CODE']; ?> details Informations.</br>
+            Fill <?php echo $row['SITE_CODE']; ?> details Informations.</br>
             </br>
         </div>
 
-        <form action="<?php echo htmlspecialchars($_SERVER[" PHP_SELF"]); ?>" method="POST">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
             <div class="form1">
                 <div>
                     <input type="hidden" name="id" value="<?php echo $siteid; ?>">
@@ -530,8 +557,11 @@ if (!oci_execute($insert_stmt)) {
                     <input type="hidden" name="sitename" value="<?php echo $row['SITE_NAME']; ?>">
                     <input type="hidden" name="supplier" value="<?php echo $row['SUPPLIER']; ?>">
                 </div>
-                <label class="required-field" for="cellid">Select Band Width:</label>
-                <br />
+
+                Select Band Width: </br>
+
+
+
                 <input type="radio" id="option1" name="band" value="900">900
                 <input type="radio" id="option2" name="band" value="1800">1800
                 <input type="radio" id="option3" name="band" value="900/1800">900/1800</br></br>
@@ -542,9 +572,8 @@ if (!oci_execute($insert_stmt)) {
 
 
 
-                <div><label class="required-field" for="cellid">BTS Type :</label>
-
-                    <select name="BTS" required>
+                <div>
+                    BTS Type: <select name="BTS">
 
                         <option value="Empty">--</option>
                         <option value="macro">Macro</option>
@@ -559,16 +588,13 @@ if (!oci_execute($insert_stmt)) {
                 </div>
 
                 <div>
-                    <label class="required-field" for="air date">2G On Air Date:</label>
-                    <input type="date" name="onairdate" size="15" id="onairdate"
-                        title="Select the date when the 2G site went live">
-                    <span class="error-message" id="onairdate-error"></span><br><br>
+                    <label for="air date">2G On Air Date:</label>
+                    <input type="date" name="onairdate" size="15" id="air date"></br></br>
                 </div>
-
                 <div id="content-container">
                     <div id="div1" class="content-div">
                         900 GSM RBS Type:
-                        <select required name="900Rbs">
+                        <select name="900Rbs">
                             <option value="">--</option>
                             <option value="BTS3900">BTS3900</option>
                             <option value="DBS3900">DBS3900</option>
@@ -760,15 +786,15 @@ if (!oci_execute($insert_stmt)) {
                         </div>
                     </div>
                 </div>
-                <label class="required-field" for="cellid">BSC:</label>
-                <select name="BSC" required>
+
+
+                BSC: <select name="BSC">
 
                     <?php if(isset($supplier)) {?>
 
                     <?php foreach ($suppliers[$supplier] as $newsupplier): ?>
                     <option value="<?php echo htmlspecialchars($newsupplier); ?>">
-                        <?php echo htmlspecialchars($newsupplier); ?>
-                    </option>
+                        <?php echo htmlspecialchars($newsupplier); ?></option>
                     <?php endforeach; ?>
                     <?php } else {?>
                     <option value="Empty">--</option>
@@ -795,23 +821,22 @@ if (!oci_execute($insert_stmt)) {
                 </br></br>
 
                 <div>
-                    <label class="required-field" for="lac">LAC:</label>
-                    <input type="text" name="lac" size="4" id="lac" required></br></br>
+                    <label for="lac">LAC:</label>
+                    <input type="text" name="lac" size="4" id="lac"></br></br>
                 </div>
                 <div>
-                    <label class="required-field" for="note1">Site Notes:</label>
-                    <input type="text" name="snotes" id="note1"></br></br>
+                    <label for="note1">Site Notes:</label>
+                    <input type="text" name="snotes" size="89" id="note1"></br></br>
                 </div>
 
 
                 <div>
-                    <label class="required-field" for="cellid">Site ID:</label>
-                    <input type="text" name="cellid" size="4" id="cellid" required></br></br>
+                    <label for="cellid">Site ID:</label>
+                    <input type="text" name="cellid" size="4" id="cellid"></br></br>
                 </div>
 
                 <div>
-                    <label class="required-field" for="cellid">Select Cells:</label>
-                    <br />
+                    Select Cells:</br>
                     <input type="checkbox" name="cell[]" value="A">A
                     <input type="text" name="azimutha" size="5" placeholder="AzimuthA">
                     <input type="text" name="heighta" size="5" placeholder="Height A">
@@ -819,7 +844,7 @@ if (!oci_execute($insert_stmt)) {
                     <input type="text" name="etilta" size="5" placeholder="E_TILT">
                     <input type="text" name="area1a" size="15" placeholder="Arabic Serving Area">
                     <input type="text" name="area2a" size="15" placeholder="English Serving Area"><br />
-                    <input type="text" name="cnotea" placeholder="Cell Note">
+                    <input type="text" name="cnotea" size="90" placeholder="Cell Note">
                 </div>
 
                 <div>
@@ -831,7 +856,7 @@ if (!oci_execute($insert_stmt)) {
                     <input type="text" name="etiltb" size="5" placeholder="E_TILT">
                     <input type="text" name="area1b" size="15" placeholder="Arabic Serving Area">
                     <input type="text" name="area2b" size="15" placeholder="English Serving Area"></br>
-                    <input type="text" name="cnoteb"  placeholder="Cell Note">
+                    <input type="text" name="cnoteb" size="90" placeholder="Cell Note">
 
                 </div>
                 <div>
@@ -843,7 +868,7 @@ if (!oci_execute($insert_stmt)) {
                     <input type="text" name="etiltC" size="5" placeholder="E_TILT">
                     <input type="text" name="area1C" size="15" placeholder="Arabic Serving Area">
                     <input type="text" name="area2C" size="15" placeholder="English Serving Area"></br>
-                    <input type="text" name="cnoteC"  placeholder="Cell Note">
+                    <input type="text" name="cnoteC" size="90" placeholder="Cell Note">
                 </div>
                 <div>
                     </br>
@@ -854,7 +879,7 @@ if (!oci_execute($insert_stmt)) {
                     <input type="text" name="etiltd" size="5" placeholder="E_TILT">
                     <input type="text" name="area1d" size="15" placeholder="Arabic Serving Area">
                     <input type="text" name="area2d" size="15" placeholder="English Serving Area"></br>
-                    <input type="text" name="cnoted"  placeholder="Cell Note">
+                    <input type="text" name="cnoted" size="90" placeholder="Cell Note">
 
                 </div>
 
@@ -876,7 +901,7 @@ if (!oci_execute($insert_stmt)) {
                     <input type="text" name="etiltv" size="5" placeholder="E_TILT">
                     <input type="text" name="area1v" size="15" placeholder="Arabic Serving Area">
                     <input type="text" name="area2v" size="15" placeholder="English Serving Area"></br>
-                    <input type="text" name="cnotev"  placeholder="Cell Note">
+                    <input type="text" name="cnotev" size="90" placeholder="Cell Note">
                     </br></br>
                 </div>
                 <div>
@@ -888,7 +913,7 @@ if (!oci_execute($insert_stmt)) {
                     <input type="text" name="etiltu" size="5" placeholder="E_TILT">
                     <input type="text" name="area1u" size="15" placeholder="Arabic Serving Area">
                     <input type="text" name="area2u" size="15" placeholder="English Serving Area"></br>
-                    <input type="text" name="cnoteu" placeholder="Cell Note">
+                    <input type="text" name="cnoteu" size="90" placeholder="Cell Note">
                     </br></br>
                 </div>
                 <div>
@@ -899,7 +924,7 @@ if (!oci_execute($insert_stmt)) {
                     <input type="text" name="etilte" size="5" placeholder="E_TILT">
                     <input type="text" name="area1e" size="15" placeholder="Arabic Serving Area">
                     <input type="text" name="area2e" size="15" placeholder="English Serving Area"></br>
-                    <input type="text" name="cnotee" placeholder="Cell Note">
+                    <input type="text" name="cnotee" size="90" placeholder="Cell Note">
                     </br></br>
                 </div>
 
@@ -922,6 +947,12 @@ if (!oci_execute($insert_stmt)) {
 
                     <input type="submit" name="submit" value="Next">
                 </div>
+                <div class="submit1">
+                    <input type="submit" name="submit" value="done"
+                        onclick="if(window.confirm('Are you sure to add 2G Site Only?')) { window.close(); }"> Done
+                    </button>
+                </div>
+
                 <div style="clear:both;"></div>
 
 

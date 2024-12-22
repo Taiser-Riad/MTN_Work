@@ -112,7 +112,8 @@ if(isset($_POST['submit'])){
    // }
     
    if (oci_execute($resultt)) {  
-    echo "Data Updated Successfully";
+    //echo "Data Updated Successfully";
+    header("Location:Update_thankyou.html");
  } 
    else { 
     $e = oci_error($resultt); echo "Error Updating Data: " . htmlentities($e['message']);
@@ -127,176 +128,218 @@ if(isset($_POST['submit'])){
 <!DOCTYPE html>
 <html lang="en">
 <html>
+
 <head>
-<meta charset="UTF-8">
-<link rel="stylesheet" href= "fontawesome-free-6.5.2-web\css\all.min.css">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title> Update Site Info page </title>
-<style>
-.footer
-{
-    background: #1c355c;
-    font-size: 17px;
-    margin-top:10px;
-    color: white;
-    width: 99%;
-    padding-left:10px;
-    padding-bottom:10px;
-    padding-top:30px;
- 
- 
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="fontawesome-free-6.5.2-web\css\all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Update Site Info page </title>
 
-}
-
-
-
-
-.submit{
-    width: 30%;
-    float:right;
-    
-    display: flex;
- 
- 
-}
-
-.submit input {
-    
-   width: 70%;
-   Height: 35px;
-   font-size: 17px;
-   font-weight: bold;
-   margin:10px;
-   border-radius: 10px;
-text-align:center;
-  border:none;
-   color:#1c355c;
-
-}
+    <script>
+    function confirmupdate() {
+        const confirmed = confirm("Are you sure you want to update?");
+        return confirmed;
+    }
+    </script>
+    <style>
+    .footer {
+        background: #1c355c;
+        font-size: 17px;
+        margin-top: 10px;
+        color: white;
+        width: 99%;
+        padding-left: 10px;
+        padding-bottom: 10px;
+        padding-top: 30px;
 
 
-body
-{
-min-height: 100vh;
-display: flex;
-align-items: center;
-justify-content: center;
-background: goldenrod;
+
+    }
 
 
-}
-
-.container
-{
-    /*position: relative;*/
-
-width: 60%;
-background: whitesmoke;
-padding-top:0;
-margin-top:0px;
-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-
-border:2px solid gray;
-color: #1c355c;
-border-radius:5px;
-
-}
-h1{
-    text-align: center;
-    width: 100%;
-    height: 100px;
-    margin-top:0;
-    color: white;
-    margin-bottom:0px;
-    
-    
-}
 
 
-.header {
-    
-    width: 100%;
-    background: #1c355c;
-    color: white;
-    text-align: center;
-    
-    
-}
+    .submit {
+        width: 20%;
 
-.form1{
-    margin-top: 15px;
-    width: 80%;
-    padding: 40px;
-   
-}
-input {
-    background-color:#e1e6ed;
-    border:0.5px solid #e1e6ed;
-}
-select {
-    background-color:#e1e6ed;
-    border:0.5px solid #e1e6ed;
-}
-input[type=text]:focus{
-    border:0.8px solid #e1e6ed;
-}
-input[type=select]:focus{
-    border:0.8px solid #e1e6ed;
+        float: right;
+        display: flex;
 
-}
 
-</style>
+    }
+
+    .submit1 {
+        width: 20%;
+
+        float: left;
+        display: flex;
+
+
+    }
+
+    .submit input {
+
+        width: 70%;
+        Height: 35px;
+        font-size: 17px;
+        font-weight: bold;
+        margin: 10px;
+        border-radius: 10px;
+        text-align: center;
+        border: none;
+        color: #1c355c;
+
+    }
+
+    .submit2 {
+
+        width: 70%;
+        Height: 35px;
+        font-size: 17px;
+        font-weight: bold;
+        margin: 10px;
+        border-radius: 10px;
+        text-align: center;
+        border: none;
+        color: #1c355c;
+
+    }
+
+    body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: goldenrod;
+
+
+    }
+
+    .container {
+        /*position: relative;*/
+
+        width: 65%;
+        background: whitesmoke;
+        padding-top: 0;
+        margin-top: 0px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+
+        border: 2px solid gray;
+        color: #1c355c;
+        border-radius: 5px;
+
+    }
+
+    h1 {
+        text-align: center;
+        width: 100%;
+        height: 100px;
+        margin-top: 0;
+        color: white;
+        margin-bottom: 0px;
+
+
+    }
+
+
+    .header {
+
+        width: 100%;
+        background: #1c355c;
+        color: white;
+        text-align: center;
+
+
+    }
+
+    .form1 {
+        margin-top: 15px;
+        width: 95%;
+        padding-left: 40px;
+
+    }
+
+    input {
+        background-color: #e1e6ed;
+        border: 0.5px solid #e1e6ed;
+    }
+
+    select {
+        background-color: #e1e6ed;
+        border: 0.5px solid #e1e6ed;
+    }
+
+    input[type=text]:focus {
+        border: 0.8px solid #e1e6ed;
+    }
+
+    input[type=select]:focus {
+        border: 0.8px solid #e1e6ed;
+
+    }
+
+    .field {
+        background-color: #e1e6ed;
+
+    }
+    </style>
 
 
 
 
 </head>
+
 <body>
-<div class="container">
-<div class="header">
+    <div class="container">
+        <div class="header">
             <h1></br>Update Basic Site Informations </h1>
-             Please update basic site informations .</br>
-</br>
+            Please update basic site informations .</br>
+            </br>
         </div>
-<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-<div class="form1">
-<div>
-<input type ="hidden" name ="id" value="<?php echo $siteid; ?>">
-</div>
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST"
+            onsubmit="return confirmupdate();">
+            <div class="form1">
+                <div>
+                    <input type="hidden" name="id" value="<?php echo $siteid; ?>">
+                </div>
 
-<div>
-    <label for="code">Site Code:</label>
-    <input type ="text" name="sitecode" size="7" id="code" value="<?php echo $row['SITE_CODE'] ?>"></br></br>
+                <div>
+                    <label for="code">Site Code:</label>
+                    <input type="text" name="sitecode" size="7" id="code"
+                        value="<?php echo $row['SITE_CODE'] ?>"></br></br>
 
-</div>
+                </div>
 
-<div>
-    <label for="name">Site Name:</label>
-    <input type ="text" name="sitename" size="33" id="name" value="<?php echo $row['SITE_NAME'] ?>"></br></br>
-</div>
-<div>
-    <label for="name">Zone:</label>
-    <input type ="text" name="Zone" size="33" id="name" value="<?php echo $row['ZONE'] ?>"></br></br>
-</div>
-<div>
-    <label for="name">Province:</label>
-    <input type ="text" name="province" size="33" id="name" value="<?php echo $row['PROVINCE'] ?>"></br></br>
-</div>
+                <div>
+                    <label for="name">Site Name:</label>
+                    <input type="text" name="sitename" size="33" id="name"
+                        value="<?php echo $row['SITE_NAME'] ?>"></br></br>
+                </div>
+                <div>
+                    <label for="name">Zone:</label>
+                    <input type="text" name="Zone" size="33" id="name" value="<?php echo $row['ZONE'] ?>"></br></br>
+                </div>
+                <div>
+                    <label for="name">Province:</label>
+                    <input type="text" name="province" size="33" id="name"
+                        value="<?php echo $row['PROVINCE'] ?>"></br></br>
+                </div>
 
 
 
-<?php 
+                <?php 
 $checked = [];
 $checked[0] = (isset($row['CR']) && $row['CR'] == "City") ? 'checked' : '';
 $checked[1] = isset($row['CR']) && $row['CR'] == "Rural" ? 'checked' : '';
 
 ?>
 
-<div>
-    <input type ="radio" id= "city"  name="C/R" value="City"  checked="<?php echo $checked[0];?>">City
-    <input type ="radio" id= "rural" name="C/R" value="Rural" checked="<?php echo $checked[1]; ?>" >Rural</br></br>
-</div>
-<?php 
+                <div>
+                    <input type="radio" id="city" name="C/R" value="City" checked="<?php echo $checked[0];?>">City
+                    <input type="radio" id="rural" name="C/R" value="Rural"
+                        checked="<?php echo $checked[1]; ?>">Rural</br></br>
+                </div>
+                <?php 
 $checked1 = [];
 $checked1[0] =    (isset($row['SUPPLIER'])    && $row['SUPPLIER'] == "Ericsson") ? 'checked' : '';
 $checked1[1] =     isset($row['SUPPLIER'])    && $row['SUPPLIER'] ==  "Huawei"   ? 'checked' : '';
@@ -304,126 +347,170 @@ $checked1[1] =     isset($row['SUPPLIER'])    && $row['SUPPLIER'] ==  "Huawei"  
 ?>
 
 
-<div>
+                <div>
 
-    <input type ="radio" id= "erc" name="supplier" value="Ericsson" checked="<?php echo $checked1[0] ;?>">Ericsson
-    <input type ="radio" id= "hu" name="supplier"  value="Huawei"   checked="<?php echo $checked1[1]; ?>">Huawei</br></br>
-</div>
-<div>
-    <label for="power">Power Backup:</label>
-    <input type ="text" name="powerbackup" size="50" id="power" value="<?php echo $row['POWER_BACKUP'] ?>"></br></br>
-</div>
-<div>
-    <label for="air date">On Air Date:</label>
-    <input type ="text" name="onairdate" size="15" id="air date" value="<?php echo $row['SITE_ON_AIR_DATE'] ?>"></br></br>
-</div>
-<div>
-    <label for="coorE">Coordinates E:</label>
-    <input type ="text" name="coordinatesE" size="10" id="coorE" value="<?php echo $row['COORDINATES_E'] ?>"></br></br>
-</div>
-<div>
-    <label for="coorN">Coordinates N:</label>
-    <input type ="text" name="coordinatesN" size="10" id="coorN" value="<?php echo $row['COORDINATES_N'] ?>"></br></br>
-</div>
-<div>
-    <label for="Att">Alttitude:</label>
-    <input type ="text" name="alttitude" size="4" id="Att" value="<?php echo $row['ALTTITUDE'] ?>"></br></br>
-</div>
-<div>
-    <label for="address">Site Address:</label>
-    <input type ="text" name="address" size="60" id="address" value="<?php echo $row['SITE_ADDRESS'] ?>"></br></br>
-</div>
-<div>
-    <label for="arname">Arabic Name:</label>
-    <span lang="Ar"><input type ="text" name="arabicname" size="60" id="arname" value="<?php echo $row['ARABIC_NAME'] ?>"></span></br></br>
-</div>
-<div>
-    <label for="admin">Adminstrative Area:</label>
-    <input type ="text" name="adminarea" size="60" id="admin" value="<?php echo $row['ADMINSTRITAVE_AREA'] ?>"></br></br>
-</div>
-<div>
-    <label for="node">TX Node:</label>
-    <input type ="text" name="txnode" size="3" id="node" value="<?php echo $row['NODE_CATEGORY'] ?>"></br></br>
-</div>
+                    <input type="radio" id="erc" name="supplier" value="Ericsson"
+                        checked="<?php echo $checked1[0] ;?>">Ericsson
+                    <input type="radio" id="hu" name="supplier" value="Huawei"
+                        checked="<?php echo $checked1[1]; ?>">Huawei</br></br>
+                </div>
+                <div>
+                    <label for="power">Power Backup:</label>
+                    <input type="text" name="powerbackup" size="50" id="power"
+                        value="<?php echo $row['POWER_BACKUP'] ?>"></br></br>
+                </div>
+                <div>
+                    <label for="air date">On Air Date:</label>
+                    <input type="text" name="onairdate" size="15" id="air date"
+                        value="<?php echo $row['SITE_ON_AIR_DATE'] ?>"></br></br>
+                </div>
+                <div>
+                    <label for="coorE">Coordinates E:</label>
+                    <input type="text" name="coordinatesE" size="10" id="coorE"
+                        value="<?php echo $row['COORDINATES_E'] ?>"></br></br>
+                </div>
+                <div>
+                    <label for="coorN">Coordinates N:</label>
+                    <input type="text" name="coordinatesN" size="10" id="coorN"
+                        value="<?php echo $row['COORDINATES_N'] ?>"></br></br>
+                </div>
+                <div>
+                    <label for="Att">Alttitude:</label>
+                    <input type="text" name="alttitude" size="4" id="Att"
+                        value="<?php echo $row['ALTTITUDE'] ?>"></br></br>
+                </div>
+                <div>
+                    <label for="address">Site Address:</label>
+                    <input type="text" name="address" size="60" id="address"
+                        value="<?php echo $row['SITE_ADDRESS'] ?>"></br></br>
+                </div>
+                <div>
+                    <label for="arname">Arabic Name:</label>
+                    <span lang="Ar"><input type="text" name="arabicname" size="60" id="arname"
+                            value="<?php echo $row['ARABIC_NAME'] ?>"></span></br></br>
+                </div>
+                <div>
+                    <label for="admin">Adminstrative Area:</label>
+                    <input type="text" name="adminarea" size="60" id="admin"
+                        value="<?php echo $row['ADMINSTRITAVE_AREA'] ?>"></br></br>
+                </div>
+                <div>
+                    <label for="node">TX Node:</label>
+                    <input type="text" name="txnode" size="3" id="node"
+                        value="<?php echo $row['NODE_CATEGORY'] ?>"></br></br>
+                </div>
 
-<div>
-    Node Category:   <select name="category">    
-        <option value="Empty">--</option>  
-        <option value="Normal" <?php if($row['NODE_CATEGORY'] == "Normal") echo 'Selected' ;?>>Normal</option>
-        <option value="Golden" <?php if($row['NODE_CATEGORY'] == "Golden") echo 'Selected' ;?>>Golden</option>
-        <option value="Silver" <?php if($row['NODE_CATEGORY'] == "Silver") echo 'Selected' ;?>>Silver</option>
-        <option value="Tail"   <?php if($row['NODE_CATEGORY'] == "Tail")   echo 'Selected' ;?>>Tail</option>
-    </select>
-    </br></br>
-</div>
+                <div>
+                    Node Category: <select name="category">
+                        <option value="Empty">--</option>
+                        <option value="Normal" <?php if($row['NODE_CATEGORY'] == "Normal") echo 'Selected' ;?>>Normal
+                        </option>
+                        <option value="Golden" <?php if($row['NODE_CATEGORY'] == "Golden") echo 'Selected' ;?>>Golden
+                        </option>
+                        <option value="Silver" <?php if($row['NODE_CATEGORY'] == "Silver") echo 'Selected' ;?>>Silver
+                        </option>
+                        <option value="Tail" <?php if($row['NODE_CATEGORY'] == "Tail")   echo 'Selected' ;?>>Tail
+                        </option>
+                    </select>
+                    </br></br>
+                </div>
 
-<div>
-    Technical Priority:   <select name="priority">    
-        <option value="Empty">--</option>  
-        <option value="Priority 1" <?php if($row['TECHNICAL_PRIORITY'] == "Priority 1") echo 'Selected' ;?>>Priority1</option>
-        <option value="Priority 2" <?php if($row['TECHNICAL_PRIORITY'] == "Priority 2") echo 'Selected' ;?>>Priority2</option>
-        <option value="Priority 3" <?php if($row['TECHNICAL_PRIORITY'] == "Priority 3") echo 'Selected' ;?>>Priority3</option>
-        <option value="Priority 4" <?php if($row['TECHNICAL_PRIORITY'] == "Priority 4") echo 'Selected' ;?>>Priority4</option>
-    </select>
-    </br></br>
-</div>
+                <div>
+                    Technical Priority: <select name="priority">
+                        <option value="Empty">--</option>
+                        <option value="Priority 1"
+                            <?php if($row['TECHNICAL_PRIORITY'] == "Priority 1") echo 'Selected' ;?>>Priority1</option>
+                        <option value="Priority 2"
+                            <?php if($row['TECHNICAL_PRIORITY'] == "Priority 2") echo 'Selected' ;?>>Priority2</option>
+                        <option value="Priority 3"
+                            <?php if($row['TECHNICAL_PRIORITY'] == "Priority 3") echo 'Selected' ;?>>Priority3</option>
+                        <option value="Priority 4"
+                            <?php if($row['TECHNICAL_PRIORITY'] == "Priority 4") echo 'Selected' ;?>>Priority4</option>
+                    </select>
+                    </br></br>
+                </div>
 
-    <div>
-    Subcontractor:   <select name="sub"> 
-        <option value="Empty">--</option>  
-        <option value="Brj"   <?php if($row['SUBCONTRACTOR'] ==  "Brj")  echo 'Selected' ;?>>Brj</option>
-        <option value="Wetel" <?php if($row['SUBCONTRACTOR'] == "Wetel") echo 'Selected' ;?>>Wetel</option>
-        <option value="others">Others</option>
-    </select>
-    </br></br>
-</div>
-<div>
-Invoice Topology:   <select name="invoice">    
-        <option value="Empty">--</option>  
-        <option value="Tower / Generator / Solar and or TX Repeater" <?php if($row['INVOICE_TOYOLOGY'] == "Tower / Generator / Solar and or TX Repeater") echo 'Selected' ;?>>Tower / Generator / Solar and or TX Repeater</option>
-        <option value="PTS Shelter / Indoor shelter and or TX node"  <?php if($row['INVOICE_TOYOLOGY'] == "PTS Shelter / Indoor shelter and or TX node")  echo 'Selected' ;?>>PTS Shelter / Indoor shelter and or TX node</option>
-        <option value="Other"                                        <?php if($row['INVOICE_TOYOLOGY'] == "Other")                                        echo 'Selected' ;?>>Others</option>
-    </select>
-    </br></br>
-</div>
-<div>
-    Site Ranking:   <select name="sranking">  
-        <option value="Empty">--</option>  
-        <option value="Priority 1"         <?php if($row['SITE_RANKING'] == "Priority 1")         echo 'Selected' ;?>>Priority1</option>
-        <option value="Priority 1-Tourism" <?php if($row['SITE_RANKING'] == "Priority 1-Tourism") echo 'Selected' ;?>>Priority1-Tourism</option>
-        <option value="Priority 2"         <?php if($row['SITE_RANKING'] == "Priority 2")         echo 'Selected' ;?>>Priority2</option>
-        <option value="Priority 2-Tourism" <?php if($row['SITE_RANKING'] == "Priority 2-Tourism") echo 'Selected' ;?>>Priority2-Tourism</option>
-        <option value="Priority 3"         <?php if($row['SITE_RANKING'] == "Priority 3")         echo 'Selected' ;?>>Priority3</option>
-        <option value="Priority 3-Tourism" <?php if($row['SITE_RANKING'] == "Priority 3-Tourism") echo 'Selected' ;?>>Priority3-Tourism</option>
-        <option value="Priority 4"         <?php if($row['SITE_RANKING'] == "Priority 4")         echo 'Selected' ;?>>Priority4</option>
-        <option value="Priority 4-Tourism" <?php if($row['SITE_RANKING'] == "Priority 4-Tourism") echo 'Selected' ;?>>Priority4-Tourism</option>
-        <option value="VIP"                <?php if($row['SITE_RANKING'] == "VIP")                 echo 'Selected' ;?>>VIP</option>
-        <option value="VIP-Tourism"        <?php if($row['SITE_RANKING'] == "VIP-Tourism")         echo 'Selected' ;?>>VIP-Tourism</option>
-    </select>
-    </br></br>
-</div>
+                <div>
+                    Subcontractor: <select name="sub">
+                        <option value="Empty">--</option>
+                        <option value="Brj" <?php if($row['SUBCONTRACTOR'] ==  "Brj")  echo 'Selected' ;?>>Brj</option>
+                        <option value="Wetel" <?php if($row['SUBCONTRACTOR'] == "Wetel") echo 'Selected' ;?>>Wetel
+                        </option>
+                        <option value="others">Others</option>
+                    </select>
+                    </br></br>
+                </div>
+                <div>
+                    Invoice Topology: <select name="invoice">
+                        <option value="Empty">--</option>
+                        <option value="Tower / Generator / Solar and or TX Repeater"
+                            <?php if($row['INVOICE_TOYOLOGY'] == "Tower / Generator / Solar and or TX Repeater") echo 'Selected' ;?>>
+                            Tower / Generator / Solar and or TX Repeater</option>
+                        <option value="PTS Shelter / Indoor shelter and or TX node"
+                            <?php if($row['INVOICE_TOYOLOGY'] == "PTS Shelter / Indoor shelter and or TX node")  echo 'Selected' ;?>>
+                            PTS Shelter / Indoor shelter and or TX node</option>
+                        <option value="Other"
+                            <?php if($row['INVOICE_TOYOLOGY'] == "Other")                                        echo 'Selected' ;?>>
+                            Others</option>
+                    </select>
+                    </br></br>
+                </div>
+                <div>
+                    Site Ranking: <select name="sranking">
+                        <option value="Empty">--</option>
+                        <option value="Priority 1"
+                            <?php if($row['SITE_RANKING'] == "Priority 1")         echo 'Selected' ;?>>Priority1
+                        </option>
+                        <option value="Priority 1-Tourism"
+                            <?php if($row['SITE_RANKING'] == "Priority 1-Tourism") echo 'Selected' ;?>>Priority1-Tourism
+                        </option>
+                        <option value="Priority 2"
+                            <?php if($row['SITE_RANKING'] == "Priority 2")         echo 'Selected' ;?>>Priority2
+                        </option>
+                        <option value="Priority 2-Tourism"
+                            <?php if($row['SITE_RANKING'] == "Priority 2-Tourism") echo 'Selected' ;?>>Priority2-Tourism
+                        </option>
+                        <option value="Priority 3"
+                            <?php if($row['SITE_RANKING'] == "Priority 3")         echo 'Selected' ;?>>Priority3
+                        </option>
+                        <option value="Priority 3-Tourism"
+                            <?php if($row['SITE_RANKING'] == "Priority 3-Tourism") echo 'Selected' ;?>>Priority3-Tourism
+                        </option>
+                        <option value="Priority 4"
+                            <?php if($row['SITE_RANKING'] == "Priority 4")         echo 'Selected' ;?>>Priority4
+                        </option>
+                        <option value="Priority 4-Tourism"
+                            <?php if($row['SITE_RANKING'] == "Priority 4-Tourism") echo 'Selected' ;?>>Priority4-Tourism
+                        </option>
+                        <option value="VIP" <?php if($row['SITE_RANKING'] == "VIP")                 echo 'Selected' ;?>>
+                            VIP</option>
+                        <option value="VIP-Tourism"
+                            <?php if($row['SITE_RANKING'] == "VIP-Tourism")         echo 'Selected' ;?>>VIP-Tourism
+                        </option>
+                    </select>
+                    </br></br>
+                </div>
 
-</div>
-<div class="footer">
-<div>
-<label>Select Next Page:</br></label></br>
-    <label for="2g"></label>
-    <input type ="radio" id= "2g" name="SiteType" value="2G"> Update 2G Site Info.
-    <label for="3g"></label>
-    <input type ="radio" id= "3g" name="SiteType" value="3G">Update 3G Site Info.
-    <label for="4g"></label>
-    <input type ="radio" id= "4g" name="SiteType" value="4G">Update 4G Site Info.
-    <label for="search"></label>
-    <input type ="radio" id= "search" name="SiteType" value="4G">Go back to Search Page.
-    
-</div>
-<div class="submit">
-    <input type="submit" name="submit" value="Update">
-</div>
-<div style="clear:both;"></div>
-</div>
+            </div>
+            <div class="footer">
 
-</form>
-</div>
+
+                <div class="submit">
+
+                    <input type="submit" name="submit" value="Update">
+                </div>
+                <div class="submit1">
+                    <button class="submit2"
+                        onclick="if(window.confirm('Are you sure to close without update?')) { window.close(); }">
+                        Discard </button>
+                </div>
+                <div style="clear:both;"></div>
+
+
+            </div>
+
+        </form>
+    </div>
 </body>
+
 </html>

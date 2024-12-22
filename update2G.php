@@ -1,5 +1,6 @@
 <?php 
 include "config.php";
+header('Content-Type: text/html; charset=UTF-8');
 ?>
 <?php
 if(isset($_GET['id2']))
@@ -392,18 +393,31 @@ oci_bind_by_name($result1, ':aarea', $aarea);
 oci_bind_by_name($result1, ':earea', $earea);
 oci_bind_by_name($result1, ':sid', $sid);
 
-$message = '';
-
 if (oci_execute($result1)) {
-    header("Location: thankyou.php");
-    exit();
-
+ //echo "Data Updated Successfully";
+ //header("Refresh:0");
+ header("Location:Update_thankyou.html");
+ exit();
 } else {
  $e = oci_error($result1);
  echo "Error Updating Data: " . htmlentities($e['message']);
 }
+
+
     }
+
+
  }
+
+
+
+
+
+    
+   
+    
+   
+
 
 }
 ?>
@@ -418,142 +432,153 @@ if (oci_execute($result1)) {
 
 
     <title> Update 2G Site Info page </title>
+    <script>
+    function confirmupdate() {
+        const confirmed = confirm("Are you sure you want to update?");
+        return confirmed;
+    }
+    </script>
     <style>
-        .footer {
-            background: #1c355c;
-            font-size: 17px;
-            margin-top: 10px;
-            color: white;
-            width: 99%;
-            padding-left: 10px;
-            padding-bottom: 10px;
-            padding-top: 30px;
+    .footer {
+        background: #1c355c;
+        font-size: 17px;
+        margin-top: 10px;
+        color: white;
+        width: 99%;
+        padding-left: 10px;
+        padding-bottom: 10px;
+        padding-top: 30px;
 
 
 
-        }
+    }
 
 
 
 
-        .submit {
-            width: 20%;
+    .submit {
+        width: 20%;
 
-            float: right;
-            display: flex;
-
-
-        }
-
-        .submit input {
-
-            width: 70%;
-            Height: 35px;
-            font-size: 17px;
-            font-weight: bold;
-            margin: 10px;
-            border-radius: 10px;
-            text-align: center;
-            border: none;
-            color: #1c355c;
-
-        }
+        float: right;
+        display: flex;
 
 
-        body {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: goldenrod;
+    }
+
+    .submit1 {
+        width: 20%;
+
+        float: left;
+        display: flex;
 
 
-        }
+    }
 
-        .container {
-            /*position: relative;*/
+    .submit input {
 
-            width: 65%;
-            background: whitesmoke;
-            padding-top: 0;
-            margin-top: 0px;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+        width: 70%;
+        Height: 35px;
+        font-size: 17px;
+        font-weight: bold;
+        margin: 10px;
+        border-radius: 10px;
+        text-align: center;
+        border: none;
+        color: #1c355c;
 
-            border: 2px solid gray;
-            color: #1c355c;
-            border-radius: 5px;
+    }
 
-        }
+    .submit2 {
 
-        h1 {
-            text-align: center;
-            width: 100%;
-            height: 100px;
-            margin-top: 0;
-            color: white;
-            margin-bottom: 0px;
+        width: 70%;
+        Height: 35px;
+        font-size: 17px;
+        font-weight: bold;
+        margin: 10px;
+        border-radius: 10px;
+        text-align: center;
+        border: none;
+        color: #1c355c;
 
+    }
 
-        }
-
-
-        .header {
-
-            width: 100%;
-            background: #1c355c;
-            color: white;
-            text-align: center;
+    body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: goldenrod;
 
 
-        }
+    }
 
-        .form1 {
-            margin-top: 15px;
-            width: 95%;
-            padding-left: 40px;
+    .container {
+        /*position: relative;*/
 
-        }
+        width: 65%;
+        background: whitesmoke;
+        padding-top: 0;
+        margin-top: 0px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
 
-        input {
-            background-color: #e1e6ed;
-            border: 0.5px solid #e1e6ed;
-        }
+        border: 2px solid gray;
+        color: #1c355c;
+        border-radius: 5px;
 
-        button {
-            width: 70%;
-            Height: 35px;
-            font-size: 17px;
-            font-weight: bold;
-            margin: 10px;
-            border-radius: 10px;
-            text-align: center;
-            border: none;
-            color: #5c1c1c;
-            
-        }
+    }
 
-        .button:hover {
-            box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
-        }
+    h1 {
+        text-align: center;
+        width: 100%;
+        height: 100px;
+        margin-top: 0;
+        color: white;
+        margin-bottom: 0px;
 
-        select {
-            background-color: #e1e6ed;
-            border: 0.5px solid #e1e6ed;
-        }
 
-        input[type=text]:focus {
-            border: 0.8px solid #e1e6ed;
-        }
+    }
 
-        input[type=select]:focus {
-            border: 0.8px solid #e1e6ed;
 
-        }
+    .header {
 
-        .field {
-            background-color: #e1e6ed;
+        width: 100%;
+        background: #1c355c;
+        color: white;
+        text-align: center;
 
-        }
+
+    }
+
+    .form1 {
+        margin-top: 15px;
+        width: 95%;
+        padding-left: 40px;
+
+    }
+
+    input {
+        background-color: #e1e6ed;
+        border: 0.5px solid #e1e6ed;
+    }
+
+    select {
+        background-color: #e1e6ed;
+        border: 0.5px solid #e1e6ed;
+    }
+
+    input[type=text]:focus {
+        border: 0.8px solid #e1e6ed;
+    }
+
+    input[type=select]:focus {
+        border: 0.8px solid #e1e6ed;
+
+    }
+
+    .field {
+        background-color: #e1e6ed;
+
+    }
     </style>
 
 
@@ -568,7 +593,8 @@ if (oci_execute($result1)) {
             </br>
         </div>
 
-        <form action="<?php echo htmlspecialchars($_SERVER[" PHP_SELF"]); ?>" method="POST">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST"
+            onsubmit="return confirmupdate();">
             <div class="form1">
                 <div>
                     <input type="hidden" name="id" value="<?php echo $siteid; ?>">
@@ -599,11 +625,11 @@ if (oci_execute($result1)) {
                     BTS Type: <select name="BTS">
 
                         <option value="Empty">--</option>
-                        <option value="Macro" <?php if($row['BTS_TYPE']=="Macro" ) echo 'Selected' ;?>>Macro</option>
-                        <option value="Mbts" <?php if($row['BTS_TYPE']=="Mbts" ) echo 'Selected' ;?>>MBTS</option>
-                        <option value="Micro" <?php if($row['BTS_TYPE']=="Micro" ) echo 'Selected' ;?>>Micro</option>
-                        <option value="Grd" <?php if($row['BTS_TYPE']=="Grd" ) echo 'Selected' ;?>>GRD</option>
-                        <option value="Rdu" <?php if($row['BTS_TYPE']=="Rdu" ) echo 'Selected' ;?>>RDU</option>
+                        <option value="Macro" <?php if($row['BTS_TYPE'] == "Macro") echo 'Selected' ;?>>Macro</option>
+                        <option value="Mbts" <?php if($row['BTS_TYPE'] == "Mbts" ) echo 'Selected' ;?>>MBTS</option>
+                        <option value="Micro" <?php if($row['BTS_TYPE'] == "Micro") echo 'Selected' ;?>>Micro</option>
+                        <option value="Grd" <?php if($row['BTS_TYPE'] == "Grd"  ) echo 'Selected' ;?>>GRD</option>
+                        <option value="Rdu" <?php if($row['BTS_TYPE'] == "Rdu"  ) echo 'Selected' ;?>>RDU</option>
 
                     </select></br></br>
                 </div>
@@ -612,13 +638,13 @@ if (oci_execute($result1)) {
                     Site Status: <select name="sitestatus">
 
                         <option value="Empty">--</option>
-                        <option value="On Air" <?php if($row['SITE_STATUS']=="On Air" ) echo 'Selected' ;?>>On Air
+                        <option value="On Air"
+                            <?php if($row['SITE_STATUS'] == "On Air")             echo 'Selected' ;?>>On Air </option>
+                        <option value="On Air (Stopped)"
+                            <?php if($row['SITE_STATUS'] == "On Air (Stopped)")   echo 'Selected' ;?>>On Air (Stopped)
                         </option>
-                        <option value="On Air (Stopped)" <?php if($row['SITE_STATUS']=="On Air (Stopped)" )
-                            echo 'Selected' ;?>>On Air (Stopped)
-                        </option>
-                        <option value="On Air (Stopped_2)" <?php if($row['SITE_STATUS']=="On Air (Stopped_2)" )
-                            echo 'Selected' ;?>>On Air (Stopped_2)
+                        <option value="On Air (Stopped_2)"
+                            <?php if($row['SITE_STATUS'] == "On Air (Stopped_2)") echo 'Selected' ;?>>On Air (Stopped_2)
                         </option>
                     </select>
                     </br></br>
@@ -628,75 +654,75 @@ if (oci_execute($result1)) {
                     900 GSM RBS Type:
                     <select name="900Rbs">
                         <option value="">--</option>
-                        <option value="BTS3900" <?php if($row['NINTY_GSM_RBS_TYPE']=="BTS3900" ) echo 'Selected' ;?>
-                            >BTS3900</option>
-                        <option value="DBS3900" <?php if($row['NINTY_GSM_RBS_TYPE']=="DBS3900" ) echo 'Selected' ;?>
-                            >DBS3900</option>
-                        <option value="DBS5900" <?php if($row['NINTY_GSM_RBS_TYPE']=="DBS5900" ) echo 'Selected' ;?>
-                            >DBS5900</option>
-                        <option value="BTS3900A" <?php if($row['NINTY_GSM_RBS_TYPE']=="BTS3900A" ) echo 'Selected' ;?>
-                            >BTS3900A</option>
-                        <option value="BTS3900L" <?php if($row['NINTY_GSM_RBS_TYPE']=="BTS3900L" ) echo 'Selected' ;?>
-                            >BTS3900L</option>
-                        <option value="6130" <?php if($row['NINTY_GSM_RBS_TYPE']=="6130" ) echo 'Selected' ;?>>
+                        <option value="BTS3900"
+                            <?php if($row['NINTY_GSM_RBS_TYPE'] == "BTS3900")     echo 'Selected' ;?>>BTS3900</option>
+                        <option value="DBS3900"
+                            <?php if($row['NINTY_GSM_RBS_TYPE'] == "DBS3900")     echo 'Selected' ;?>>DBS3900</option>
+                        <option value="DBS5900"
+                            <?php if($row['NINTY_GSM_RBS_TYPE'] == "DBS5900")     echo 'Selected' ;?>>DBS5900</option>
+                        <option value="BTS3900A"
+                            <?php if($row['NINTY_GSM_RBS_TYPE'] == "BTS3900A")    echo 'Selected' ;?>>BTS3900A</option>
+                        <option value="BTS3900L"
+                            <?php if($row['NINTY_GSM_RBS_TYPE'] == "BTS3900L")    echo 'Selected' ;?>>BTS3900L</option>
+                        <option value="6130" <?php if($row['NINTY_GSM_RBS_TYPE'] == "6130")        echo 'Selected' ;?>>
                             6130</option>
-                        <option value="6102" <?php if($row['NINTY_GSM_RBS_TYPE']=="6102" ) echo 'Selected' ;?>>
+                        <option value="6102" <?php if($row['NINTY_GSM_RBS_TYPE'] == "6102")        echo 'Selected' ;?>>
                             6102</option>
-                        <option value="6102/RRUS" <?php if($row['NINTY_GSM_RBS_TYPE']=="6102/RRUS" ) echo 'Selected' ;?>
-                            >6102/RRUS</option>
-                        <option value="6102/RUS" <?php if($row['NINTY_GSM_RBS_TYPE']=="6102/RUS" ) echo 'Selected' ;?>
-                            >6102/RUS</option>
-                        <option value="6102_V2" <?php if($row['NINTY_GSM_RBS_TYPE']=="6102_V2" ) echo 'Selected' ;?>
-                            >6102_V2</option>
-                        <option value="6102/RUG" <?php if($row['NINTY_GSM_RBS_TYPE']=="6102/RUG" ) echo 'Selected' ;?>
-                            >6102/RUG</option>
-                        <option value="6102\RRUS" <?php if($row['NINTY_GSM_RBS_TYPE']=="6102\RRUS" ) echo 'Selected' ;?>
-                            >6102\RRUS</option>
-                        <option value="6102W" <?php if($row['NINTY_GSM_RBS_TYPE']=="6102W" ) echo 'Selected' ;?>>
+                        <option value="6102/RRUS"
+                            <?php if($row['NINTY_GSM_RBS_TYPE'] == "6102/RRUS")   echo 'Selected' ;?>>6102/RRUS</option>
+                        <option value="6102/RUS"
+                            <?php if($row['NINTY_GSM_RBS_TYPE'] == "6102/RUS")    echo 'Selected' ;?>>6102/RUS</option>
+                        <option value="6102_V2"
+                            <?php if($row['NINTY_GSM_RBS_TYPE'] == "6102_V2")     echo 'Selected' ;?>>6102_V2</option>
+                        <option value="6102/RUG"
+                            <?php if($row['NINTY_GSM_RBS_TYPE'] == "6102/RUG")    echo 'Selected' ;?>>6102/RUG</option>
+                        <option value="6102\RRUS"
+                            <?php if($row['NINTY_GSM_RBS_TYPE'] == "6102\RRUS")   echo 'Selected' ;?>>6102\RRUS</option>
+                        <option value="6102W" <?php if($row['NINTY_GSM_RBS_TYPE'] == "6102W")       echo 'Selected' ;?>>
                             6102W</option>
-                        <option value="2206" <?php if($row['NINTY_GSM_RBS_TYPE']=="2206" ) echo 'Selected' ;?>>
+                        <option value="2206" <?php if($row['NINTY_GSM_RBS_TYPE'] == "2206")        echo 'Selected' ;?>>
                             2206</option>
-                        <option value="2206_V1" <?php if($row['NINTY_GSM_RBS_TYPE']=="2206_V1" ) echo 'Selected' ;?>
-                            >2206_V1</option>
-                        <option value="2206_V2" <?php if($row['NINTY_GSM_RBS_TYPE']=="2206_V2" ) echo 'Selected' ;?>
-                            >2206_V2</option>
-                        <option value="2216" <?php if($row['NINTY_GSM_RBS_TYPE']=="2216" ) echo 'Selected' ;?>>
+                        <option value="2206_V1"
+                            <?php if($row['NINTY_GSM_RBS_TYPE'] == "2206_V1")     echo 'Selected' ;?>>2206_V1</option>
+                        <option value="2206_V2"
+                            <?php if($row['NINTY_GSM_RBS_TYPE'] == "2206_V2")     echo 'Selected' ;?>>2206_V2</option>
+                        <option value="2216" <?php if($row['NINTY_GSM_RBS_TYPE'] == "2216")        echo 'Selected' ;?>>
                             2216</option>
-                        <option value="2216_V2" <?php if($row['NINTY_GSM_RBS_TYPE']=="2216_V2" ) echo 'Selected' ;?>
-                            >2216_V2</option>
-                        <option value="6150" <?php if($row['NINTY_GSM_RBS_TYPE']=="6150" ) echo 'Selected' ;?>>
+                        <option value="2216_V2"
+                            <?php if($row['NINTY_GSM_RBS_TYPE'] == "2216_V2")     echo 'Selected' ;?>>2216_V2</option>
+                        <option value="6150" <?php if($row['NINTY_GSM_RBS_TYPE'] == "6150")        echo 'Selected' ;?>>
                             6150</option>
-                        <option value="6150/RUS" <?php if($row['NINTY_GSM_RBS_TYPE']=="6150/RUS" ) echo 'Selected' ;?>
-                            >6150/RUS</option>
-                        <option value="6201" <?php if($row['NINTY_GSM_RBS_TYPE']=="6201" ) echo 'Selected' ;?>>
+                        <option value="6150/RUS"
+                            <?php if($row['NINTY_GSM_RBS_TYPE'] == "6150/RUS")    echo 'Selected' ;?>>6150/RUS</option>
+                        <option value="6201" <?php if($row['NINTY_GSM_RBS_TYPE'] == "6201")        echo 'Selected' ;?>>
                             6201</option>
-                        <option value="6201_V2" <?php if($row['NINTY_GSM_RBS_TYPE']=="6201_V2" ) echo 'Selected' ;?>
-                            >6201_V2</option>
-                        <option value="6201\DUG" <?php if($row['NINTY_GSM_RBS_TYPE']=="6201\DUG" ) echo 'Selected' ;?>
-                            >6201\DUG</option>
-                        <option value="6201/RUS" <?php if($row['NINTY_GSM_RBS_TYPE']=="6201/RUS" ) echo 'Selected' ;?>
-                            >6201/RUS</option>
-                        <option value="6201V2/RUS" <?php if($row['NINTY_GSM_RBS_TYPE']=="6201V2/RUS" ) echo 'Selected'
-                            ;?>>6201V2/RUS
+                        <option value="6201_V2"
+                            <?php if($row['NINTY_GSM_RBS_TYPE'] == "6201_V2")     echo 'Selected' ;?>>6201_V2</option>
+                        <option value="6201\DUG"
+                            <?php if($row['NINTY_GSM_RBS_TYPE'] == "6201\DUG")    echo 'Selected' ;?>>6201\DUG</option>
+                        <option value="6201/RUS"
+                            <?php if($row['NINTY_GSM_RBS_TYPE'] == "6201/RUS")    echo 'Selected' ;?>>6201/RUS</option>
+                        <option value="6201V2/RUS"
+                            <?php if($row['NINTY_GSM_RBS_TYPE'] == "6201V2/RUS")  echo 'Selected' ;?>>6201V2/RUS
                         </option>
-                        <option value="6301" <?php if($row['NINTY_GSM_RBS_TYPE']=="6301" ) echo 'Selected' ;?>>
+                        <option value="6301" <?php if($row['NINTY_GSM_RBS_TYPE'] == "6301")        echo 'Selected' ;?>>
                             6301</option>
-                        <option value="6301/RRUS" <?php if($row['NINTY_GSM_RBS_TYPE']=="6301/RRUS" ) echo 'Selected' ;?>
-                            >6301/RRUS</option>
-                        <option value="2109" <?php if($row['NINTY_GSM_RBS_TYPE']=="2109" ) echo 'Selected' ;?>>
+                        <option value="6301/RRUS"
+                            <?php if($row['NINTY_GSM_RBS_TYPE'] == "6301/RRUS")   echo 'Selected' ;?>>6301/RRUS</option>
+                        <option value="2109" <?php if($row['NINTY_GSM_RBS_TYPE'] == "2109")        echo 'Selected' ;?>>
                             2109</option>
-                        <option value="2111" <?php if($row['NINTY_GSM_RBS_TYPE']=="2111" ) echo 'Selected' ;?>>
+                        <option value="2111" <?php if($row['NINTY_GSM_RBS_TYPE'] == "2111")        echo 'Selected' ;?>>
                             2111</option>
-                        <option value="2116" <?php if($row['NINTY_GSM_RBS_TYPE']=="2116" ) echo 'Selected' ;?>>
+                        <option value="2116" <?php if($row['NINTY_GSM_RBS_TYPE'] == "2116")        echo 'Selected' ;?>>
                             2116</option>
-                        <option value="2302" <?php if($row['NINTY_GSM_RBS_TYPE']=="2302" ) echo 'Selected' ;?>>
+                        <option value="2302" <?php if($row['NINTY_GSM_RBS_TYPE'] == "2302")        echo 'Selected' ;?>>
                             2302</option>
-                        <option value="2308" <?php if($row['NINTY_GSM_RBS_TYPE']=="2308" ) echo 'Selected' ;?>>
+                        <option value="2308" <?php if($row['NINTY_GSM_RBS_TYPE'] == "2308")        echo 'Selected' ;?>>
                             2308</option>
-                        <option value="6601" <?php if($row['NINTY_GSM_RBS_TYPE']=="6601" ) echo 'Selected' ;?>>
+                        <option value="6601" <?php if($row['NINTY_GSM_RBS_TYPE'] == "6601")        echo 'Selected' ;?>>
                             6601</option>
-                        <option value="6601/RRUS" <?php if($row['NINTY_GSM_RBS_TYPE']=="6601/RRUS" ) echo 'Selected' ;?>
-                            >6601/RRUS</option>
+                        <option value="6601/RRUS"
+                            <?php if($row['NINTY_GSM_RBS_TYPE'] == "6601/RRUS")   echo 'Selected' ;?>>6601/RRUS</option>
 
 
                     </select>
@@ -712,78 +738,78 @@ if (oci_execute($result1)) {
                     <select name="1800Rbs">
 
                         <option value="">--</option>
-                        <option value="BTS3900" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="BTS3900" ) echo 'Selected' ;?>
-                            >BTS3900</option>
-                        <option value="DBS3900" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="DBS3900" ) echo 'Selected' ;?>
-                            >DBS3900</option>
-                        <option value="DBS5900" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="DBS5900" ) echo 'Selected' ;?>
-                            >DBS5900</option>
-                        <option value="BTS3900A" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="BTS3900A" ) echo 'Selected' ;?>
-                            >BTS3900A</option>
-                        <option value="BTS3900L" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="BTS3900L" ) echo 'Selected' ;?>
-                            >BTS3900L</option>
-                        <option value="6130" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="6130" ) echo 'Selected' ;?>>
+                        <option value="BTS3900"
+                            <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "BTS3900")     echo 'Selected' ;?>>BTS3900</option>
+                        <option value="DBS3900"
+                            <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "DBS3900")     echo 'Selected' ;?>>DBS3900</option>
+                        <option value="DBS5900"
+                            <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "DBS5900")     echo 'Selected' ;?>>DBS5900</option>
+                        <option value="BTS3900A"
+                            <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "BTS3900A")    echo 'Selected' ;?>>BTS3900A</option>
+                        <option value="BTS3900L"
+                            <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "BTS3900L")    echo 'Selected' ;?>>BTS3900L</option>
+                        <option value="6130" <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "6130")        echo 'Selected' ;?>>
                             6130</option>
-                        <option value="6102" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="6102" ) echo 'Selected' ;?>>
+                        <option value="6102" <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "6102")        echo 'Selected' ;?>>
                             6102</option>
-                        <option value="6102/RRUS" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="6102/RRUS" ) echo 'Selected'
-                            ;?>>6102/RRUS
+                        <option value="6102/RRUS"
+                            <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "6102/RRUS")   echo 'Selected' ;?>>6102/RRUS
                         </option>
-                        <option value="6102/RUS" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="6102/RUS" ) echo 'Selected' ;?>
-                            >6102/RUS</option>
-                        <option value="6102_V2" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="6102_V2" ) echo 'Selected' ;?>
-                            >6102_V2</option>
-                        <option value="6102/RUG" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="6102/RUG" ) echo 'Selected' ;?>
-                            >6102/RUG</option>
-                        <option value="6102\RRUS" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="6102\RRUS" ) echo 'Selected'
-                            ;?>>6102\RRUS
+                        <option value="6102/RUS"
+                            <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "6102/RUS")    echo 'Selected' ;?>>6102/RUS</option>
+                        <option value="6102_V2"
+                            <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "6102_V2")     echo 'Selected' ;?>>6102_V2</option>
+                        <option value="6102/RUG"
+                            <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "6102/RUG")    echo 'Selected' ;?>>6102/RUG</option>
+                        <option value="6102\RRUS"
+                            <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "6102\RRUS")   echo 'Selected' ;?>>6102\RRUS
                         </option>
-                        <option value="6102W" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="6102W" ) echo 'Selected' ;?>>6102W
-                        </option>
-                        <option value="2206" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="2206" ) echo 'Selected' ;?>>
+                        <option value="6102W"
+                            <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "6102W")       echo 'Selected' ;?>>6102W</option>
+                        <option value="2206" <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "2206")        echo 'Selected' ;?>>
                             2206</option>
-                        <option value="2206_V1" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="2206_V1" ) echo 'Selected' ;?>
-                            >2206_V1</option>
-                        <option value="2206_V2" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="2206_V2" ) echo 'Selected' ;?>
-                            >2206_V2</option>
-                        <option value="2216" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="2216" ) echo 'Selected' ;?>>
+                        <option value="2206_V1"
+                            <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "2206_V1")     echo 'Selected' ;?>>2206_V1</option>
+                        <option value="2206_V2"
+                            <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "2206_V2")     echo 'Selected' ;?>>2206_V2</option>
+                        <option value="2216" <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "2216")        echo 'Selected' ;?>>
                             2216</option>
-                        <option value="2216_V2" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="2216_V2" ) echo 'Selected' ;?>
-                            >2216_V2</option>
-                        <option value="6150" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="6150" ) echo 'Selected' ;?>>
+                        <option value="2216_V2"
+                            <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "2216_V2")     echo 'Selected' ;?>>2216_V2</option>
+                        <option value="6150" <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "6150")        echo 'Selected' ;?>>
                             6150</option>
-                        <option value="6150/RUS" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="6150/RUS" ) echo 'Selected' ;?>
-                            >6150/RUS</option>
-                        <option value="6201" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="6201" ) echo 'Selected' ;?>>
+                        <option value="6150/RUS"
+                            <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "6150/RUS")    echo 'Selected' ;?>>6150/RUS</option>
+                        <option value="6201" <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "6201")        echo 'Selected' ;?>>
                             6201</option>
-                        <option value="6201_V2" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="6201_V2" ) echo 'Selected' ;?>
-                            >6201_V2</option>
-                        <option value="6201\DUG" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="6201\DUG" ) echo 'Selected' ;?>
-                            >6201\DUG</option>
-                        <option value="6201/RUS" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="6201/RUS" ) echo 'Selected' ;?>
-                            >6201/RUS</option>
-                        <option value="6201V2/RUS" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="6201V2/RUS" ) echo 'Selected'
-                            ;?>>6201V2/RUS
+                        <option value="6201_V2"
+                            <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "6201_V2")     echo 'Selected' ;?>>6201_V2</option>
+                        <option value="6201\DUG"
+                            <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "6201\DUG")    echo 'Selected' ;?>>6201\DUG</option>
+                        <option value="6201/RUS"
+                            <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "6201/RUS")    echo 'Selected' ;?>>6201/RUS</option>
+                        <option value="6201V2/RUS"
+                            <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "6201V2/RUS")  echo 'Selected' ;?>>6201V2/RUS
                         </option>
-                        <option value="6301" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="6301" ) echo 'Selected' ;?>>
+                        <option value="6301" <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "6301")        echo 'Selected' ;?>>
                             6301</option>
-                        <option value="6301/RRUS" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="6301/RRUS" ) echo 'Selected'
-                            ;?>>6301/RRUS
+                        <option value="6301/RRUS"
+                            <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "6301/RRUS")   echo 'Selected' ;?>>6301/RRUS
                         </option>
-                        <option value="2109" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="2109" ) echo 'Selected' ;?>>
+                        <option value="2109" <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "2109")        echo 'Selected' ;?>>
                             2109</option>
-                        <option value="2111" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="2111" ) echo 'Selected' ;?>>
+                        <option value="2111" <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "2111")        echo 'Selected' ;?>>
                             2111</option>
-                        <option value="2116" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="2116" ) echo 'Selected' ;?>>
+                        <option value="2116" <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "2116")        echo 'Selected' ;?>>
                             2116</option>
-                        <option value="2302" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="2302" ) echo 'Selected' ;?>>
+                        <option value="2302" <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "2302")        echo 'Selected' ;?>>
                             2302</option>
-                        <option value="2308" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="2308" ) echo 'Selected' ;?>>
+                        <option value="2308" <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "2308")        echo 'Selected' ;?>>
                             2308</option>
-                        <option value="6601" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="6601" ) echo 'Selected' ;?>>
+                        <option value="6601" <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "6601")        echo 'Selected' ;?>>
                             6601</option>
-                        <option value="6601/RRUS" <?php if($row['EIGHTY_GSM_RBS_TYPE']=="6601/RRUS" ) echo 'Selected'
-                            ;?>>6601/RRUS
+                        <option value="6601/RRUS"
+                            <?php if($row['EIGHTY_GSM_RBS_TYPE'] == "6601/RRUS")   echo 'Selected' ;?>>6601/RRUS
                         </option>
 
                     </select>
@@ -860,8 +886,8 @@ while ($row1 = oci_fetch_array($resultt, OCI_ASSOC + OCI_RETURN_NULLS)){
 
 
                     </br>
-                    <input type="checkbox" name="cell[]" value="<?= 'A' ?>" <?php if ( $data['A']) echo 'checked' ; ?>>
-                    <?= 'A' ?>
+                    <input type="checkbox" name="cell[]" value="<?= 'A' ?>"
+                        <?php if ( $data['A']) echo 'checked'; ?>><?= 'A' ?>
 
                     <input type="text" name="cellida" size="4" placeholder="Cell ID"
                         value="<?= $data['A']['CELL_ID']?? '' //echo cell_id and if it is null echo ''?>">
@@ -904,8 +930,8 @@ if ($cellcode_char =='B'){
 
 
                     </br>
-                    <input type="checkbox" name="cell[]" value="<?= 'B' ?>" <?php if ( $data['B']) echo 'checked' ; ?>>
-                    <?= 'B' ?>
+                    <input type="checkbox" name="cell[]" value="<?= 'B' ?>"
+                        <?php if ( $data['B']) echo 'checked'; ?>><?= 'B' ?>
 
                     <input type="text" name="cellidb" size="4" placeholder="Cell ID"
                         value="<?= $data['B']['CELL_ID']?? '' //echo cell_id and if it is null echo ''?>">
@@ -947,8 +973,8 @@ if ($cellcode_char =='C'){
 
 
                     </br>
-                    <input type="checkbox" name="cell[]" value="<?= 'C' ?>" <?php if ( $data['C']) echo 'checked' ; ?>>
-                    <?= 'C' ?>
+                    <input type="checkbox" name="cell[]" value="<?= 'C' ?>"
+                        <?php if ( $data['C']) echo 'checked'; ?>><?= 'C' ?>
 
                     <input type="text" name="cellidc" size="4" placeholder="Cell ID"
                         value="<?= $data['C']['CELL_ID']?? '' //echo cell_id and if it is null echo ''?>">
@@ -990,8 +1016,8 @@ if ($cellcode_char =='D'){
 
 
                     </br>
-                    <input type="checkbox" name="cell[]" value="<?= 'D' ?>" <?php if ( $data['D']) echo 'checked' ; ?>>
-                    <?= 'D' ?>
+                    <input type="checkbox" name="cell[]" value="<?= 'D' ?>"
+                        <?php if ( $data['D']) echo 'checked'; ?>><?= 'D' ?>
 
                     <input type="text" name="cellidd" size="4" placeholder="Cell ID"
                         value="<?= $data['D']['CELL_ID']?? '' //echo cell_id and if it is null echo ''?>">
@@ -1031,11 +1057,11 @@ if ($cellcode_char =='X'){
 
 
                     </br>
-                    <input type="checkbox" name="cell[]" value="<?= 'X'?>" <?php if ( $data['X']) echo 'checked' ; ?>>
-                    <?= 'X' ?>
+                    <input type="checkbox" name="cell[]" value="<?= 'X'?>"
+                        <?php if ( $data['X']) echo 'checked'; ?>><?= 'X' ?>
 
                     <input type="text" name="cellidx" size="4" placeholder="Cell ID"
-                        value="<?= $data['X']['Cell_ID']?? '' //echo cell_id and if it is null echo ''?>">
+                        value="<?= $data['X']['CELL_ID']?? '' //echo cell_id and if it is null echo ''?>">
                     <input type="text" name="cellcodex" size="5" placeholder="Cell Code"
                         value="<?= $data['X']['CELL_CODE']?? 'empty' ?>">
                     <input type="text" name="cellnamex" size="15" placeholder="Cell Name"
@@ -1073,8 +1099,8 @@ if ($cellcode_char =='Y'){
 
 
                     </br>
-                    <input type="checkbox" name="cell[]" value="<?= 'Y' ?>" <?php if ( $data['Y']) echo 'checked' ; ?>>
-                    <?= 'Y' ?>
+                    <input type="checkbox" name="cell[]" value="<?= 'Y' ?>"
+                        <?php if ( $data['Y']) echo 'checked'; ?>><?= 'Y' ?>
 
                     <input type="text" name="cellidy" size="4" placeholder="Cell ID"
                         value="<?= $data['Y']['CELL_ID']?? '' //echo cell_id and if it is null echo ''?>">
@@ -1117,8 +1143,8 @@ if ($cellcode_char =='Z'){
 
 
                     </br>
-                    <input type="checkbox" name="cell[]" value="<?= 'Z' ?>" <?php if ( $data['Z']) echo 'checked' ; ?>>
-                    <?= 'Z' ?>
+                    <input type="checkbox" name="cell[]" value="<?= 'Z' ?>"
+                        <?php if ( $data['Z']) echo 'checked'; ?>><?= 'Z' ?>
 
                     <input type="text" name="cellidz" size="4" placeholder="Cell ID"
                         value="<?= $data['Z']['Cell_ID']?? '' //echo cell_id and if it is null echo ''?>">
@@ -1160,8 +1186,8 @@ if ($cellcode_char =='W'){
 
 
                     </br>
-                    <input type="checkbox" name="cell[]" value="<?= 'w' ?>" <?php if ( $data['W']) echo 'checked' ; ?>>
-                    <?= 'W' ?>
+                    <input type="checkbox" name="cell[]" value="<?= 'w' ?>"
+                        <?php if ( $data['W']) echo 'checked'; ?>><?= 'W' ?>
 
                     <input type="text" name="cellidw" size="4" placeholder="Cell ID"
                         value="<?= $data['W']['CELL_ID']?? '' //echo cell_id and if it is null echo ''?>">
@@ -1202,8 +1228,8 @@ if ($cellcode_char =='V'){
 
 
                     </br>
-                    <input type="checkbox" name="cell[]" value="<?= 'v' ?>" <?php if ( $data['V']) echo 'checked' ; ?>>
-                    <?= 'V' ?>
+                    <input type="checkbox" name="cell[]" value="<?= 'v' ?>"
+                        <?php if ( $data['V']) echo 'checked'; ?>><?= 'V' ?>
 
                     <input type="text" name="cellidv" size="4" placeholder="Cell ID"
                         value="<?= $data['V']['Cell_ID']?? '' //echo cell_id and if it is null echo ''?>">
@@ -1244,8 +1270,8 @@ if ($cellcode_char =='E'){
 
 
                     </br>
-                    <input type="checkbox" name="cell[]" value="<?= 'E' ?>" <?php if ( $data['E']) echo 'checked' ; ?>>
-                    <?= 'E' ?>
+                    <input type="checkbox" name="cell[]" value="<?= 'E' ?>"
+                        <?php if ( $data['E']) echo 'checked'; ?>><?= 'E' ?>
 
                     <input type="text" name="cellide" size="4" placeholder="Cell ID"
                         value="<?= $data['E']['CELL_ID']?? '' //echo cell_id and if it is null echo ''?>">
@@ -1288,19 +1314,17 @@ if ($cellcode_char =='E'){
 
 
             </div>
-            <script>
-                function close_window() {
-  if (confirm("Close Window?")) {
-    close();
-  }
-}
-            </script>
             <div class="footer">
+
+
                 <div class="submit">
+
                     <input type="submit" name="submit" value="Update">
                 </div>
-                <div class="submit">
-                    <button type="button" onclick="if(window.confirm('Are you sure?')) { window.close(); }">Discard</button>
+                <div class="submit1">
+                    <button class="submit2"
+                        onclick="if(window.confirm('Are you sure to close without update?')) { window.close(); }">
+                        Discard </button>
                 </div>
                 <div style="clear:both;"></div>
 
