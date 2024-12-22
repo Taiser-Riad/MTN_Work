@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="fontawesome-free-6.5.2-web">
-  <title>Sites Mangment</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <title>Responsive Home Page</title>
   <style>
     body {
       margin: 0;
@@ -13,14 +13,18 @@
     }
     header {
       display: flex;
+      position: sticky; top: 0;
+      display: flex;
       justify-content: space-between;
       align-items: center;
       background: #1c355c;
       color: white;
       padding: 10px 20px;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s, box-shadow 0.3s;
     }
     header .logo {
-       
         font-size: 24px;
         font-weight: bold;
         width:8%;
@@ -35,7 +39,7 @@
       display: flex;
     }
     nav ul li {
-      margin: 0 10px;
+      margin: 0 12px;
     }
     nav ul li a {
       color: white;
@@ -86,7 +90,7 @@
     }
     .features {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 20px;
       background-color:goldenrod;
       color:#1c355c;
@@ -118,8 +122,11 @@
       .menu-toggle {
         display: block;
         cursor: pointer;
+        display: block;
       }
+      
     }
+    a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
@@ -129,13 +136,13 @@
     <div class="menu-toggle" onclick="toggleMenu()">☰</div>
     <nav>
       <ul>
-        <li><a href="#hero">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#features">Features</a></li>
-        <li><a href="#contact">Contact</a></li>
-        <li><a href="Add Site.php" target='_blank'>Add New Site</a></li>
-        <li><a href="Search.php" target='_blank'>Search Date</a></li>
-        <li><a href="#contact" target='_blank'>Import & Export Data</a></li>
+        <li><i class="fa fa-home"></i><a href="#hero"> Home</a></li>
+        <li><i class='far fa-question-circle'></i><a href="#about"> About</a></li>
+        <li><i class='fas fa-braille'></i><a href="#features"> Features</a></li>
+        <li><i class='far fa-comments'></i><a href="#contact"> Contact</a></li>
+        <li><i class="fa fa-plus"></i><a href="Add Site.php"> Add New Site</a></li>
+        <li><i class="fas fa-search"></i><a href="Search.php"> Search Date</a></li>
+        <li><i class="fa fa-file-excel"></i><a href="#contact"> Import & Export Data</a></li>
 
 
       </ul>
@@ -151,44 +158,53 @@
 
   <!-- About Section -->
   <section class="about" id="about">
-    <h2>About Us</h2>
+    <h2><i class='far fa-question-circle'></i> About Us</h2>
     <p>We Are  Quality & Performance Team in Network Department.</p>
     <!-- <img src="https://via.placeholder.com/600x400" alt="About us"> -->
   </section>
 
   <!-- Features Section -->
   <section class="features" id="features">
-    <h2>Our Features</h2>
+    <h2><i class='fas fa-braille'></i> Our Features</h2>
     <div class="feature">
-      <h3>Add New Site</h3>
+      <h3 ><i class="fa fa-plus"></i> Add New Site</h3>
       <p>Now you can add new site with all technologies and cells by easy steps.</p>
     </div>
     <div class="feature">
-      <h3>Search</h3>
+      <h3><i class="fas fa-search"></i> Search</h3>
       <p>You can search about any site you need by using "SITE CODE" and all data will appear.</p>
     </div>
     <div class="feature">
-      <h3>Cancellation of Sites </h3>
+      <h3><i class="fas fa-trash"></i> Cancellation of Sites </h3>
       <p>You can cancell any site or any cell after searching.</p>
+    </div>
+    <div class="feature">
+      <h3><i class="fa fa-file-excel"></i> Import & Export Data</h3>
+      <p>Here you can Import or Export your data sheet from any Excel file with (*CSV, *xlsm).</p>
     </div>
   </section>
 
   <!-- Testimonials Section -->
   <section class="testimonials" id="testimonials">
     <h2>Suggestion and Feedback</h2>
-    <p>We would be delighted to receive your feedback and experiences with the first version of this website in order to enhance the quality of our service </br>Please do not hesitate to contact us via the provided email and phone.</p>
+    <p>We are so glad to receive your feedback and experiences to enhance the quality of our services. </br>Please do not hesitate to contact us via the provided email and phone.</p>
     <p>  <br/>  </p>
   </section>
 
   <!-- Footer -->
   <footer>
-    <p>hwahby@mtn.com.sy  Ext:3369. &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  tkadilo@mtn.com.sy  Ext:3368. </p>
+    <p><i class='far fa-envelope-open'></i>
+      hwahby@mtn.com.sy &nbsp; <i class="fa fa-phone" style="font-size:15px"></i> 3369.
+       &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+       <i class='far fa-envelope-open'></i>
+  
+       tkadilo@mtn.com.sy &nbsp; <i class="fa fa-phone" style="font-size:15px"></i>  3368. </p>
   </footer>
 
   <script>
     function toggleMenu() {
       document.querySelector('nav ul').classList.toggle('active');
     }
-  </script>
+    </script>
 </body>
 </html>
