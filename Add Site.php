@@ -605,12 +605,12 @@ oci_close($conn);
                 <span lang="Ar"><input type="text" name="arabicname" size="60" id="arname" required></span></br></br>
             </div>
             <div>
-                <label for="admin">Adminstrative Area:</label>
-                <input type="text" name="adminarea" size="60" id="admin"></br></br>
+                <label class="required-field" for="admin">Adminstrative Area:</label>
+                <input type="text" name="adminarea" size="60" id="admin" required></br></br>
             </div>
             <div>
-                <label for="node">TX Node:</label>
-                <input type="text" name="txnode" size="3" id="node"></br></br>
+                <label class="required-field" for="node">TX Node:</label>
+                <input type="text" name="txnode" size="3" id="node" required></br></br>
             </div>
 
             <div>

@@ -952,61 +952,133 @@ input[type="radio"].custom:checked + label.custom-label {
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" onsubmit= "return confirmSubmission();">
 <div class="form1">
 <div>
-    <label for="code">Site Code</label>
+    <label class="required-field" for="code">Site Code</label>
     <input type ="text" name="sitecode" size="7" id="code" required></br></br>
 
 </div>
 
 <div>
-    <label for="name">Site Name</label>
+    <label class="required-field" for="name">Site Name</label>
     <input type ="text" name="sitename" size="33" id="name" required></br></br>
 </div>
 
 
 <div>
-    <input type ="radio" id= "city" name="C/R" value="City">City
-    <input type ="radio" id= "rural" name="C/R" value="Rural">Rural</br></br>
-</div>
-<div>
+                    <label class="required-field" >City/Rural</label>
+                    <input  type="radio" id="city" name="C/R" value="City" > City
+                    <input type="radio" id="rural" name="C/R" value="Rural">Rural</br></br>
+                </div>
+                <div>
+                    <label class="required-field">Supplier</label>
+                    <input type="radio" id="erc" name="supplier" value="Ericsson" >Ericsson
+                    <input type="radio" id="hu" name="supplier" value="Huawei">Huawei</br></br>
+                </div>
+                <div>
+                    Power Backup:
+                    <select name="power">
+                        <option value="">--</option>
+                        <option value="2 MTN Generator">2 MTN Generator</option>
+                        <option value="2 MTN Generator + Ampere">2 MTN Generator + Ampere</option>
+                        <option value="2 MTN Generator + Hybrid">2 MTN Generator + Hybrid</option>
+                        <option value="2 MTN Generator + Hybrid (OOS)">2 MTN Generator + Hybrid (OOS)</option>
+                        <option value="2 MTN Generator + Hybrid + Ampere">2 MTN Generator + Hybrid + Ampere</option>
+                        <option value="2 MTN Generator + Hybrid + Non Rationing line">2 MTN Generator + Hybrid + Non Rationing line</option>
+                        <option value="2 MTN Generator + Hybrid + Wind">2 MTN Generator + Hybrid + Wind</option>
+                        <option value="2 MTN Generator + Non Rationing line">2 MTN Generator + Non Rationing line</option>
+                        <option value="Ampere">Ampere</option>
+                        <option value="Ampere + Industrial line">Ampere + Industrial line</option>
+                        <option value="Ampere + Other MTN Gen">Ampere + Other MTN Gen</option>
+                        <option value="Ampere + Hybrid">Ampere + Hybrid</option>
+                        <option value="Batteries">Batteries</option>
+                        <option value="Hybrid">Hybrid</option>
+                        <option value="Hybrid (Installed) + MTN Generator">Hybrid (Installed) + MTN Generator</option>
+                        <option value="Hybrid + Ampere + Non Rationing line">Hybrid + Ampere + Non Rationing line</option>
+                        <option value="Hybrid + Ampere + Other MTN Gen">Hybrid + Ampere + Other MTN Gen</option>
+                        <option value="Hybrid + Industrial line">Hybrid + Industrial line</option>
+                        <option value="Hybrid + Lithium batteries">Hybrid + Lithium batteries</option>
+                        <option value="Hybrid + MTN rented Generator + Ampere">Hybrid + MTN rented Generator + Ampere</option>
+                        <option value="Hybrid + Non Rationing line">Hybrid + Non Rationing line</option>
+                        <option value="Hybrid + Other MTN Gen">Hybrid + Other MTN Gen</option>
+                        <option value="Hybrid + Syriatel Generator">Hybrid + Syriatel Generator</option>
+                        <option value="Industrial line">Industrial line</option>
+                        <option value="Lithium Batteries">Lithium Batteries</option>
+                        <option value="MTN Generator">MTN Generator</option>
+                        <option value="MTN Generator (OOS) + Ampere">MTN Generator (OOS) + Ampere</option>
+                        <option value="MTN Generator (OOS) + Hybrid + Ampere">MTN Generator (OOS) + Hybrid + Ampere</option>
+                        <option value="MTN Generator (OOS) + MTN Rented Generator">MTN Generator (OOS) + MTN Rented Generator</option>
+                        <option value="MTN Generator (OOS)+ Hybrid + Ampere">MTN Generator (OOS)+ Hybrid + Ampere</option>
+                        <option value="MTN Generator + Ampere">MTN Generator + Ampere</option>
+                        <option value="MTN Generator + Ampere + Other MTN Gen">MTN Generator + Ampere + Other MTN Gen</option>
+                        <option value="MTN Generator + Ampere + Syriatel Generator">MTN Generator + Ampere + Syriatel Generator</option>
+                        <option value="MTN Generator + Hybrid">MTN Generator + Hybrid</option>
+                        <option value="MTN Generator + Hybrid (inactive) + Ampere">MTN Generator + Hybrid (inactive) + Ampere</option>
+                        <option value="MTN Generator + Hybrid (OOS) + Ampere">MTN Generator + Hybrid (OOS) + Ampere</option>
+                        <option value="MTN Generator + Hybrid (OOS) +industrial line">MTN Generator + Hybrid (OOS) +industrial line</option>
+                        <option value="MTN Generator + Hybrid + Ampere">MTN Generator + Hybrid + Ampere</option>
+                        <option value="MTN Generator + Hybrid + Golden line">MTN Generator + Hybrid + Golden line</option>
+                        <option value="MTN Generator + Hybrid + Industrial line">MTN Generator + Hybrid + Industrial line</option>
+                        <option value="MTN Generator + Hybrid + Non Rationing line">MTN Generator + Hybrid + Non Rationing line</option>
+                        <option value="MTN Generator + Hybrid + Other Generator">MTN Generator + Hybrid + Other Generator</option>
+                        <option value="MTN Generator + Hybrid + STE generator">MTN Generator + Hybrid + STE generator</option>
+                        <option value="MTN Generator + Hybrid + Syriatel Generator">MTN Generator + Hybrid + Syriatel Generator</option>
+                        <option value="MTN Generator + Hybrid(OOS)">MTN Generator + Hybrid(OOS)</option>
+                        <option value="MTN Generator + Hybrid+ industrial line">MTN Generator + Hybrid+ industrial line</option>
+                        <option value="MTN Generator + Hybrid+ Lithium batteries">MTN Generator + Hybrid+ Lithium batteries</option>
+                        <option value="MTN Generator + Industrial line">MTN Generator + Industrial line</option>
+                        <option value="MTN Generator + Lithium batteries">MTN Generator + Lithium batteries</option>
+                        <option value="MTN Generator + MTN Generator (OOS) + MTN Rented Generator">MTN Generator + MTN Generator (OOS) + MTN Rented Generator</option>
+                        <option value="MTN Generator + Non Rationing line">MTN Generator + Non Rationing line</option>
+                        <option value="MTN Generator + STE Generator">MTN Generator + STE Generator</option>
+                        <option value="MTN Generator + STE Generator + Non Rationing line">MTN Generator + STE Generator + Non Rationing line</option>
+                        <option value="MTN Generator + Syriatel Generator">MTN Generator + Syriatel Generator</option>
+                        <option value="MTN Generator(OOS)+MTN rented Generaor">MTN Generator(OOS)+MTN rented Generaor</option>
+                        <option value="MTN Rented Generator">MTN Rented Generator</option>
+                        <option value="MTN Rented Generator + Ampere">MTN Rented Generator + Ampere</option>
+                        <option value="Non Rationing line">Non Rationing line</option>
+                        <option value="Other Generator">Other Generator</option>
+                        <option value="Other MTN Gen + Ampere">Other MTN Gen + Ampere</option>
+                        <option value="Other MTN Gen + Industrial line">Other MTN Gen + Industrial line</option>
+                        <option value="Other MTN Gen + Non Rationing line">Other MTN Gen + Non Rationing line</option>
+                        <option value="Other MTN Generator">Other MTN Generator</option>
+                        <option value="STE Generator">STE Generator</option>
+                        <option value="Switch Generator">Switch Generator</option>
+                        <option value="Syriatel Generator">Syriatel Generator</option>
+                    </select>
+                </div>
+</br>
+</br>
 
-    <input type ="radio" id= "erc" name="supplier" value="Ericsson">Ericsson
-    <input type ="radio" id= "hu" name="supplier" value="Huawei">Huawei</br></br>
+<div>
+    <label class="required-field" for="air date">On Air Date:</label>
+    <input type ="date" name="onairdate" size="15" id="air date" required></br></br>
 </div>
 <div>
-    <label for="power">Power Backup:</label>
-    <input type ="text" name="powerbackup" size="50" id="power"></br></br>
+    <label class="required-field" for="coorE">Coordinates E:</label>
+    <input type ="text" name="coordinatesE" size="10" id="coorE" required></br></br>
 </div>
 <div>
-    <label for="air date">On Air Date:</label>
-    <input type ="date" name="onairdate" size="15" id="air date"></br></br>
+    <label class="required-field" for="coorN">Coordinates N:</label>
+    <input type ="text" name="coordinatesN" size="10" id="coorN" required></br></br>
 </div>
 <div>
-    <label for="coorE">Coordinates E:</label>
-    <input type ="text" name="coordinatesE" size="10" id="coorE"></br></br>
+    <label class="required-field" for="Att">Alttitude:</label>
+    <input type ="text" name="alttitude" size="4" id="Att" required></br></br>
 </div>
 <div>
-    <label for="coorN">Coordinates N:</label>
-    <input type ="text" name="coordinatesN" size="10" id="coorN"></br></br>
+    <label class="required-field" for="address">Site Address:</label>
+    <input type ="text" name="address" size="60" id="address" required></br></br>
 </div>
 <div>
-    <label for="Att">Alttitude:</label>
-    <input type ="text" name="alttitude" size="4" id="Att"></br></br>
+    <label class="required-field" for="arname">Arabic Name:</label>
+    <span lang="Ar"><input type ="text" name="arabicname" size="60" id="arname" required></span></br></br>
 </div>
 <div>
-    <label for="address">Site Address:</label>
-    <input type ="text" name="address" size="60" id="address"></br></br>
+    <label class="required-field" for="admin">Adminstrative Area:</label>
+    <input type ="text" name="adminarea" size="60" id="admin" required></br></br>
 </div>
 <div>
-    <label for="arname">Arabic Name:</label>
-    <span lang="Ar"><input type ="text" name="arabicname" size="60" id="arname"></span></br></br>
-</div>
-<div>
-    <label for="admin">Adminstrative Area:</label>
-    <input type ="text" name="adminarea" size="60" id="admin"></br></br>
-</div>
-<div>
-    <label for="node">TX Node:</label>
-    <input type ="text" name="txnode" size="3" id="node"></br></br>
+    <label class="required-field" for="node">TX Node:</label>
+    <input type ="text" name="txnode" size="3" id="node" required></br></br>
 </div>
 
 <div>
