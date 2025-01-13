@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="fontawesome-free-6.5.2-web\css\all.min.css">
   <title>Responsive Home Page</title>
   <style>
     body {
@@ -136,13 +136,13 @@
     <div class="menu-toggle" onclick="toggleMenu()">☰</div>
     <nav>
       <ul>
-        <li><i class="fa fa-home"></i><a href="#hero"> Home</a></li>
+        <li><i class="fa fa-home"></i><a href="#hero" > Home</a></li>
         <li><i class='far fa-question-circle'></i><a href="#about"> About</a></li>
         <li><i class='fas fa-braille'></i><a href="#features"> Features</a></li>
         <li><i class='far fa-comments'></i><a href="#contact"> Contact</a></li>
-        <li><i class="fa fa-plus"></i><a href="Add Site.php"> Add New Site</a></li>
-        <li><i class="fas fa-search"></i><a href="Search.php"> Search Date</a></li>
-        <li><i class="fa fa-file-excel"></i><a href="#contact"> Import & Export Data</a></li>
+        <li><i class="fa fa-plus"></i><a href="Add Site.php" target="_blank"> Add New Site</a></li>
+        <li><i class="fas fa-search"></i><a href="Search.php"  target="_blank"> Search Date</a></li>
+        <li><i class="fa fa-file-excel"></i><a href="#contact"  target="_blank"> Import & Export Data</a></li>
 
 
       </ul>
