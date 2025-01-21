@@ -554,6 +554,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
         border: 0.8px solid #e1e6ed;
 
     }
+    .required-field::after {
+        content: " *";
+        color: goldenrod;
+    }
+
+    @media (max-width: 600px) {
+        body {
+            font-size: 14px;
+        }
+    }
+
+    .error {
+        border: 2px solid red;
+    }
     </style>
 
 
@@ -577,7 +591,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                     <input type="hidden" name="sitename" value="<?php echo $row['SITE_NAME']; ?>">
                 </div>
                 <div>
-                    <label for="wbts">WBTS ID:</label>
+                    <label for="wbts" required>WBTS ID:</label>
                     <input type="text" name="wbts" size="5" id="wbts"></br></br>
                 </div>
 
@@ -605,12 +619,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 
 
                 <div>
-                    <label for="air date">3G On Air Date:</label>
+                    <label for="air date" required>3G On Air Date:</label>
                     <input type="date" name="onairdate" size="15" id="air date"></br></br>
                 </div>
 
                 <div>
-                    BTS Type: <select name="bts">
+                    BTS Type: <select name="bts" required>
                         <option value="">--</option>
                         <option value="BTS3900">BTS3900</option>
                         <option value="BTS3900A">BTS3900A</option>
@@ -646,7 +660,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                     </br></br>
                 </div>
                 <div>
-                    <label for="carry">Numbers Of Carries:</label>
+                    <label for="carry" required>Numbers Of Carries:</label>
                     <input type="text" name="numcarriers" size="3" id="carry"></br></br>
                 </div>
 
@@ -655,7 +669,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                     <input type="date" name="restoration" size="15" id="rest"></br></br>
                 </div>
                 <div>
-                    <label for="lac">LAC:</label>
+                    <label for="lac" required>LAC:</label>
                     <input type="text" name="lac" size="4" id="lac"></br></br>
                 </div>
                 <div>

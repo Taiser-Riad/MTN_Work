@@ -537,18 +537,19 @@ if (!oci_execute($insert_stmt)) {
     }
 
     .required-field::after {
-            content: " *";
-            color: goldenrod;
-        }
-        @media (max-width: 600px) {
-            body {
-                font-size: 14px;
-            }
-        }
+        content: " *";
+        color: goldenrod;
+    }
 
-        .error {
-            border: 2px solid red;
+    @media (max-width: 600px) {
+        body {
+            font-size: 14px;
         }
+    }
+
+    .error {
+        border: 2px solid red;
+    }
     </style>
 
 
@@ -587,7 +588,7 @@ if (!oci_execute($insert_stmt)) {
 
 
                 <div>
-                    BTS Type: <select name="BTS">
+                    BTS Type: <select name="BTS" required>
 
                         <option value="Empty">--</option>
                         <option value="macro">Macro</option>
@@ -602,7 +603,7 @@ if (!oci_execute($insert_stmt)) {
                 </div>
 
                 <div>
-                    <label for="air date">2G On Air Date:</label>
+                    <label for="air date" required >2G On Air Date:</label>
                     <input type="date" name="onairdate" size="15" id="air date"></br></br>
                 </div>
                 <div id="content-container">
@@ -802,7 +803,7 @@ if (!oci_execute($insert_stmt)) {
                 </div>
 
 
-                BSC: <select name="BSC">
+                BSC: <select name="BSC" required>
 
                     <?php if(isset($supplier)) {?>
 
@@ -835,7 +836,7 @@ if (!oci_execute($insert_stmt)) {
                 </br></br>
 
                 <div>
-                    <label for="lac">LAC:</label>
+                    <label for="lac" required>LAC:</label>
                     <input type="text" name="lac" size="4" id="lac"></br></br>
                 </div>
                 <div>
@@ -845,7 +846,7 @@ if (!oci_execute($insert_stmt)) {
 
 
                 <div>
-                    <label for="cellid">Site ID:</label>
+                    <label for="cellid" required>Site ID:</label>
                     <input type="text" name="cellid" size="4" id="cellid"></br></br>
                 </div>
 

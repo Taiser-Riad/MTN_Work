@@ -755,27 +755,13 @@ else {
         return confirm("Are you sure you want to cancel without adding site?");
 
     }
-
-
-    function confirmSubmission() {
-        // Check if any radio button is selected
-        const radios = document.querySelectorAll('input[name="SiteType"]');
-        let isChecked = false;
-        radios.forEach(radio => {
-            if (radio.checked) {
-                isChecked = true;
-            }
-        });
-
-        if (!isChecked) {
-            alert('You should select a site type');
-            return false; // Prevent form submission
-        }
-
-        return true; // Allow form submission
-    }
     </script>
     <style>
+    .hidden {
+        display: none;
+        /* Class to hide elements */
+    }
+
     .content-div {
         display: none;
     }
@@ -986,7 +972,7 @@ else {
         border-color: #007BFF;
         border: 2px solid white;
     }
-    
+
     .required-field::after {
         content: " *";
         color: goldenrod;
@@ -1002,7 +988,6 @@ else {
         border: 2px solid red;
     }
     </style>
-
 
 
 
@@ -1173,9 +1158,8 @@ else {
                     <label class="required-field" for="node">TX Node:</label>
                     <input type="text" name="txnode" size="3" id="node" required></br></br>
                 </div>
-
                 <div>
-                    Node Category: <select name="category">
+                    Node Category: <select name="category" required>
                         <option value="Empty">--</option>
                         <option value="Normal">Normal</option>
                         <option value="Golden">Golden</option>
@@ -1186,7 +1170,7 @@ else {
                 </div>
 
                 <div>
-                    Technical Priority: <select name="priority">
+                    Technical Priority: <select name="priority" required>
                         <option value="Empty">--</option>
                         <option value="Priority1">Priority1</option>
                         <option value="Priority2">Priority2</option>
@@ -1197,7 +1181,7 @@ else {
                 </div>
 
                 <div>
-                    Subcontractor: <select name="sub">
+                    Subcontractor: <select name="sub" required>
                         <option value="Empty">--</option>
                         <option value="Brj">Brj</option>
                         <option value="others">Others</option>
@@ -1235,7 +1219,7 @@ else {
 
 
 
-                <input type="radio" id="option1" name="band" value="900">900
+                <input type="radio" id="option1" name="band" value="900" required>900
                 <input type="radio" id="option2" name="band" value="1800">1800
                 <input type="radio" id="option3" name="band" value="900/1800">900/1800</br></br>
 
@@ -1246,7 +1230,7 @@ else {
 
 
                 <div>
-                    BTS Type: <select name="BTS">
+                    BTS Type: <select name="BTS" required>
 
                         <option value="Empty">--</option>
                         <option value="macro">Macro</option>
@@ -1261,7 +1245,7 @@ else {
                 </div>
 
                 <div>
-                    <label for="air date">2G On Air Date:</label>
+                    <label for="air date" required>2G On Air Date:</label>
                     <input type="date" name="onairdate" size="15" id="air date"></br></br>
                 </div>
                 <div id="content-container">
@@ -1461,7 +1445,7 @@ else {
                 </div>
 
 
-                BSC: <select name="BSC">
+                BSC: <select name="BSC" required>
 
                     <?php if(isset($supplier)) {?>
 
@@ -1494,7 +1478,7 @@ else {
                 </br></br>
 
                 <div>
-                    <label for="lac">LAC:</label>
+                    <label for="lac" required>LAC:</label>
                     <input type="text" name="lac" size="4" id="lac"></br></br>
                 </div>
                 <div>
@@ -1503,270 +1487,188 @@ else {
                 </div>
 
 
-                <div id="container2">
 
-                    <div id="div4" class="content-cont">
-                        <div>
-                            Select Cells:</br>
-                            <input type="checkbox" name="cell[]" value="A">A
-                            <input type="text" name="azimutha" size="5" placeholder="AzimuthA">
-                            <input type="text" name="heighta" size="5" placeholder="Height A">
-                            <input type="text" name="mtilta" size="5" placeholder="M_TILT">
-                            <input type="text" name="etilta" size="5" placeholder="E_TILT">
-                            <input type="text" name="area1a" size="15" placeholder="Arabic Serving Area">
-                            <input type="text" name="area2a" size="15" placeholder="English Serving Area"><br />
-                            <input type="text" name="cnotea" size="90" placeholder="Cell Note">
+
+                </br>
+
+
+                <div>
+                    Select Cells:</br>
+
+                    <div id="parentDiv">
+
+                        <div id="div4">
+
+
+                            <div>
+                                <input type="checkbox" name="cell[]" id="checkbox1" value="A">A
+                                <input type="text" name="azimutha" size="5" placeholder="AzimuthA">
+                                <input type="text" name="heighta" size="5" placeholder="Height A">
+                                <input type="text" name="mtilta" size="5" placeholder="M_TILT">
+                                <input type="text" name="etilta" size="5" placeholder="E_TILT">
+                                <input type="text" name="area1a" size="15" placeholder="Arabic Serving Area">
+                                <input type="text" name="area2a" size="15" placeholder="English Serving Area"><br />
+                                <input type="text" name="cnotea" size="90" placeholder="Cell Note">
+                            </div>
+
+                            <div>
+                                </br>
+                                <input type="checkbox" name="cell[]" id="checkbox2" value="B">B
+                                <input type="text" name="azimuthb" size="5" placeholder="AzimuthB">
+                                <input type="text" name="heightb" size="5" placeholder="Height B">
+                                <input type="text" name="mtiltb" size="5" placeholder="M_TILT">
+                                <input type="text" name="etiltb" size="5" placeholder="E_TILT">
+                                <input type="text" name="area1b" size="15" placeholder="Arabic Serving Area">
+                                <input type="text" name="area2b" size="15" placeholder="English Serving Area"></br>
+                                <input type="text" name="cnoteb" size="90" placeholder="Cell Note">
+
+                            </div>
+                            <div>
+                                </br>
+                                <input type="checkbox" name="cell[]" id="checkbox3" value="C">C
+                                <input type="text" name="azimuthC" size="5" placeholder="AzimuthC">
+                                <input type="text" name="heightC" size="5" placeholder="Height C">
+                                <input type="text" name="mtiltC" size="5" placeholder="M_TILT">
+                                <input type="text" name="etiltC" size="5" placeholder="E_TILT">
+                                <input type="text" name="area1C" size="15" placeholder="Arabic Serving Area">
+                                <input type="text" name="area2C" size="15" placeholder="English Serving Area"></br>
+                                <input type="text" name="cnoteC" size="90" placeholder="Cell Note">
+                            </div>
+                            <div>
+                                </br>
+                                <input type="checkbox" name="cell[]" id="checkbox4" value="D">D
+                                <input type="text" name="azimuthd" size="5" placeholder="AzimuthD">
+                                <input type="text" name="heightd" size="5" placeholder="Height D">
+                                <input type="text" name="mtiltd" size="5" placeholder="M_TILT">
+                                <input type="text" name="etiltd" size="5" placeholder="E_TILT">
+                                <input type="text" name="area1d" size="15" placeholder="Arabic Serving Area">
+                                <input type="text" name="area2d" size="15" placeholder="English Serving Area"></br>
+                                <input type="text" name="cnoted" size="90" placeholder="Cell Note">
+
+                            </div>
+
                         </div>
 
                         <div>
+
+                            <div id="div5">
+
+                                </br>
+                                <input type="checkbox" name="cell[]" value="X">X
+                                <div id="conditionalDiv">
+                                    <input type="text" name="azimuthx" size="5" placeholder="AzimuthX">
+                                    <input type="text" name="heightx" size="5" placeholder="Height X">
+                                    <input type="text" name="mtiltx" size="5" placeholder="M_TILT">
+                                    <input type="text" name="etiltx" size="5" placeholder="E_TILT">
+                                    <input type="text" name="area1x" size="15" placeholder="Arabic Serving Area">
+                                    <input type="text" name="area2x" size="15" placeholder="English Serving Area"></br>
+                                    <input type="text" name="cnotex" size="90" placeholder="Cell Note">
+                                </div>
+                                <script>
+                                // Get references to the elements
+                                const checkbox1 = document.getElementById('checkbox1');
+                                const conditionalDiv = document.getElementById('conditionalDiv');
+
+                                // Add an event listener to the first checkbox
+                                checkbox1.addEventListener('change', () => {
+                                    if (checkbox1.checked) {
+                                        // Hide the div if checkbox1 is checked
+                                        conditionalDiv.style.display = 'none';
+                                    } else {
+                                        // Show the div if checkbox1 is unchecked
+                                        conditionalDiv.style.display = 'block';
+                                    }
+                                });
+                                </script>
+
+                                <input type="checkbox" name="cell[]" value="Y">Y
+                                <div id="conditionalDiv1">
+                                    <input type="text" name="azimuthy" size="5" placeholder="AzimuthY">
+                                    <input type="text" name="heighty" size="5" placeholder="Height Y">
+                                    <input type="text" name="mtilty" size="5" placeholder="M_TILT">
+                                    <input type="text" name="etilty" size="5" placeholder="E_TILT">
+                                    <input type="text" name="area1y" size="15" placeholder="Arabic Serving Area">
+                                    <input type="text" name="area2y" size="15" placeholder="English Serving Area"></br>
+                                    <input type="text" name="cnotey" size="90" placeholder="Cell Note">
+                                </div>
+                                <script>
+                                // Get references to the elements
+                                const checkbox2 = document.getElementById('checkbox2');
+                                const conditionalDiv1 = document.getElementById('conditionalDiv1');
+
+                                // Add an event listener to the first checkbox
+                                checkbox2.addEventListener('change', () => {
+                                    if (checkbox2.checked) {
+                                        // Hide the div if checkbox1 is checked
+                                        conditionalDiv1.style.display = 'none';
+                                    } else {
+                                        // Show the div if checkbox1 is unchecked
+                                        conditionalDiv1.style.display = 'block';
+                                    }
+                                });
+                                </script>
+                                <input type="checkbox" name="cell[]" value="Z">Z
+                                <div id="conditionalDiv3">
+                                    <input type="text" name="azimuthz" size="5" placeholder="AzimuthZ">
+                                    <input type="text" name="heightz" size="5" placeholder="HeightZ">
+                                    <input type="text" name="mtiltz" size="5" placeholder="M_TILT">
+                                    <input type="text" name="etiltz" size="5" placeholder="E_TILT">
+                                    <input type="text" name="area1z" size="15" placeholder="Arabic Serving Area">
+                                    <input type="text" name="area2z" size="15" placeholder="English Serving Area"></br>
+                                    <input type="text" name="cnotez" size="90" placeholder="Cell Note">
+                                </div>
+                                <script>
+                                // Get references to the elements
+                                const checkbox3 = document.getElementById('checkbox3');
+                                const conditionalDiv3 = document.getElementById('conditionalDiv3');
+
+                                // Add an event listener to the first checkbox
+                                checkbox3.addEventListener('change', () => {
+                                    if (checkbox3.checked) {
+                                        // Hide the div if checkbox1 is checked
+                                        conditionalDiv3.style.display = 'none';
+                                    } else {
+                                        // Show the div if checkbox1 is unchecked
+                                        conditionalDiv3.style.display = 'block';
+                                    }
+                                });
+                                </script>
+                                <input type="checkbox" name="cell[]" value="W">W
+                                <div id="conditionalDiv4">
+                                    <input type="text" name="azimuthw" size="5" placeholder="AzimuthW">
+                                    <input type="text" name="heightw" size="5" placeholder="HeightW">
+                                    <input type="text" name="mtiltw" size="5" placeholder="M_TILT">
+                                    <input type="text" name="etiltw" size="5" placeholder="E_TILT">
+                                    <input type="text" name="area1w" size="15" placeholder="Arabic Serving Area">
+                                    <input type="text" name="area2w" size="15" placeholder="English Serving Area"></br>
+                                    <input type="text" name="cnotew" size="90" placeholder="Cell Note">
+                                </div>
+                                <script>
+                                // Get references to the elements
+                                const checkbox4 = document.getElementById('checkbox4');
+                                const conditionalDiv4 = document.getElementById('conditionalDiv4');
+
+                                // Add an event listener to the first checkbox
+                                checkbox4.addEventListener('change', () => {
+                                    if (checkbox4.checked) {
+                                        // Hide the div if checkbox1 is checked
+                                        conditionalDiv4.style.display = 'none';
+                                    } else {
+                                        // Show the div if checkbox1 is unchecked
+                                        conditionalDiv4.style.display = 'block';
+                                    }
+                                });
+                                </script>
+                            </div>
+
                             </br>
-                            <input type="checkbox" name="cell[]" value="B">B
-                            <input type="text" name="azimuthb" size="5" placeholder="AzimuthB">
-                            <input type="text" name="heightb" size="5" placeholder="Height B">
-                            <input type="text" name="mtiltb" size="5" placeholder="M_TILT">
-                            <input type="text" name="etiltb" size="5" placeholder="E_TILT">
-                            <input type="text" name="area1b" size="15" placeholder="Arabic Serving Area">
-                            <input type="text" name="area2b" size="15" placeholder="English Serving Area"></br>
-                            <input type="text" name="cnoteb" size="90" placeholder="Cell Note">
+
 
                         </div>
-                        <div>
-                            </br>
-                            <input type="checkbox" name="cell[]" value="C">C
-                            <input type="text" name="azimuthC" size="5" placeholder="AzimuthC">
-                            <input type="text" name="heightC" size="5" placeholder="Height C">
-                            <input type="text" name="mtiltC" size="5" placeholder="M_TILT">
-                            <input type="text" name="etiltC" size="5" placeholder="E_TILT">
-                            <input type="text" name="area1C" size="15" placeholder="Arabic Serving Area">
-                            <input type="text" name="area2C" size="15" placeholder="English Serving Area"></br>
-                            <input type="text" name="cnoteC" size="90" placeholder="Cell Note">
-                        </div>
-                        <div>
-                            </br>
-                            <input type="checkbox" name="cell[]" value="D">D
-                            <input type="text" name="azimuthd" size="5" placeholder="AzimuthD">
-                            <input type="text" name="heightd" size="5" placeholder="Height D">
-                            <input type="text" name="mtiltd" size="5" placeholder="M_TILT">
-                            <input type="text" name="etiltd" size="5" placeholder="E_TILT">
-                            <input type="text" name="area1d" size="15" placeholder="Arabic Serving Area">
-                            <input type="text" name="area2d" size="15" placeholder="English Serving Area"></br>
-                            <input type="text" name="cnoted" size="90" placeholder="Cell Note">
 
-                        </div>
+
                     </div>
-
-                    <div>
-                        <div id="div5" class="content-cont">
-                            </br>
-                            <input type="checkbox" name="cell[]" value="X">X
-
-                            <input type="text" name="azimuthx" size="5" placeholder="AzimuthX">
-                            <input type="text" name="heightx" size="5" placeholder="Height X">
-                            <input type="text" name="mtiltx" size="5" placeholder="M_TILT">
-                            <input type="text" name="etiltx" size="5" placeholder="E_TILT">
-                            <input type="text" name="area1x" size="15" placeholder="Arabic Serving Area">
-                            <input type="text" name="area2x" size="15" placeholder="English Serving Area"></br>
-                            <input type="text" name="cnotex" size="90" placeholder="Cell Note">
-                            </br>
-
-
-                            <input type="checkbox" name="cell[]" value="Y">Y
-                            <input type="text" name="azimuthy" size="5" placeholder="AzimuthY">
-                            <input type="text" name="heighty" size="5" placeholder="Height Y">
-                            <input type="text" name="mtilty" size="5" placeholder="M_TILT">
-                            <input type="text" name="etilty" size="5" placeholder="E_TILT">
-                            <input type="text" name="area1y" size="15" placeholder="Arabic Serving Area">
-                            <input type="text" name="area2y" size="15" placeholder="English Serving Area"></br>
-                            <input type="text" name="cnotey" size="90" placeholder="Cell Note">
-                            </br>
-                            <input type="checkbox" name="cell[]" value="Z">Z
-                            <input type="text" name="azimuthz" size="5" placeholder="AzimuthZ">
-                            <input type="text" name="heightz" size="5" placeholder="HeightZ">
-                            <input type="text" name="mtiltz" size="5" placeholder="M_TILT">
-                            <input type="text" name="etiltz" size="5" placeholder="E_TILT">
-                            <input type="text" name="area1z" size="15" placeholder="Arabic Serving Area">
-                            <input type="text" name="area2z" size="15" placeholder="English Serving Area"></br>
-                            <input type="text" name="cnotez" size="90" placeholder="Cell Note">
-                            </br>
-                            <input type="checkbox" name="cell[]" value="W">W
-
-                            <input type="text" name="azimuthw" size="5" placeholder="AzimuthW">
-                            <input type="text" name="heightw" size="5" placeholder="HeightW">
-                            <input type="text" name="mtiltw" size="5" placeholder="M_TILT">
-                            <input type="text" name="etiltw" size="5" placeholder="E_TILT">
-                            <input type="text" name="area1w" size="15" placeholder="Arabic Serving Area">
-                            <input type="text" name="area2w" size="15" placeholder="English Serving Area"></br>
-                            <input type="text" name="cnotew" size="90" placeholder="Cell Note">
-                        </div>
-                        </br>
-
-                    </div>
-                    <div id="div6" class="content-cont">
-                        <div>
-                            Select Cells:</br>
-                            <input type="checkbox" name="cell[]" id="checkbox1" value="A">A
-                            <input type="text" name="azimutha" size="5" placeholder="AzimuthA">
-                            <input type="text" name="heighta" size="5" placeholder="Height A">
-                            <input type="text" name="mtilta" size="5" placeholder="M_TILT">
-                            <input type="text" name="etilta" size="5" placeholder="E_TILT">
-                            <input type="text" name="area1a" size="15" placeholder="Arabic Serving Area">
-                            <input type="text" name="area2a" size="15" placeholder="English Serving Area"><br />
-                            <input type="text" name="cnotea" size="90" placeholder="Cell Note">
-                        </div>
-
-                        <div>
-                            </br>
-                            <input type="checkbox" name="cell[]" id="checkbox2" value="B">B
-                            <input type="text" name="azimuthb" size="5" placeholder="AzimuthB">
-                            <input type="text" name="heightb" size="5" placeholder="Height B">
-                            <input type="text" name="mtiltb" size="5" placeholder="M_TILT">
-                            <input type="text" name="etiltb" size="5" placeholder="E_TILT">
-                            <input type="text" name="area1b" size="15" placeholder="Arabic Serving Area">
-                            <input type="text" name="area2b" size="15" placeholder="English Serving Area"></br>
-                            <input type="text" name="cnoteb" size="90" placeholder="Cell Note">
-
-                        </div>
-                        <div>
-                            </br>
-                            <input type="checkbox" name="cell[]" id="checkbox3" value="C">C
-                            <input type="text" name="azimuthC" size="5" placeholder="AzimuthC">
-                            <input type="text" name="heightC" size="5" placeholder="Height C">
-                            <input type="text" name="mtiltC" size="5" placeholder="M_TILT">
-                            <input type="text" name="etiltC" size="5" placeholder="E_TILT">
-                            <input type="text" name="area1C" size="15" placeholder="Arabic Serving Area">
-                            <input type="text" name="area2C" size="15" placeholder="English Serving Area"></br>
-                            <input type="text" name="cnoteC" size="90" placeholder="Cell Note">
-                        </div>
-                        <div>
-                            </br>
-                            <input type="checkbox" name="cell[]" id="checkbox4" value="D">D
-                            <input type="text" name="azimuthd" size="5" placeholder="AzimuthD">
-                            <input type="text" name="heightd" size="5" placeholder="Height D">
-                            <input type="text" name="mtiltd" size="5" placeholder="M_TILT">
-                            <input type="text" name="etiltd" size="5" placeholder="E_TILT">
-                            <input type="text" name="area1d" size="15" placeholder="Arabic Serving Area">
-                            <input type="text" name="area2d" size="15" placeholder="English Serving Area"></br>
-                            <input type="text" name="cnoted" size="90" placeholder="Cell Note">
-
-                        </div>
-
-
-                        <div>
-
-                            </br>
-                            <input type="checkbox" name="cell[]" value="X">X
-                            <div id="conditionalDiv">
-                                <input type="text" name="azimuthx" size="5" placeholder="AzimuthX">
-                                <input type="text" name="heightx" size="5" placeholder="Height X">
-                                <input type="text" name="mtiltx" size="5" placeholder="M_TILT">
-                                <input type="text" name="etiltx" size="5" placeholder="E_TILT">
-                                <input type="text" name="area1x" size="15" placeholder="Arabic Serving Area">
-                                <input type="text" name="area2x" size="15" placeholder="English Serving Area"></br>
-                                <input type="text" name="cnotex" size="90" placeholder="Cell Note">
-                            </div>
-                            <script>
-                            // Get references to the elements
-                            const checkbox1 = document.getElementById('checkbox1');
-                            const conditionalDiv = document.getElementById('conditionalDiv');
-
-                            // Add an event listener to the first checkbox
-                            checkbox1.addEventListener('change', () => {
-                                if (checkbox1.checked) {
-                                    // Hide the div if checkbox1 is checked
-                                    conditionalDiv.style.display = 'none';
-                                } else {
-                                    // Show the div if checkbox1 is unchecked
-                                    conditionalDiv.style.display = 'block';
-                                }
-                            });
-                            </script>
-
-                            <input type="checkbox" name="cell[]" value="Y">Y
-                            <div id="conditionalDiv1">
-                                <input type="text" name="azimuthy" size="5" placeholder="AzimuthY">
-                                <input type="text" name="heighty" size="5" placeholder="Height Y">
-                                <input type="text" name="mtilty" size="5" placeholder="M_TILT">
-                                <input type="text" name="etilty" size="5" placeholder="E_TILT">
-                                <input type="text" name="area1y" size="15" placeholder="Arabic Serving Area">
-                                <input type="text" name="area2y" size="15" placeholder="English Serving Area"></br>
-                                <input type="text" name="cnotey" size="90" placeholder="Cell Note">
-                            </div>
-                            <script>
-                            // Get references to the elements
-                            const checkbox2 = document.getElementById('checkbox2');
-                            const conditionalDiv1 = document.getElementById('conditionalDiv1');
-
-                            // Add an event listener to the first checkbox
-                            checkbox2.addEventListener('change', () => {
-                                if (checkbox2.checked) {
-                                    // Hide the div if checkbox1 is checked
-                                    conditionalDiv1.style.display = 'none';
-                                } else {
-                                    // Show the div if checkbox1 is unchecked
-                                    conditionalDiv1.style.display = 'block';
-                                }
-                            });
-                            </script>
-                            <input type="checkbox" name="cell[]" value="Z">Z
-                            <div id="conditionalDiv3">
-                                <input type="text" name="azimuthz" size="5" placeholder="AzimuthZ">
-                                <input type="text" name="heightz" size="5" placeholder="HeightZ">
-                                <input type="text" name="mtiltz" size="5" placeholder="M_TILT">
-                                <input type="text" name="etiltz" size="5" placeholder="E_TILT">
-                                <input type="text" name="area1z" size="15" placeholder="Arabic Serving Area">
-                                <input type="text" name="area2z" size="15" placeholder="English Serving Area"></br>
-                                <input type="text" name="cnotez" size="90" placeholder="Cell Note">
-                            </div>
-                            <script>
-                            // Get references to the elements
-                            const checkbox3 = document.getElementById('checkbox3');
-                            const conditionalDiv3 = document.getElementById('conditionalDiv3');
-
-                            // Add an event listener to the first checkbox
-                            checkbox3.addEventListener('change', () => {
-                                if (checkbox3.checked) {
-                                    // Hide the div if checkbox1 is checked
-                                    conditionalDiv3.style.display = 'none';
-                                } else {
-                                    // Show the div if checkbox1 is unchecked
-                                    conditionalDiv3.style.display = 'block';
-                                }
-                            });
-                            </script>
-                            <input type="checkbox" name="cell[]" value="W">W
-                            <div id="conditionalDiv4">
-                                <input type="text" name="azimuthw" size="5" placeholder="AzimuthW">
-                                <input type="text" name="heightw" size="5" placeholder="HeightW">
-                                <input type="text" name="mtiltw" size="5" placeholder="M_TILT">
-                                <input type="text" name="etiltw" size="5" placeholder="E_TILT">
-                                <input type="text" name="area1w" size="15" placeholder="Arabic Serving Area">
-                                <input type="text" name="area2w" size="15" placeholder="English Serving Area"></br>
-                                <input type="text" name="cnotew" size="90" placeholder="Cell Note">
-                            </div>
-                            <script>
-                            // Get references to the elements
-                            const checkbox4 = document.getElementById('checkbox4');
-                            const conditionalDiv4 = document.getElementById('conditionalDiv4');
-
-                            // Add an event listener to the first checkbox
-                            checkbox4.addEventListener('change', () => {
-                                if (checkbox4.checked) {
-                                    // Hide the div if checkbox1 is checked
-                                    conditionalDiv4.style.display = 'none';
-                                } else {
-                                    // Show the div if checkbox1 is unchecked
-                                    conditionalDiv4.style.display = 'block';
-                                }
-                            });
-                            </script>
-                        </div>
-                    </div>
-                    </br>
                 </div>
-
-
-
-
                 <div>
                     </br>
                     Select Extra Cells:</br>

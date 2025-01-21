@@ -31,10 +31,11 @@
             font-size: 24px;
             font-weight: bold;
             width: 8%;
-            height: 90px;
+            min-height: 90px;
             min-width: 90px;
             background: url('MTN-Logo.jpg') no-repeat center center/cover;
         }
+
 
         .hero {
             height: 80vh;
@@ -153,6 +154,10 @@
             color: white;
             text-decoration: none;
         }
+        nav.primary-navigation li a  span{
+            color: gray;
+            text-decoration: none;
+        }
 
         nav.primary-navigation li a:hover {
             color: goldenrod;
@@ -209,6 +214,7 @@
         html {
             scroll-behavior: smooth;
         }
+        .disabled { pointer-events: none; color: grey; cursor: default; text-decoration: none; }
     </style>
 </head>
 
@@ -220,12 +226,12 @@
             <ul>
                 <li><a href="#hero"><i class="fas fa-home"></i> Home</a></li>
                 <li><a href="#features"><i class="fas fa-braille"></i> Features</a></li>
-                <li><a href="Search.php" target="_blank"><i class="fas fa-search"></i> Search Date</a></li>
-                <li class="dropdown-trigger"><a href="#"><i class="fas fa-plus"></i> Add New Site</a>
+                <li><a href="Search.php" target="_blank"><i class="fas fa-search"></i> Search Data</a></li>
+                <li class="dropdown-trigger"><a href="#"><i class="fas fa-plus"></i><span>Add New Site</span></a>
                     <ul class="dropdown">
-                        <li><a href="Add new 2G.php">Add New 2G</a></li>
-                        <li><a href="Add new 3G.php">Add New 3G</a></li>
-                        <li><a href="Add new 4G.php">Add New 4G</a></li>
+                        <li><a href="Add new 2G.php" class="disabled"><span>Add New 2G</span></a></li>
+                        <li><a href="Add new 3G.php" class="disabled"><span>Add New 2G</span></a></li>
+                        <!-- <li><a href="Add new 4G.php">Add New 4G</a></li> -->
                     </ul>
                 </li>
             </ul>
@@ -243,7 +249,7 @@
     <!-- About Section -->
     <section class="about" id="about">
         <h2><i class="far fa-question-circle"></i> About Us</h2>
-        <p>We Are Quality & Performance Team in Network Department.</p>
+        <p>We Are Quality & Performance Team in Network Division.</p>
         <!-- <img src="https://via.placeholder.com/600x400" alt="About us"> -->
     </section>
 

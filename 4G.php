@@ -427,6 +427,20 @@
         border: 0.8px solid #e1e6ed;
 
     }
+    .required-field::after {
+        content: " *";
+        color: goldenrod;
+    }
+
+    @media (max-width: 600px) {
+        body {
+            font-size: 14px;
+        }
+    }
+
+    .error {
+        border: 2px solid red;
+    }
     </style>
 </head>
 

@@ -195,6 +195,13 @@ header('Content-Type: text/html; charset=UTF-8');
     .btnn {
         float: right;
     }
+
+    .disabled {
+        pointer-events: none;
+        color: grey;
+        cursor: default;
+        text-decoration: none;
+    }
     </style>
 </head>
 
@@ -268,8 +275,8 @@ header('Content-Type: text/html; charset=UTF-8');
                                     <td>' . $row['PROVINCE'] . '</td>
                                     <td>' . $row['SITE_ON_AIR_DATE'] . '</td>
                                 
-                                    <td> <a href="update_basic_info.php?id='. $row['ID'] .'" target="_blank">Update</a></td>
-                                    <td> <a href="delete_all.php?id2='. $row['ID'] .'">Cancel Site</a></td>
+                                    <td> <a href="update_basic_info.php?id='. $row['ID'] .'" target="_blank" class="disabled">Update</a></td>
+                                    <td> <a href="delete_all.php?id2='. $row['ID'] .'" class="disabled">Cancel Site</a></td>
                                     </tr>
                                     </tbody>';
                                 } while ($row = oci_fetch_array($result, OCI_ASSOC + OCI_RETURN_NULLS));
@@ -285,8 +292,15 @@ header('Content-Type: text/html; charset=UTF-8');
                     
                  
                      echo"<div><div class= 'Lfloat'><button type='button' class= 'btn'><a href='Info.php?id2=". $id ."' target='_blank'> >>>>More Details</a></button></div>";
-                     echo"<div class='Rfloat'><button type='button' class='btn' class ='btnn'><a href='delete_all.php?id2=". $id ."' target='_blank'>Cancel Site with all technologies</a></button></div><div style='clear:both;'></div></div>";
-
+                     echo "
+                     <div class='Rfloat'>
+                         <button type='button' class='btn btnn'>
+                             <a href='delete_all.php?id2=". $id ."' target='_blank' class='disabled'>Cancel Site with all technologies</a>
+                         </button>
+                     </div>
+                     <div style='clear:both;'></div>
+                 ";
+                 
 
                         }
                         else {
@@ -325,8 +339,8 @@ header('Content-Type: text/html; charset=UTF-8');
                          <td>'  .$roww['CELL_NAME']                 . '</td>
                          <td>' . $roww['CELL_ID']                   . '</td>
                          <td>' . $roww['CELL_ON_AIR_DATE']          . '</td>
-                         <td> <a href="update2G.php?id2='. $roww['SITE_ID'] .'" " target="_blank">Update</a></td>
-                         <td> <a href="delete2GCell.php?id2='. $roww['CELL_CODE'] .'">Delete Cell</a></td>
+                         <td> <a href="update2G.php?id2='. $roww['SITE_ID'] .'" " target="_blank" class="disabled">Update</a></td>
+                         <td> <a href="delete2GCell.php?id2='. $roww['CELL_CODE'] .'" class="disabled">Delete Cell</a></td>
                        </tr>
                        </tbody>';
                    }while ($roww = oci_fetch_array($resultt, OCI_ASSOC + OCI_RETURN_NULLS));
@@ -339,8 +353,15 @@ header('Content-Type: text/html; charset=UTF-8');
                 </table>
                 <?php
                      echo"<div><div class= 'Lfloat'><button type='button' class= 'btn'><a href='Info2G.php?id2=". $id2 ."' target='_blank'> >>>>More Details</a></button></div>";
-                     echo"<div class='Rfloat'><button type='button' class='btn' class ='btnn'><a href='delete2G.php?id12=". $id2 ."' target='_blank'> >>>>Cancell 2G Site</a></button></div><div style='clear:both;'></div></div>";
-                   
+                     echo "
+                     <div class='Rfloat'>
+                         <button type='button' class='btn btnn'>
+                             <a href='delete2G.php?id12=". $id2 ."' target='_blank' class='disabled'> Cancel 2G Site</a>
+                         </button>
+                     </div>
+                     <div style='clear:both;'></div>
+                 ";
+                                    
                 }
                         else {
                     echo "2G Site Is Not Exist!!
@@ -381,8 +402,8 @@ header('Content-Type: text/html; charset=UTF-8');
                  <td>' . $roww2['CELL_ID']                   . '</td>
                  <td>'.  $roww2['THREE_G_ON_AIR_DATE']             . '</td>
                  <td>' . $roww2['ON_AIR_DATE']               . '</td>
-                 <td> <a href="update3G.php?id3='. $roww2['SITE_ID'] .'" " target="_blank">Update</a></td>
-                 <td> <a href="delete3GCell.php?id3='. $roww2['CELL_CODE'] .'">Delete Cell</a></td>
+                 <td> <a href="update3G.php?id3='. $roww2['SITE_ID'] .'" " target="_blank" class="disabled">Update</a></td>
+                 <td> <a href="delete3GCell.php?id3='. $roww2['CELL_CODE'] .'" class="disabled">Delete Cell</a></td>
                 </tr>
                 </tbody>';
                 
@@ -396,8 +417,15 @@ header('Content-Type: text/html; charset=UTF-8');
                 <?php
 
                 echo"<div><div class= 'Lfloat'><button type='button' class= 'btn'><a href='Info3G.php?id3=". $id3 ."' target='_blank'> >>>>More Details</a></button></div>";
-                echo"<div class='Rfloat'><button type='button' class='btn' class ='btnn'><a href='delete3G.php?id13=". $id3 ."' target='_blank'> >>>>Cancell 3G Site</a></button></div><div style='clear:both;'></div></div>";
-                 
+                echo "
+                <div class='Rfloat'>
+                    <button type='button' class='btn btnn'>
+                        <a href='delete3G.php?id13=". $id3 ."' target='_blank' class='disabled'> Cancel 3G Site</a>
+                    </button>
+                </div>
+                <div style='clear:both;'></div>
+            ";
+                             
                       }
                         else {
                     echo "3G Site Is Not Exist!!";
@@ -436,8 +464,8 @@ header('Content-Type: text/html; charset=UTF-8');
                  <td>' . $roww3['CELL_ID']                   . '</td>
                  <td>'.  $roww3['ACTIVATION_DATE']           . '</td>
                  <td>' . $roww3['ON_AIR_DATE']               . '</td>
-                 <td> <a href="update4G.php?id4='. $roww3['SID'] .'" " target="_blank">Update</a></td>
-                 <td> <a href="delete4GCell.php?id4='. $roww3['CELL_CODE'] .'">Delete Cell</a></td>
+                 <td> <a href="update4G.php?id4='. $roww3['SID'] .'" " target="_blank" class="disabled">Update</a></td>
+                 <td> <a href="delete4GCell.php?id4='. $roww3['CELL_CODE'] .'" class="disabled">Delete Cell</a></td>
                 </tr>
                 </tbody>';
                
@@ -453,8 +481,11 @@ header('Content-Type: text/html; charset=UTF-8');
                 <?php
 
                     echo"<div><div class= 'Lfloat'><button type='button' class= 'btn'><a href='Info4G.php?id4=". $id4 ."' target='_blank'> >>>>More Details</a></button></div>";
-                    echo"<div class='Rfloat'><button type='button' class='btn' class ='btnn'><a href='delete4G.php?id14=". $id4 ."' target='_blank'> >>>>Cancell 4G Site</a></button></div><div style='clear:both;'></div></div>";
-
+                    echo "
+                    <div class='Rfloat'>
+                        <button type='button' class='btn btnn'>
+                            <a href='delete4G.php?id14=". $id4 ."' target='_blank' class='disabled'> Cancel 4G Site</a></button></div><div style='clear:both;'></div>";
+                
                    
                       }
                         else {
