@@ -1,7 +1,7 @@
 <?php 
         include "config.php";
         ?>
-<?php
+        <?php
         if(isset($_GET['id3']))
         {
         $siteid =$_GET['id3'];
@@ -25,12 +25,12 @@
 
             $row2 = oci_fetch_array($result2 , OCI_ASSOC+OCI_RETURN_NULLS);
             if($row2 != false){
-            $azimuth1 = $row2['AZIMUTH'];
-            $height1 = $row2['HIEGHT'];
-            $mtilt1 = $row2['M_TILT'];
-            $etilt1 = $row2['E_TILT'];
-            $earea1 = $row2['SERVING_AREA_IN_ENGLISH'];
-            $aarea1 = $row2['SERVING_AREA'];
+            $azimuth1 = $row2['AZIMUTH'] ?? '' ;
+            $height1 = $row2['HIEGHT'] ?? '';
+            $mtilt1 = $row2['M_TILT'] ?? '';
+            $etilt1 = $row2['E_TILT'] ?? '';
+            $earea1 = $row2['SERVING_AREA_IN_ENGLISH'] ?? '';
+            $aarea1 = $row2['SERVING_AREA'] ?? '';
             }
         }
             $sqll3 = "SELECT * FROM TWO_G_CELLS WHERE CELL_CODE = :newcode3";
@@ -43,12 +43,12 @@
             if($result3 !== false){
                 $row3 = oci_fetch_array($result3 , OCI_ASSOC+OCI_RETURN_NULLS);
                 if($row3 !== false){
-                $azimuth2 = $row3['AZIMUTH'];
-                $height2 = $row3['HIEGHT'];
-                $mtilt2 = $row3['M_TILT'];
-                $etilt2 = $row3['E_TILT'];
-                $earea2 = $row3['SERVING_AREA_IN_ENGLISH'];
-                $aarea2 = $row3['SERVING_AREA'];
+                $azimuth2 = $row3['AZIMUTH'] ?? '';
+                $height2 = $row3['HIEGHT'] ?? '';
+                $mtilt2 = $row3['M_TILT'] ?? '';
+                $etilt2 = $row3['E_TILT'] ?? '';
+                $earea2 = $row3['SERVING_AREA_IN_ENGLISH'] ?? '';
+                $aarea2 = $row3['SERVING_AREA'] ?? '';
             }
             }
             $sqll4 = "SELECT * FROM TWO_G_CELLS WHERE CELL_CODE = :newcode4";
@@ -60,12 +60,12 @@
             if($result4 !== false){
                 $row4 = oci_fetch_array($result4 , OCI_ASSOC+OCI_RETURN_NULLS);
                 if($row4 !== false){
-                $azimuth3 = $row4['AZIMUTH'];
-                $height3 = $row4['HIEGHT'];
-                $mtilt3 = $row4['M_TILT'];
-                $etilt3 = $row4['E_TILT'];
-                $earea3 = $row4['SERVING_AREA_IN_ENGLISH'];
-                $aarea3 = $row4['SERVING_AREA'];
+                $azimuth3 = $row4['AZIMUTH'] ?? '';
+                $height3 = $row4['HIEGHT'] ?? '';
+                $mtilt3 = $row4['M_TILT'] ?? '';
+                $etilt3 = $row4['E_TILT'] ?? '';
+                $earea3 = $row4['SERVING_AREA_IN_ENGLISH'] ?? '';
+                $aarea3 = $row4['SERVING_AREA'] ?? '';
             }
         }
             $sqll5 = "SELECT * FROM TWO_G_CELLS WHERE CELL_CODE = :newcode5";
@@ -77,12 +77,12 @@
             if($result5 !== false){
                 $row5 = oci_fetch_array($result5 , OCI_ASSOC+OCI_RETURN_NULLS);
                 if($row5 !== false){
-                $azimuth4 = $row5['AZIMUTH'];
-                $height4 = $row5['HIEGHT'];
-                $mtilt4 = $row5['M_TILT'];
-                $etilt4 = $row5['E_TILT'];
-                $earea4 = $row5['SERVING_AREA_IN_ENGLISH'];
-                $aarea4 = $row5['SERVING_AREA'];
+                $azimuth4 = $row5['AZIMUTH'] ?? '';
+                $height4 = $row5['HIEGHT'] ?? '';
+                $mtilt4 = $row5['M_TILT'] ?? '';
+                $etilt4 = $row5['E_TILT'] ?? '';
+                $earea4 = $row5['SERVING_AREA_IN_ENGLISH'] ?? '';
+                $aarea4 = $row5['SERVING_AREA'] ?? '';
             }
             
         } 
@@ -92,27 +92,109 @@
 
         if($_SERVER["REQUEST_METHOD"] == "POST")
         {
-            $sid= $_POST ['id'];
+            $sid= $_POST ['id'] ?? '';
             $sitecode = $_POST['sitecode'].'L';
-            $sitename = $_POST['sitename'];
-            $nodeb = $_POST['nodeb'];
-            $BTS = $_POST['BTS'];
-            $status = $_POST['status'];
-            $date4G = $_POST['onairdate'];
-            $restordate = $_POST['restoration'];
-            $lac = $_POST['lac'];
-            //$azimuth = $_POST['azimuth'];
-            //$height = $_POST['height'];
-            $snote = $_POST['snotes'];
-            //$cnote = $_POST['cnotes'];
-        // $mtilt = $_POST['mtilt'];
-            //$etilt = $_POST['etilt'];
-        // $ttilt = $_POST['ttilt'];
-            //$earea = $_POST['area1'];
-        // $aarea = $_POST['area2'];
-            $site_type = $_POST['SiteType'];
+            $sitename = $_POST['sitename'] ?? '';
+            //$nodeb = $_POST['nodeb'] ?? '';
+            $BTS = $_POST['BTS'] ?? '';
+            $status = "On Air";
+            $date4G = $_POST['onairdate'] ?? '';
+            $restordate = $_POST['restoration'] ?? '';
+            $lac = $_POST['lac'] ?? '';
+            $snote = $_POST['snotes'] ?? '';
+       
+            $site_type = $_POST['SiteType'] ?? '';
+            $sitecode1 = $_POST['sitecode'];
+            $code1 = substr($sitecode1,0,3)?? '';
+            $code2 = substr($sitecode1,-3)?? '';
+
+     
+            
+    $dateTime = new DateTime($date4G);
+    $date4G  = $dateTime->format('m/d/Y');
+
+    $dateTime1 = new DateTime($restordate);
+    $restordate = $dateTime1->format('m/d/Y');
 
 
+            if($code1 == "DAM"){
+                if (is_numeric($code2) && intval($code2)){
+                    $cellid2 = '401'.$code2;
+                }
+            }
+            elseif($code1 == "DMR"){
+                if (is_numeric($code2) && intval($code2)){
+                    $cellid2 = '402'.$code2;
+                }
+            }
+            elseif($code1 == "ALP"){
+                if (is_numeric($code2) && intval($code2)){
+                    $cellid2 = '403'.$code2;
+                }
+            }
+            elseif($code1 == "HMS"){
+                if (is_numeric($code2) && intval($code2)){
+                    $cellid2 = '404'.$code2;
+                }
+            }
+            elseif($code1 == "HMA"){
+                if (is_numeric($code2) && intval($code2)){
+                    $cellid2 = '405'.$code2;
+                }
+            }
+            elseif($code1 == "LTK"){
+                if (is_numeric($code2) && intval($code2)){
+                    $cellid2 = '406'.$code2;
+                }
+            }
+            elseif($code1 == "TRS"){
+                if (is_numeric($code2) && intval($code2)){
+                    $cellid2 = '407'.$code2;
+                }
+            }
+            elseif($code1 == "HSK"){
+                if (is_numeric($code2) && intval($code2)){
+                    $cellid2 = '408'.$code2;
+                }
+            }
+            elseif($code1 == "IDB"){
+                if (is_numeric($code2) && intval($code2)){
+                    $cellid2 = '409'.$code2;
+                }
+            }
+            elseif($code1 == "DRZ"){
+                if (is_numeric($code2) && intval($code2)){
+                    $cellid2 = '410'.$code2;
+                }
+            }
+            elseif($code1 == "DRA"){
+                if (is_numeric($code2) && intval($code2)){
+                    $cellid2 = '411'.$code2;
+                }
+            }
+            elseif($code1 == "RKA"){
+                if (is_numeric($code2) && intval($code2)){
+                    $cellid2 = '412'.$code2;
+                }
+            }
+            elseif($code1 == "SWD"){
+                if (is_numeric($code2) && intval($code2)){
+                    $cellid2 = '413'.$code2;
+                }
+            }
+            elseif($code1 == "QRA"){
+                if (is_numeric($code2) && intval($code2)){
+                    $cellid2 = '414'.$code2;
+                }
+            }
+        
+            $nodeb = $cellid2;
+          
+          
+       
+           
+          
+         
 
 
             $sql = "INSERT INTO  FOUR_G_SITES (SID, CELL_ID_KEY, SITE_CODE ,ENODEB_ID, BTS_TYPE, LAC, STATUS, ACTIVATION_DATE, NOTE, RESTORATION_DATE) 
@@ -165,13 +247,13 @@
                     
                         if($selected == 'A'){
                             $newcellid = $nodeb.'1';
-                            $azimuth = $_POST['azimutha'];
-                            $height = $_POST['heighta'];
-                            $mtilt = $_POST['mtilta'];
-                            $etilt = $_POST['etilta'];
-                            $earea = $_POST['area1a'];
-                            $aarea = $_POST['area2a'];
-                            $cnote = $_POST['cnotea'];
+                            $azimuth = $_POST['azimutha'] ?? '';
+                            $height = $_POST['heighta'] ?? '';
+                            $mtilt = $_POST['mtilta'] ?? '';
+                            $etilt = $_POST['etilta'] ?? '';
+                            $earea = $_POST['area1a'] ?? '';
+                            $aarea = $_POST['area2a'] ?? '';
+                            $cnote = $_POST['cnotea'] ?? '';
                             if(!empty( $_POST['etilta'] && !empty($_POST['mtilta']))){
                                 $ttilt = sprintf('%d',$_POST['mtilta'] + $_POST['etilta']);
                             }
@@ -183,14 +265,14 @@
                         elseif($selected == 'B')
                         {
                             $newcellid = $nodeb.'2';
-                            $azimuth = $_POST['azimuthb'];
-                            $height = $_POST['heightb'];
-                            $mtilt = $_POST['mtiltb'];
-                            $etilt = $_POST['etiltb'];
+                            $azimuth = $_POST['azimuthb'] ?? '';
+                            $height = $_POST['heightb'] ?? '';
+                            $mtilt = $_POST['mtiltb'] ?? '';
+                            $etilt = $_POST['etiltb'] ?? '';
                             //$ttilt = $_POST['mtiltb'] + $_POST['etiltb'];
-                            $earea = $_POST['area1b'];
-                            $aarea = $_POST['area2b'];
-                            $cnote = $_POST['cnoteb'];
+                            $earea = $_POST['area1b'] ?? '';
+                            $aarea = $_POST['area2b'] ?? '';
+                            $cnote = $_POST['cnoteb'] ?? '';
                 
                             if(!empty( $_POST['etiltb'] && !empty($_POST['mtiltb']))){
                                 $ttilt = sprintf('%d',$_POST['mtiltb'] + $_POST['etiltb']);
@@ -201,14 +283,14 @@
                         elseif($selected == 'C'){
                             $newcellid = $nodeb.'3';
                             //$newcellid = $cellid2.'3';
-                            $azimuth = $_POST['azimuthC'];
-                            $height = $_POST['heightC'];
-                            $mtilt = $_POST['mtiltC'];
-                            $etilt = $_POST['etiltC'];
+                            $azimuth = $_POST['azimuthC'] ?? '';
+                            $height = $_POST['heightC'] ?? '';
+                            $mtilt = $_POST['mtiltC'] ?? '';
+                            $etilt = $_POST['etiltC'] ?? '';
                             //$ttilt = $_POST['mtiltC'] + $_POST['etiltC'];
-                            $earea = $_POST['area1C'];
-                            $aarea = $_POST['area2C'];
-                            $cnote = $_POST['cnoteC'];
+                            $earea = $_POST['area1C'] ?? '';
+                            $aarea = $_POST['area2C'] ?? '';
+                            $cnote = $_POST['cnoteC'] ?? '';
                             if(!empty( $_POST['etiltC'] && !empty($_POST['mtiltC']))){
                                 $ttilt = sprintf('%d',$_POST['mtiltC'] + $_POST['etiltC']);
                             }
@@ -216,14 +298,14 @@
                         }
                         elseif($selected == 'D'){
                             $newcellid = $nodeb.'4';
-                            $azimuth = $_POST['azimuthd'];
-                            $height = $_POST['heightd'];
-                            $mtilt = $_POST['mtiltd'];
-                            $etilt = $_POST['etiltd'];
+                            $azimuth = $_POST['azimuthd'] ?? '';
+                            $height = $_POST['heightd'] ?? '';
+                            $mtilt = $_POST['mtiltd'] ?? '';
+                            $etilt = $_POST['etiltd'] ?? '';
                             //$ttilt = $_POST['mtiltd'] + $_POST['etiltd'];
-                            $earea = $_POST['area1d'];
-                            $aarea = $_POST['area2d'];
-                            $cnote = $_POST['cnoted'];
+                            $earea = $_POST['area1d'] ?? '';
+                            $aarea = $_POST['area2d'] ?? '';
+                            $cnote = $_POST['cnoted'] ?? '';
                             if(!empty( $_POST['etiltd'] && !empty($_POST['mtiltd']))){
                                 $ttilt = sprintf('%d',$_POST['mtiltd'] + $_POST['etiltd']);
                             }
@@ -231,14 +313,14 @@
                         }
                         elseif($selected == 'E'){
                             $newcellid = $nodeb.'5';
-                            $azimuth = $_POST['azimuthe'];
-                            $height = $_POST['heighte'];
-                            $mtilt = $_POST['mtilte'];
-                            $etilt = $_POST['etilte'];
+                            $azimuth = $_POST['azimuthe'] ?? '';
+                            $height = $_POST['heighte'] ?? '';
+                            $mtilt = $_POST['mtilte'] ?? '';
+                            $etilt = $_POST['etilte'] ?? '';
                             //$ttilt = $_POST['mtilte'] + $_POST['etilte'];
-                            $earea = $_POST['area1e'];
-                            $aarea = $_POST['area2e'];
-                            $cnote = $_POST['cnotee'];
+                            $earea = $_POST['area1e'] ?? '';
+                            $aarea = $_POST['area2e'] ?? '';
+                            $cnote = $_POST['cnotee'] ?? '';
                             if(!empty( $_POST['etilte'] && !empty($_POST['mtilte']))){
                                 $ttilt = sprintf('%d',$_POST['mtilte'] + $_POST['etilte']);
                             }
@@ -304,58 +386,80 @@
 
         ?>
 
-<!DOCTYPE html>
-<html lang="en">
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href= "fontawesome-free-6.5.2-web\css\all.min.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> 4G Site page </title>
 
-<head>
-    <meta charset="UTF-8" />
-    <link rel="stylesheet" href="fontawesome-free-6.5.2-web\css\all.min.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> 4G Site page </title>
+        <style>
+        .footer
+        {
+            background: #1c355c;
+            font-size: 17px;
+            margin-top:10px;
+            color: white;
+            width: 99%;
+            padding-left:10px;
+            padding-bottom:10px;
+            padding-top:30px;
+        
+        
 
-    <style>
-    .footer {
-        background: #1c355c;
-        font-size: 17px;
-        margin-top: 10px;
-        color: white;
-        width: 99%;
-        padding-left: 10px;
-        padding-bottom: 10px;
-        padding-top: 30px;
-
-
-
-    }
-
-
+        }
 
 
-    .submit {
-        width: 20%;
+        .submit1 input {
+            
+            width: 70%;
+            Height: 35px;
+            font-size: 17px;
+            font-weight: bold;
+            margin:10px;
+            border-radius: 10px;
+        text-align:center;
+        border:none;
+            color:#1c355c;
+        
+        }
 
-        float: right;
+        .submit1{
+            width: 20%;
+            
+        float:left; 
         display: flex;
+        
+        
+        }
 
+        .submit{
+            width: 20%;
+            
+        float:right; 
+        display: flex;
+        
+        
+        }
 
-    }
-
-    .submit input {
-
+        .submit input {
+            
         width: 70%;
         Height: 35px;
         font-size: 17px;
         font-weight: bold;
-        margin: 10px;
+        margin:10px;
         border-radius: 10px;
-        text-align: center;
-        border: none;
-        color: #1c355c;
+        text-align:center;
+        border:none;
+        color:#1c355c;
 
-    }
+        }
 
 
-    body {
+        body
+        {
         min-height: 100vh;
         display: flex;
         align-items: center;
@@ -363,70 +467,144 @@
         background: goldenrod;
 
 
-    }
+        }
 
-    .container {
-        /*position: relative;*/
+        .container
+        {
+            /*position: relative;*/
 
         width: 60%;
         background: whitesmoke;
-        padding-top: 0;
-        margin-top: 0px;
+        padding-top:0;
+        margin-top:0px;
         box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
 
-        border: 2px solid gray;
+        border:2px solid gray;
         color: #1c355c;
-        border-radius: 5px;
+        border-radius:5px;
 
-    }
-
-    h1 {
-        text-align: center;
-        width: 100%;
-        height: 100px;
-        margin-top: 0;
-        color: white;
-        margin-bottom: 0px;
-
-
-    }
-
-
-    .header {
-
-        width: 100%;
-        background: #1c355c;
-        color: white;
-        text-align: center;
+        }
+        h1{
+            text-align: center;
+            width: 100%;
+            height: 100px;
+            margin-top:0;
+            color: white;
+            margin-bottom:0px;
+            
+            
+        }
 
 
-    }
+        .header {
+            
+            width: 100%;
+            background: #1c355c;
+            color: white;
+            text-align: center;
+            
+            
+        }
 
-    .form1 {
-        margin-top: 15px;
-        width: 80%;
-        padding: 40px;
+        .form1{
+            margin-top: 15px;
+            width: 80%;
+            padding: 40px;
+        
+        }
+        input {
+            background-color:#e1e6ed;
+            border:0.5px solid #e1e6ed;
+        }
+        select {
+            background-color:#e1e6ed;
+            border:0.5px solid #e1e6ed;
+        }
+        input[type=text]:focus{
+            border:0.8px solid #e1e6ed;
+        }
+        input[type=select]:focus{
+            border:0.8px solid #e1e6ed;
 
-    }
+        }
+        input[type="radio"].custom {
+  display: none;
+}
 
-    input {
-        background-color: #e1e6ed;
-        border: 0.5px solid #e1e6ed;
-    }
+/* Create a custom radio button for elements with the custom class */
+            input[type="radio"].custom + label.custom-label {
+            display: inline-block;
+            padding: 7px 18px;
+            margin: 5px;
+            cursor: pointer;
+            
+            border-radius: 8px;
+            background-color: #ffffff;
+            color: #1c355c;
+            transition: background-color 0.3s, color 0.3s;
+            font-size:bold;
+            }
 
-    select {
-        background-color: #e1e6ed;
-        border: 0.5px solid #e1e6ed;
-    }
+            /* Style the selected state for elements with the custom class */
+            input[type="radio"].custom:checked + label.custom-label {
+            background-color: #0056b3;
+            color: #ffffff;
+            border-color: #007BFF;
+            border:2px solid white;
+            }
+            .fixed-button {
+            position: fixed; /* Fixes the button in place */
+            right: 0px; /* Distance from the right side */
+            top: 55%; /* Centers it vertically */
+            transform: translateY(-50%); /* Adjusts the position to truly center it */
+            background-color: #1c355c; /* Button color */
+            color: white; /* Text color */
+            border: none; /* No border */
+            padding: 15px 20px; /* Padding around the text */
+            border-radius: 15px 0px 0px 15px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor on hover */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+        }
 
-    input[type=text]:focus {
-        border: 0.8px solid #e1e6ed;
-    }
+        .fixed-button2 {
+            position: fixed; /* Fixes the button in place */
+            right: 0px; /* Distance from the right side */
+            top: 62%; /* Centers it vertically */
+            transform: translateY(-50%); /* Adjusts the position to truly center it */
+            background-color: #1c355c; /* Button color */
+            color: white; /* Text color */
+            border: none; /* No border */
+            padding: 15px 20px; /* Padding around the text */
+            border-radius: 15px 0px 0px 15px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor on hover */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+        }
 
-    input[type=select]:focus {
-        border: 0.8px solid #e1e6ed;
+        .fixed-button3 {
+            position: fixed; /* Fixes the button in place */
+            right: 0px; /* Distance from the right side */
+            top: 70%; /* Centers it vertically */
+            transform: translateY(-50%); /* Adjusts the position to truly center it */
+            background-color: #1c355c; /* Button color */
+            color: white; /* Text color */
+            border: none; /* No border */
+            padding: 15px 20px; /* Padding around the text */
+            border-radius: 15px 0px 0px 15px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor on hover */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+        }
 
-    }
+        .fixed-button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+
+        .fixed-button2:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+        .fixed-button3:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+        
     .required-field::after {
         content: " *";
         color: goldenrod;
@@ -441,178 +619,183 @@
     .error {
         border: 2px solid red;
     }
-    </style>
-</head>
+        </style>
 
-<body>
-    <div class="container">
+
+<script type="text/javascript">
+        function openNewTab(url) {
+            window.open(url, '_blank'); // Open the passed URL in a new tab
+        }
+        function validateForm() {
+            // Get all checkboxes
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            
+            // Check if at least one checkbox is selected
+            let isAnyCheckboxChecked = false;
+            for (let checkbox of checkboxes) {
+                if (checkbox.checked) {
+                    isAnyCheckboxChecked = true;
+                    break;
+                }
+            }
+            
+            if (!isAnyCheckboxChecked) {
+                alert("Please select at least one checkbox.");
+                return false; // Prevent form submission
+            }
+        }
+
+
+    
+    </script>
+        </head>
+        <body>
+        <div class="container">
         <div class="header">
-            <h1></br> 4G Site Informations </h1>
-            Fill <?php echo $row['SITE_CODE']."L"?> Informations.</br>
-            </br>
+                    <h1></br> 4G Site Informations </h1>
+                    Fill  <?php echo $row['SITE_CODE']."L"?>  Informations.</br>
+                    </br>
+            </div>
+        <form id ="myForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" onsubmit= "return validateForm();">
+        <div class="form1">
+        <div>
+        <input type ="hidden" name ="id" value="<?php echo $siteid; ?>">
+        <input type ="hidden" name ="sitecode" value="<?php echo $row['SITE_CODE']; ?>">
+        <input type ="hidden" name ="sitename" value="<?php echo $row['SITE_NAME']; ?>">
         </div>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            <div class="form1">
-                <div>
-                    <input type="hidden" name="id" value="<?php echo $siteid; ?>">
-                    <input type="hidden" name="sitecode" value="<?php echo $row['SITE_CODE']; ?>">
-                    <input type="hidden" name="sitename" value="<?php echo $row['SITE_NAME']; ?>">
-                </div>
-                <div>
-                    <label for="node">E NodeB_ID:</label>
-                    <input type="text" name="nodeb" size="5" id="node"></br></br>
-                </div>
+    
+        <div>
+            BTS Type:   <select name="BTS" required>    
+            <option value="">--</option>     
+                <option value="BTS5900">BTS5900</option> 
+                <option value="DBS3900">DBS3900</option>
+                <option value="DBS5900">DBS5900</option>
+                <option value="BTS3900A">BTS3900A</option>
+                <option value="BTS3900L">BTS3900L</option>
+                <option value="6102">6102</option>
+                <option value="6103">6103</option>
+                <option value="6150">6150</option>
+                <option value="6201">6201</option>
+                <option value="6301">6301</option>
+                <option value="6601">6601</option>
+                <option value="6102L">6102L</option>
+                <option value="6201L">6201L</option>
+                <option value="5212">5212</option>
+                <option value="5216">5216</option>
+                <option value="BB5212">BB5212</option>
+                <option value="DUS3102">DUS3102</option>
+                <option value="DUS5201">DUS5201</option>
+                <option value="RBS6601">RBS6601</option>
+                <option value="RBS6102L">RBS6102L</option>
+            </select>
+            </br></br>
+        </div>
+        
+        <div>
+            <label for="air date" required>4G On Air Date:</label>
+            <input type ="date" name="onairdate" size="15" id="air date"></br></br>
+        </div>
 
-                <div>
-                    BTS Type: <select name="BTS">
-                        <option value="">--</option>
-                        <option value="DBS3900">DBS3900</option>
-                        <option value="DBS5900">DBS5900</option>
-                        <option value="BTS3900A">BTS3900A</option>
-                        <option value="BTS3900L">BTS3900L</option>
-                        <option value="6102">6102</option>
-                        <option value="6103">6103</option>
-                        <option value="6150">6150</option>
-                        <option value="6201">6201</option>
-                        <option value="6301">6301</option>
-                        <option value="6601">6601</option>
-                        <option value="6102L">6102L</option>
-                        <option value="6201L">6201L</option>
-                        <option value="5212">5212</option>
-                        <option value="5216">5216</option>
-                        <option value="BB5212">BB5212</option>
-                        <option value="DUS3102">DUS3102</option>
-                        <option value="DUS5201">DUS5201</option>
-                        <option value="RBS6601">RBS6601</option>
-                        <option value="RBS6102L">RBS6102L</option>
-                    </select>
-                    </br></br>
-                </div>
-                <div>
-                    Site Status: <select name="status">
-
-
-                        <option value="onair">On Air</option>
-                        <option value="On Air Stopped">On Air Stopped</option>
-                        <option value="On Air Stopped2">On Air Stopped2</option>
-                    </select>
-                    </br></br>
-                </div>
-                <div>
-                    <label for="air date">4G On Air Date:</label>
-                    <input type="date" name="onairdate" size="15" id="air date"></br></br>
-                </div>
-
-                <div>
-                    <label for="rest">Restoration Date:</label>
-                    <input type="date" name="restoration" size="15" id="rest"></br></br>
-                </div>
-                <div>
-                    <label for="note">Site Notes:</label>
-                    <input type="text" name="snotes" size="89" id="note"></br></br>
-                </div>
-                <div>
-                    <label for="lac">LAC:</label>
-                    <input type="text" name="lac" size="4" id="lac"></br></br>
-                </div>
+        <div>
+            <label for="rest">Restoration Date:</label>
+            <input type ="date" name="restoration" size="15" id="rest"></br></br>
+        </div>
+        <div>
+        <label for="note">Site Notes:</label>
+            <input type ="text" name="snotes" size="89" id="note"></br></br>
+        </div>
+        <div>
+        <label for="lac" required>TAC:</label>
+            <input type ="text" name="lac" size="4" id="lac"></br></br>
+        </div>
 
 
 
 
-                <div>
+        <div>
 
-                    <div>
-                        Select Cells:</br>
-                        <input type="checkbox" name="cell[]" value="A">A
-                        <input type="text" name="azimutha" size="5" placeholder="Azimuth"
-                            value="<?php echo $row2 !== false  ? $azimuth1: ''; ?>">
-                        <input type="text" name="heighta" size="5" placeholder="Height"
-                            value="<?php echo $row2 !== false  ? $height1: ''; ?>">
-                        <input type="text" name="mtilta" size="5" placeholder="M_TILT"
-                            value="<?php echo $row2 !== false  ? $mtilt1: ''; ?>">
-                        <input type="text" name="etilta" size="5" placeholder="E_TILT"
-                            value="<?php echo $row2 !== false  ? $etilt1: ''; ?>">
-                        <input type="text" name="area1a" size="15" placeholder="Arabic Serving Area"
-                            value="<?php echo $row2 !== false  ? $earea1: ''; ?>">
-                        <input type="text" name="area2a" size="15" placeholder="English Serving Area"
-                            value="<?php echo $row2 !== false  ? $aarea1: ''; ?>"></br>
-                        <input type="text" name="cnotea" size="90" placeholder="Cell Note">
+        <div>
+            Select Cells:</br>
+            <input type = "checkbox" name="cell[]" value="A">A
+            <input type ="text" name="azimutha" size="5" placeholder ="Azimuth"              value = "<?php echo $row2 !== false  ? $azimuth1: ''; ?>">
+            <input type ="text" name="heighta" size="5"  placeholder ="Height"               value = "<?php echo $row2 !== false  ? $height1: ''; ?>">
+            <input type ="text" name="mtilta" size="5"   placeholder ="M_TILT"               value = "<?php echo $row2 !== false  ? $mtilt1: ''; ?>">
+            <input type ="text" name="etilta" size="5"   placeholder ="E_TILT"               value = "<?php echo $row2 !== false  ? $etilt1: ''; ?>">
+            <input type ="text" name="area1a" size="15"  placeholder ="Arabic Serving Area"  value = "<?php echo $row2 !== false  ? $earea1: ''; ?>">
+            <input type ="text" name="area2a" size="15"  placeholder ="English Serving Area" value = "<?php echo $row2 !== false  ? $aarea1: ''; ?>"></br>
+            <input type ="text" name="cnotea" size="90"  placeholder="Cell Note">
 
-                    </div>
+        </div>
 
-                    <div>
-                        </br>
-                        <input type="checkbox" name="cell[]" value="B">B
-                        <input type="text" name="azimuthb" size="5" placeholder="Azimuth"
-                            value="<?php echo $row3 !== false ? $azimuth2: '' ?>">
-                        <input type="text" name="heightb" size="5" placeholder="Height"
-                            value="<?php echo $row3 !== false ? $height2: '' ?>">
-                        <input type="text" name="mtiltb" size="5" placeholder="M_TILT"
-                            value="<?php echo $row3 !== false ? $mtilt2: '' ?>">
-                        <input type="text" name="etiltb" size="5" placeholder="E_TILT"
-                            value="<?php echo $row3 !== false ? $etilt2: '' ?>">
-                        <input type="text" name="area1b" size="15" placeholder="Arabic Serving Area"
-                            value="<?php echo $row3 !== false ? $earea2: '' ?>">
-                        <input type="text" name="area2b" size="15" placeholder="English Serving Area"
-                            value="<?php echo $row3 !== false ? $aarea2: '' ?>"></br>
-                        <input type="text" name="cnoteb" size="90" placeholder="Cell Note">
+        <div>
+        </br>
+            <input type = "checkbox" name="cell[]" value="B">B
+            <input type ="text" name="azimuthb" size="5" placeholder ="Azimuth"               value = "<?php echo $row3 !== false ? $azimuth2: '' ?>">
+            <input type ="text" name="heightb"  size="5" placeholder ="Height"                value = "<?php echo $row3 !== false ? $height2: '' ?>">
+            <input type ="text" name="mtiltb"   size="5" placeholder ="M_TILT"                value = "<?php echo $row3 !== false ? $mtilt2: '' ?>">
+            <input type ="text" name="etiltb"   size="5" placeholder ="E_TILT"                value = "<?php echo $row3 !== false ? $etilt2: '' ?>">
+            <input type ="text" name="area1b"   size="15" placeholder ="Arabic Serving Area"  value = "<?php echo $row3 !== false ? $earea2: '' ?>">
+            <input type ="text" name="area2b"   size="15" placeholder ="English Serving Area" value = "<?php echo $row3 !== false ? $aarea2: '' ?>"></br>
+            <input type ="text" name="cnoteb" size="90"  placeholder="Cell Note">
 
-                    </div>
-                    <div>
-                        </br>
-                        <input type="checkbox" name="cell[]" value="C">C
-                        <input type="text" name="azimuthC" size="5" placeholder="Azimuth"
-                            value="<?php echo $row4 !== false ? $azimuth3: '' ?>">
-                        <input type="text" name="heightC" size="5" placeholder="Height"
-                            value="<?php echo $row4 !== false ? $height3: '' ?>">
-                        <input type="text" name="mtiltC" size="5" placeholder="M_TILT"
-                            value="<?php echo $row4 !== false ? $mtilt3: '' ?>">
-                        <input type="text" name="etiltC" size="5" placeholder="E_TILT"
-                            value="<?php echo $row4 !== false ? $etilt3: '' ?>">
-                        <input type="text" name="area1C" size="15" placeholder="Arabic Serving Area"
-                            value="<?php echo $row4 !== false ? $earea3: '' ?>">
-                        <input type="text" name="area2C" size="15" placeholder="English Serving Area"
-                            value="<?php echo $row4 !== false ? $aarea3: '' ?>"></br>
-                        <input type="text" name="cnoteC" size="90" placeholder="Cell Note">
-                    </div>
-                    <div>
-                        </br>
-                        <input type="checkbox" name="cell[]" value="D">D
-                        <input type="text" name="azimuthd" size="5" placeholder="Azimuth"
-                            value="<?php echo $row5 !== false ? $azimuth4: '' ?>">
-                        <input type="text" name="heightd" size="5" placeholder="Height"
-                            value="<?php echo $row5 !== false ? $height4: '' ?>">
-                        <input type="text" name="mtiltd" size="5" placeholder="M_TILT"
-                            value="<?php echo $row5 !== false ? $mtilt4: '' ?>">
-                        <input type="text" name="etiltd" size="5" placeholder="E_TILT"
-                            value="<?php echo $row5 !== false ? $etilt4: '' ?>">
-                        <input type="text" name="area1d" size="15" placeholder="Arabic Serving Area"
-                            value="<?php echo $row5 !== false ? $earea4: '' ?>">
-                        <input type="text" name="area2d" size="15" placeholder="English Serving Area"
-                            value="<?php echo $row5 !== false ? $aarea4: '' ?>"></br>
-                        <input type="text" name="cnoted" size="90" placeholder="Cell Note">
+        </div>
+        <div>
+        </br>
+            <input type = "checkbox" name="cell[]" value="C">C
+            <input type ="text" name="azimuthC" size="5" placeholder ="Azimuth"              value = "<?php echo $row4 !== false ? $azimuth3: '' ?>">
+            <input type ="text" name="heightC"  size="5"  placeholder ="Height"              value = "<?php echo $row4 !== false ? $height3: '' ?>">
+            <input type ="text" name="mtiltC" size="5"   placeholder ="M_TILT"               value = "<?php echo $row4 !== false ? $mtilt3: '' ?>">
+            <input type ="text" name="etiltC" size="5"   placeholder  ="E_TILT"              value = "<?php echo $row4 !== false ? $etilt3: '' ?>">
+            <input type ="text" name="area1C" size="15"  placeholder ="Arabic Serving Area"  value = "<?php echo $row4 !== false ? $earea3: '' ?>">
+            <input type ="text" name="area2C" size="15"  placeholder ="English Serving Area" value = "<?php echo $row4 !== false ? $aarea3: '' ?>"></br>
+            <input type ="text" name="cnoteC" size="90"  placeholder="Cell Note">
+        </div>
+        <div>
+        </br>
+            <input type = "checkbox" name="cell[]" value="D">D
+            <input type ="text" name="azimuthd" size="5" placeholder ="Azimuth"              value = "<?php echo $row5 !== false ? $azimuth4: '' ?>">
+            <input type ="text" name="heightd" size="5"  placeholder ="Height"               value = "<?php echo $row5 !== false ? $height4: '' ?>">
+            <input type ="text" name="mtiltd" size="5"   placeholder ="M_TILT"               value = "<?php echo $row5 !== false ? $mtilt4: '' ?>">
+            <input type ="text" name="etiltd" size="5"   placeholder ="E_TILT"               value = "<?php echo $row5 !== false ? $etilt4: '' ?>">
+            <input type ="text" name="area1d" size="15"  placeholder ="Arabic Serving Area"  value = "<?php echo $row5 !== false ? $earea4: '' ?>">
+            <input type ="text" name="area2d" size="15"  placeholder ="English Serving Area" value = "<?php echo $row5 !== false ? $aarea4: '' ?>"></br>
+            <input type ="text" name="cnoted" size="90"  placeholder="Cell Note">
 
-                    </div>
-                </div>
+        </div>
+        </div>
 
-            </div>
+        </div>
+      
+
+        <div class="footer">
+        <div class="type">
+            <label></br></label></br>
+        
 
 
-            <div class="footer">
-                <div class="type">
-                    <label>Select Next Page:</br></label></br>
+            
+        </div>
 
-                    <input type="radio" id="addsite" name="SiteType" value="addsite">Basic Site Info Page.
-
-                </div>
-
-                <div class="submit">
-                    <input type="submit" name="submit" value="Done">
-                </div>
-                <div style="clear:both;"></div>
-            </div>
+     
+        <div class ="submit">
+        <input type="submit" name="submit" value = "Done" onclick="confirmAndClose();">
+</div>
+        <div style="clear:both;"></div>
+        </div>
         </form>
-    </div>
-</body>
-
-</html>
+        <a href="update2G.php?id2=<?php echo $siteid; ?>" class="fixed-button" target="_blank">Edit 2G Info</a>
+        <a href="update3G.php?id3=<?php echo $siteid; ?>" class="fixed-button2" target="_blank">Edit 3G Info</a>
+        <a href="update_basic_info.php?id=<?php echo $siteid; ?>" class="fixed-button3" target="_blank">Edit Basic Info</a>
+        </div>
+        </body>
+        </html>
+        <script>
+function confirmAndClose() {
+    if (window.confirm('Are you sure you want to add 4G?')) {
+        document.getElementById('myForm').submit();
+        setTimeout(() => {
+            window.close();
+        }, 10); // Delay to ensure form submission completes
+    }
+}
+</script>
