@@ -4,24 +4,22 @@ include "config.php";
 <!DOCTYPE html>
 <html lang="en">
 <html>
-
 <head>
-    <meta charset="UTF-8" />
-    <link rel="stylesheet" href="fontawesome-free-6.5.2-web\css\all.min.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search data</title>
-    <script>
-    function confirm() {
-        return confirm("Are you sure you want to update?");
+<meta charset="UTF-8" />
+<link rel="stylesheet" href= "fontawesome-free-6.5.2-web\css\all.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Search data</title>
+<script>
+    function confirm(){
+        return confirm("Are you sure you want to update?" );
     }
     </script>
 </head>
-
-<body>
+<body >
     <div class="container">
         <form method="POST" onsubmit="return confirm();">
-            <input type="text" name="search" placeholder="Search data">
-            <button name="submit">Search</button>
+        <input type="text" name="search" placeholder="Search data">
+        <button name="submit">Search</button>
         </form>
         <div class="result">
             <table class="table">
@@ -193,8 +191,7 @@ include "config.php";
                 
                 ?>
             </table>
-        </div>
+        </div>    
     </div>
 </body>
-
 </html>

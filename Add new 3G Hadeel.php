@@ -741,15 +741,11 @@ die("Error executing: " . $err['message']);
 
     .submit1 {
         width: 20%;
-
         float: left;
         display: flex;
-
-
     }
 
     .submit1 button {
-
         width: 70%;
         Height: 35px;
         font-size: 17px;
