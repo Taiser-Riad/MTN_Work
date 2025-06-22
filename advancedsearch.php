@@ -1,6 +1,21 @@
 <?php 
 include "config.php";
 header('Content-Type: text/html; charset=UTF-8');
+$userrname = '';  // default value
+$dep = ''; 
+if(isset($_GET['user']))
+{
+$username =$_GET['user'];
+$sqll= "SELECT * FROM USERS WHERE USERNAME= :username";
+$result = oci_parse($conn,$sqll);
+oci_bind_by_name($result, ':username' ,$username);
+oci_execute($result);
+$row = oci_fetch_array($result , OCI_ASSOC + OCI_RETURN_NULLS);
+$userrname = $row['USERNAME'];
+$dep = $row['DEPARTMENT'];
+//echo $userrname;
+
+}
 ?>
 <?php
 $results = [];
@@ -41,7 +56,7 @@ if (!empty($selectedTables)) {
                 $joinConditions[] = "INNER JOIN TWO_G_SITES  ON NEW_SITES.ID = TWO_G_SITES.SITE_ID"; // Adjust join condition
                 $matchIndicators[] = "CASE WHEN TWO_G_SITES.SITE_ID IS NOT NULL THEN '2G'  END AS TECHNOLOGY_2G";
                 $matchIndicators[] = "TWO_G_SITES.TWOG_ON_AIR_DATE AS \"2G_ON_AIR_DATE\"";
-
+                $whereConditions[] = "NEW_SITES.ID != 2775";
                 if (!empty($_POST['yearSelectStart']) && !empty($_POST['yearSelectEnd'])) {
                     $startDate = $_POST['yearSelectStart'];
                     $endDate = $_POST['yearSelectEnd'];
@@ -124,6 +139,7 @@ if (!empty($selectedTables)) {
                 $joinConditions[] = "INNER JOIN THREE_G_SITES  ON NEW_SITES.ID = THREE_G_SITES.SITE_ID"; // Adjust join condition
                 $matchIndicators[] = "CASE WHEN THREE_G_SITES.SITE_ID IS NOT NULL THEN '3G' END AS TECHNOLOGY_3G";
                 $matchIndicators[] = "THREE_G_SITES.THREE_G_ON_AIR_DATE AS \"3G_ON_AIR_DATE\"";
+                $whereConditions[] = "NEW_SITES.ID != 2775";
                 //$technologyFlags['3G'] = true;
                 if (!empty($_POST['yearSelectStart']) && !empty($_POST['yearSelectEnd'])) {
                     $startDate = $_POST['yearSelectStart'];
@@ -203,18 +219,12 @@ if (!empty($selectedTables)) {
                     $matchIndicators[] = "THREE_G_SITES.SITE_STATUS AS \"3G_STATUS\"";
                 }
 
-                // if (!empty($_POST['restoration'])) {
-                //     $restDate = $_POST['restoration'];
-                    
-                    
-                // $whereConditions[] = "THREE_G_SITES.RESTORATION_DATE != '-' 
-                //                   AND EXTRACT(YEAR FROM TO_DATE(THREE_G_SITES.RESTORATION_DATE,'MM/DD/YYYY')) = $restDate";
-                // }
+       
                 break;
             case 'FOUR_G_SITES':
                 $joinConditions[] = "INNER JOIN FOUR_G_SITES ON NEW_SITES.ID = FOUR_G_SITES.SID"; // Adjust join condition
                 $matchIndicators[] = "CASE WHEN FOUR_G_SITES.SID IS NOT NULL THEN 'LTE' END AS TECHNOLOGY_4G";
-
+                $whereConditions[] = "NEW_SITES.ID != 2775";
                 //$technologyFlags['LTE'] = true;
                 if (!empty($_POST['yearSelectStart']) && !empty($_POST['yearSelectEnd'])) {
                     $startYear = $_POST['yearSelectStart'];
@@ -302,6 +312,7 @@ if (!empty($selectedTables)) {
                     $matchIndicators[] = "TWO_G_SITES.TWOG_ON_AIR_DATE AS \"2G_ON_AIR_DATE\"";
                     $matchIndicators[] = "THREE_G_SITES.THREE_G_ON_AIR_DATE AS \"3G_ON_AIR_DATE\"";
                     $matchIndicators[] = "THREE_G_SITES.THREE_G_ON_AIR_DATE AS \"LTE_ON_AIR_DATE\"";
+                    $whereConditions[] = "NEW_SITES.ID != 2775";
                 
                     if (!empty($_POST['yearSelectStart']) && !empty($_POST['yearSelectEnd'])) {
                         $startDate = $_POST['yearSelectStart'];
@@ -386,6 +397,7 @@ if (!empty($selectedTables)) {
                         $matchIndicators[] = "CASE WHEN TWO_G_SITES.SITE_ID IS NOT NULL AND THREE_G_SITES.SITE_ID IS NULL AND FOUR_G_SITES.SID IS NULL THEN '2G ONLY' END AS TECHNOLOGY_2G_ONLY";
                         $matchIndicators[] = "TWO_G_SITES.TWOG_ON_AIR_DATE AS \"2G_ON_AIR_DATE\"";
                         $whereConditions[] = " THREE_G_SITES.SITE_ID IS NULL AND FOUR_G_SITES.SID IS NULL";
+                        $whereConditions[] = "NEW_SITES.ID != 2775";
                         if (!empty($_POST['yearSelectStart']) && !empty($_POST['yearSelectEnd'])) {
                             $startDate = $_POST['yearSelectStart'];
                             $endDate = $_POST['yearSelectEnd'];
@@ -467,7 +479,7 @@ if (!empty($selectedTables)) {
                             $matchIndicators[] = "CASE WHEN TWO_G_SITES.SITE_ID IS NULL AND THREE_G_SITES.SITE_ID IS NOT NULL AND FOUR_G_SITES.SID IS NULL THEN '3G ONLY' END AS TECHNOLOGY_3G_ONLY";
                             $matchIndicators[] = "THREE_G_SITES.THREE_G_ON_AIR_DATE AS \"3G_ON_AIR_DATE\"";
                             $whereConditions[] = " TWO_G_SITES.SITE_ID IS NULL AND FOUR_G_SITES.SID IS NULL";
-                            
+                            $whereConditions[] = "NEW_SITES.ID != 2775";
                             //$technologyFlags['3G'] = true;
                             if (!empty($_POST['yearSelectStart']) && !empty($_POST['yearSelectEnd'])) {
                                 $startDate = $_POST['yearSelectStart'];
@@ -548,6 +560,7 @@ if (!empty($selectedTables)) {
                                 $matchIndicators[] = "CASE WHEN TWO_G_SITES.SITE_ID IS NULL AND THREE_G_SITES.SITE_ID IS NULL AND FOUR_G_SITES.SID IS NOT  NULL THEN '4G ONLY' END AS TECHNOLOGY_4G_ONLY";
                                 $matchIndicators[] = "FOUR_G_SITES.ACTIVATION_DATE AS \"LTE_ON_AIR_DATE\"";
                                 $whereConditions[] = " TWO_G_SITES.SITE_ID IS NULL AND THREE_G_SITES.SITE_ID IS NULL";
+                                $whereConditions[] = "NEW_SITES.ID != 2775";
                                 //$technologyFlags['LTE'] = true;
                                 if (!empty($_POST['yearSelectStart']) && !empty($_POST['yearSelectEnd'])) {
                                     $startYear = $_POST['yearSelectStart'];
@@ -631,7 +644,7 @@ if (!empty($selectedTables)) {
                                             $matchIndicators[] = "TWO_G_SITES.TWOG_ON_AIR_DATE AS \"2G_ON_AIR_DATE\"";
                                             $matchIndicators[] = "THREE_G_SITES.THREE_G_ON_AIR_DATE AS \"3G_ON_AIR_DATE\"";
                                              $whereConditions[] = "TWO_G_SITES.SITE_ID IS NOT NULL AND THREE_G_SITES.SITE_ID IS NOT NULL AND FOUR_G_SITES.SID IS NULL";
-                                        
+                                             $whereConditions[] = "NEW_SITES.ID != 2775";
                                             //$technologyFlags['LTE'] = true;
                                             if (!empty($_POST['yearSelectStart']) && !empty($_POST['yearSelectEnd'])) {
                                                 $startYear = $_POST['yearSelectStart'];
@@ -728,7 +741,7 @@ if (!empty($selectedTables)) {
                                                 $matchIndicators[] = "TWO_G_SITES.TWOG_ON_AIR_DATE AS \"2G_ON_AIR_DATE\"";
                                                 $matchIndicators[] = "FOUR_G_SITES.ACTIVATION_DATE AS \"LTE_ON_AIR_DATE\"";
                                                 $whereConditions[] = " TWO_G_SITES.SITE_ID IS NOT NULL AND THREE_G_SITES.SITE_ID IS NULL AND FOUR_G_SITES.SID IS NOT NULL";
-                                            
+                                                $whereConditions[] = "NEW_SITES.ID != 2775";
                                                 //$technologyFlags['LTE'] = true;
                                                 if (!empty($_POST['yearSelectStart']) && !empty($_POST['yearSelectEnd'])) {
                                                     $startYear = $_POST['yearSelectStart'];
@@ -823,7 +836,7 @@ if (!empty($selectedTables)) {
                                                     $matchIndicators[] = "THREE_G_SITES.THREE_G_ON_AIR_DATE AS \"3G_ON_AIR_DATE\"";
                                                     $matchIndicators[] = "FOUR_G_SITES.ACTIVATION_DATE AS \"LTE_ON_AIR_DATE\"";
                                                     $whereConditions[] = " TWO_G_SITES.SITE_ID IS NULL AND THREE_G_SITES.SITE_ID IS NOT NULL AND FOUR_G_SITES.SID IS NOT NULL";
-                                                
+                                                    $whereConditions[] = "NEW_SITES.ID != 2775";
                                                     //$technologyFlags['LTE'] = true;
                                                     if (!empty($_POST['yearSelectStart']) && !empty($_POST['yearSelectEnd'])) {
                                                         $startYear = $_POST['yearSelectStart'];
@@ -930,7 +943,7 @@ else {
     $matchIndicators[] = "TWO_G_SITES.TWOG_ON_AIR_DATE AS \"2G_ON_AIR_DATE\"";
     $matchIndicators[] = "THREE_G_SITES.THREE_G_ON_AIR_DATE AS \"3G_ON_AIR_DATE\"";
     $matchIndicators[] = "FOUR_G_SITES.ACTIVATION_DATE AS \"LTE_ON_AIR_DATE\"";
-
+    $whereConditions[] = "NEW_SITES.ID != 2775";
 
     if (!empty($_POST['yearSelectStart']) && !empty($_POST['yearSelectEnd'])) {
         $startDate = $_POST['yearSelectStart'];
@@ -1184,8 +1197,8 @@ oci_close($conn);
     border: 1px solid #ccd0d4;
     border-radius: 25px;
     background-color: #d7e0ee;
-    font-size: small;
-    color: #495057;
+    font-size: 13px;
+    color: #1c355c;
     transition: border-color 0.3s, box-shadow 0.3s;
 }
 
@@ -1245,6 +1258,7 @@ oci_close($conn);
         .results-section th {
             background-color: #1c355c;
             color: white;
+            
            
            
         }
@@ -1281,7 +1295,7 @@ oci_close($conn);
         /* Responsive Design */
         @media (max-width: 768px) {
             .filter div {
-                flex: 1 1 100%;
+                flex: 1 0.5 100%;
             }
 
             .field{
@@ -1318,10 +1332,13 @@ th, td {
     height: 30px;
     white-space: nowrap;
     padding: 8px; /* Adds space inside table cells */
+    
+
 }
 
 thead {
     background-color: #f1f1f1; /* Optional: Light background for header */
+   
 }
 
 tbody tr:nth-child(even) {
@@ -1366,25 +1383,31 @@ hr {
 
  button {
             padding: 10px 15px;
-            background-color: #4CAF50;
+            background-color: #1c355c;
             color: white;
-            border: none;
+            border: all;
+            border-radius: 12px;
             cursor: pointer;
+            margin-left: auto;
+            display :left;
+
         }
         button:hover {
-            background-color: #45a049;
+            background-color:rgb(197, 88, 111);
         }
 
         table, th, td {
     border: 2px solid #b4c5e0;
     border-collapse: collapse;
     text-align: center;
+   
 }
 
 table, tr, td {
     font-size: 14px;
     height: 30px;
     white-space: nowrap;
+    font-weight: 500;
 }
 
 .table-wrapper {
@@ -1410,6 +1433,70 @@ thead {
 tbody {
     display: table-row-group; /* Group rows together */
 }
+.btn{
+    
+
+}
+.btn:hover {
+  background-color: RoyalBlue;
+}
+.btnn{
+    float: right;
+}
+/* Base Button Styling */
+/* Base Button Styles */
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px; /* Space between icon and text */
+  padding: 10px 20px;
+  font-size: 16px;
+  font-family: sans-serif;
+  border: none;
+  border-radius: 4px;
+  background-color: #1c355c;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  /* Ensures that overflowing parts (icons sliding in) don’t break layout */
+  overflow: hidden;
+}
+
+.button:hover {
+  background-color: #15305a;
+}
+
+/* Icon Base Styles */
+.btn-icon {
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  /* Keep the icon allocated a bit of space without being visible */
+  display: inline-block;
+}
+
+/* ---------------------------
+   Back Button Animation
+   --------------------------- */
+.back-button .btn-icon {
+  transform: translateX(-10px);  /* Start slightly off to the left */
+}
+
+.back-button:hover .btn-icon {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ---------------------------
+   Close Button Animation
+   --------------------------- */
+.close-button .btn-icon {
+  transform: translateX(10px);  /* Start slightly off to the right */
+}
+
+.close-button:hover .btn-icon {
+  opacity: 1;
+  transform: translateX(0);
+}
 
    
 
@@ -1419,10 +1506,14 @@ tbody {
 <body >
     
 <div class="container">
+
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
         <!-- <div class="header"><h1>Search with Filters</h1></div> -->
         <div class="jumbotron">
+
       <h1 class="header"><i class="fas fa-search" ></i> Advanced Search Page</h1>
+
+
     </div>
 
     <br>
@@ -1439,6 +1530,7 @@ tbody {
     
     
                     <div>
+
                     <label for="vendor"><i class="fas fa-industry icon" aria-hidden="true"></i>Supplier:</label>
                         <select id="vevdor" name="vendor" >
                             <option value="">All</option>
@@ -1458,7 +1550,7 @@ tbody {
                     </div>
     
                     <div class="note" style="flex: 1 1 100%;">
-                        <p><strong >Note:</strong><strong style="color: goldenrod;"> Choose between two years (Start, End) or select a month with start year.</strong></p>
+                        <p><strong >Note:</strong><strong style="color: goldenrod;"> </br>Choose between two years (Start, End) or select a month with start year.</strong></p>
                     </div>
              
     
@@ -1584,7 +1676,7 @@ tbody {
                     </div>
 
 
-                
+              
                
 
                 <!-- <div>
@@ -1746,7 +1838,25 @@ tbody {
 
           <!-- Footer -->
         <div class="footer">
-            <p>&copy; <?php echo date("Y"); ?> MTN SYRIA</p>
+           <!--  <p>&copy; <?php echo date("Y"); ?> MTN SYRIA</p> -->
+            <!-- Back Button -->
+<?php
+echo "<button type='button' class='button back-button' onclick=\"location.href='Mainpage.php?user=" . $userrname . "';\">";
+echo "<span class='btn-icon'>&laquo;</span>";
+echo "<span class='btn-text'>Back</span>";
+echo "</button>";
+?>
+
+<!-- Close Button -->
+<button type="button" class="button close-button" onclick="window.close();">
+    <span class="btn-text">Close</span>
+    <span class="btn-icon">&times;</span>
+</button>
+
+
+
+
+
         </div>
     </div>
     
