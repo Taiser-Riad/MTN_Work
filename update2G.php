@@ -805,8 +805,8 @@ while ($row1 = oci_fetch_array($resultt, OCI_ASSOC + OCI_RETURN_NULLS)){
     <input type = "checkbox" name="cell[]"    value="<?= 'A' ?>" <?php if ( $data['A']) echo 'checked'; ?> ><?= 'A' ?>
 
     <input type ="text"      name="cellida"   size="4"  placeholder="Cell ID"               value = "<?= $data['A']['CELL_ID']?? '' //echo cell_id and if it is null echo ''?>">
-    <input type ="text"      name="cellcodea" size="5"  placeholder="Cell Code"             value = "<?= $data['A']['CELL_CODE']?? 'empty' ?>" >
-    <input type ="text"      name="cellnamea" size="15"  placeholder="Cell Name"            value = "<?= $data['A']['CELL_NAME']?? 'woow' ?>" >
+    <input type ="text"      name="cellcodea" size="5"  placeholder="Cell Code"             value = "<?= $data['A']['CELL_CODE']?? '' ?>" >
+    <input type ="text"      name="cellnamea" size="15"  placeholder="Cell Name"            value = "<?= $data['A']['CELL_NAME']?? '' ?>" >
     <input type ="text"      name="azimutha"  size="3"  placeholder="Azimuth"               value = "<?= $data['A']['AZIMUTH']?? '' ?>" >
     <input type ="text"      name="celldatea" size="6"  placeholder="On Air Date"           value = "<?= $data['A']['CELL_ON_AIR_DATE']?? '' ?>" >
     <input type ="text"      name="heighta"   size="3"  placeholder="Height"                value = "<?= $data['A']['HIEGHT']?? '' ?>">

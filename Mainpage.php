@@ -267,9 +267,11 @@ $dep = $row['DEPARTMENT'];
         <div class="logo"></div>
         <nav role="navigation" class="primary-navigation">
             <ul>
+		
                 <li><a href="#features"><i class="fas fa-home"></i> Home & Features</a></li>
                 <!-- <li><a href="#features"><i class="fas fa-braille"></i> Features</a></li> -->
                 <li class="dropdown-trigger"><a href="#"><i class="fas fa-search"></i>  Search</a>
+		
                     <ul class="dropdown">
                     <?php    
                        echo"
@@ -287,7 +289,9 @@ $dep = $row['DEPARTMENT'];
                         <li><a href="Add new 3G.php" class="disabled"><span>Add New 3G</span></a></li>
                         <li><a href="Add new 4G.php" class="disabled"><span>Add New 4G</span></a></li>
                     </ul>
-                </li>
+        <?php  echo"      </li>
+		<li><a href=searchpower.php?user=".$username."><i class='fa fa-power-off' style='color: white'></i> Add Power </a></li>";
+        ?>
                 <?php
 // Check if the cookie exists
 if (isset($_COOKIE['loggedInUser'])) {

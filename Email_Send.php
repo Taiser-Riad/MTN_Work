@@ -11,28 +11,31 @@ if (!$conn) {
     $e = oci_error();
     die("Connection failed: " . $e['message']);
 }
-require 'path/to/PHPMailer/src/Exception.php';
-require 'path/to/PHPMailer/src/PHPMailer.php';
-require 'path/to/PHPMailer/src/SMTP.php';
-define('SMTP_HOST', 'smtp.office365.com');
-define('SMTP_PORT', 587);
-define('SMTP_USER', 'tkadilo@mtn.com');   
-define('SMTP_PASS', 'Mtn@Ta#12345');       
-define('FROM_EMAIL', 'tkadilo@mtn.com');  
-define('ADMIN_EMAIL', 'admin@mtn.com');     
-define('SITE_NAME', 'Database Update Tracker');
+
+// Load PHPMailer (adjust path as needed)
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
+
+// Load configuration from secure file
+require_once 'secure_config.php';
+
 // Function to send email
 function sendUpdateEmail($site_id, $site_code, $changes) {
     $mail = new PHPMailer(true);
     
     try {
-        // Server settings
+        // Server settings for MTN Outlook
         $mail->isSMTP();
         $mail->Host       = SMTP_HOST;
         $mail->SMTPAuth   = true;
         $mail->Username   = SMTP_USER;
         $mail->Password   = SMTP_PASS;
-        $mail->SMTPSecure = 'tls';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = SMTP_PORT;
         
         // Recipients
@@ -43,47 +46,68 @@ function sendUpdateEmail($site_id, $site_code, $changes) {
         $mail->isHTML(true);
         $mail->Subject = "Database Update Notification: $site_code";
         
-        $message = "<html><body>";
-        $message .= "<h2>Database Update Notification</h2>";
-        $message .= "<p>A site in the database has been updated:</p>";
-        $message .= "<table>";
-        $message .= "<tr><td><strong>Site ID:</strong></td><td>$site_id</td></tr>";
-        $message .= "<tr><td><strong>Site Code:</strong></td><td>$site_code</td></tr>";
-        $message .= "<tr><td><strong>Updated At:</strong></td><td>" . date('Y-m-d H:i:s') . "</td></tr>";
-        $message .= "</table>";
+        $message = "<html>
+        <head>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; }
+                h2 { color: #1a2a6c; }
+                table { border-collapse: collapse; width: 100%; margin: 15px 0; }
+                th { background-color: #2c3e50; color: white; padding: 10px; text-align: left; }
+                td { padding: 8px; border: 1px solid #ddd; }
+                tr:nth-child(even) { background-color: #f2f2f2; }
+                .notification { background-color: #e8f4fc; border-left: 4px solid #3498db; padding: 15px; margin: 15px 0; }
+            </style>
+        </head>
+        <body>
+            <h2>Database Update Notification</h2>
+            <div class='notification'>
+                <p>A site in the database has been updated:</p>
+                <table>
+                    <tr><td><strong>Site ID:</strong></td><td>$site_id</td></tr>
+                    <tr><td><strong>Site Code:</strong></td><td>$site_code</td></tr>
+                    <tr><td><strong>Updated At:</strong></td><td>" . date('Y-m-d H:i:s') . "</td></tr>
+                </table>
+            </div>";
         
         if (!empty($changes)) {
-            $message .= "<h3>Changes:</h3>";
-            $message .= "<table border='1' cellpadding='8'>";
-            $message .= "<tr><th>Field</th><th>Old Value</th><th>New Value</th></tr>";
+            $message .= "<h3>Changes Detected:</h3>
+                <table>
+                    <tr>
+                        <th>Field</th>
+                        <th>Old Value</th>
+                        <th>New Value</th>
+                    </tr>";
+            
             foreach ($changes as $field => $values) {
-                $message .= "<tr>";
-                $message .= "<td>$field</td>";
-                $message .= "<td>" . htmlspecialchars($values['old']) . "</td>";
-                $message .= "<td>" . htmlspecialchars($values['new']) . "</td>";
-                $message .= "</tr>";
+                $message .= "<tr>
+                    <td>$field</td>
+                    <td>" . htmlspecialchars($values['old']) . "</td>
+                    <td>" . htmlspecialchars($values['new']) . "</td>
+                </tr>";
             }
+            
             $message .= "</table>";
         }
         
-        $message .= "<p>This is an automated notification. Please do not reply.</p>";
-        $message .= "</body></html>";
+        $message .= "<p>This is an automated notification. Please do not reply.</p>
+            <p><strong>MTN Database Management System</strong></p>
+        </body>
+        </html>";
         
         $mail->Body = $message;
         $mail->send();
         return true;
     } catch (Exception $e) {
-        error_log("Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
+        error_log("Email Error: " . $e->getMessage());
         return false;
     }
 }
 
-// Simulate update - in real app this would be triggered by your update logic
+// Simulate update
 if (isset($_POST['simulate_update'])) {
     $site_id = 123;
     $site_code = 'SITE-001';
     
-    // This would come from your actual update process
     $changes = [
         'site_name' => ['old' => 'Old Site Name', 'new' => 'New Site Name'],
         'power_backup' => ['old' => 'Generator', 'new' => 'Solar'],
@@ -92,47 +116,23 @@ if (isset($_POST['simulate_update'])) {
     
     $email_sent = sendUpdateEmail($site_id, $site_code, $changes);
     $message = $email_sent ? 
-        "Email notification sent successfully!" : 
-        "Failed to send email notification. Check server logs.";
-}
-
-// PHPMailer class (should be included separately in real app)
-class PHPMailer {
-    public $Host;
-    public $SMTPAuth;
-    public $Username;
-    public $Password;
-    public $SMTPSecure;
-    public $Port;
-    public $ErrorInfo;
-    
-    public function isSMTP() {}
-    public function setFrom($email, $name) {}
-    public function addAddress($email) {}
-    public function isHTML($flag) {}
-    public function Subject($subject) {}
-    public function Body($body) {}
-    public function send() {
-        // In a real app, this would actually send the email
-        return true;
-    }
+        "<div class='notification success'>Email notification sent successfully!</div>" : 
+        "<div class='notification error'>Failed to send email notification. Check server logs.</div>";
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oracle Database Update Tracker</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <title>MTN - Database Update Tracker</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
@@ -154,21 +154,33 @@ class PHPMailer {
         }
         
         .header {
-            background: #2c3e50;
+            background: #1a2a6c;
+            background: linear-gradient(to right, #1a2a6c, #b21f1f);
             color: white;
-            padding: 25px;
+            padding: 30px;
             text-align: center;
             position: relative;
+        }
+        
+        .mtn-logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 2rem;
+            color: #ffcc00;
         }
         
         .header h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
+            font-weight: 600;
         }
         
         .header p {
             font-size: 1.1rem;
-            opacity: 0.8;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
         }
         
         .notification-bell {
@@ -176,7 +188,7 @@ class PHPMailer {
             top: 20px;
             right: 20px;
             font-size: 2rem;
-            color: #f1c40f;
+            color: #ffcc00;
             animation: ring 2s infinite;
         }
         
@@ -200,24 +212,25 @@ class PHPMailer {
             padding: 25px;
             margin-bottom: 25px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            border-left: 4px solid #3498db;
+            border-left: 4px solid #1a2a6c;
         }
         
         .card h2 {
-            color: #2c3e50;
+            color: #1a2a6c;
             margin-bottom: 20px;
             display: flex;
             align-items: center;
+            font-weight: 600;
         }
         
         .card h2 i {
             margin-right: 10px;
-            color: #3498db;
+            color: #1a2a6c;
         }
         
         .card p {
             line-height: 1.6;
-            color: #555;
+            color: #444;
             margin-bottom: 15px;
         }
         
@@ -234,6 +247,7 @@ class PHPMailer {
             padding: 20px;
             text-align: center;
             transition: transform 0.3s;
+            border: 1px solid #e1e6ed;
         }
         
         .feature:hover {
@@ -243,18 +257,18 @@ class PHPMailer {
         
         .feature i {
             font-size: 2.5rem;
-            color: #3498db;
+            color: #1a2a6c;
             margin-bottom: 15px;
         }
         
         .feature h3 {
-            color: #2c3e50;
+            color: #1a2a6c;
             margin-bottom: 10px;
         }
         
         .btn {
             display: inline-block;
-            background: #3498db;
+            background: linear-gradient(to right, #1a2a6c, #b21f1f);
             color: white;
             padding: 12px 30px;
             border-radius: 50px;
@@ -265,12 +279,12 @@ class PHPMailer {
             cursor: pointer;
             transition: all 0.3s;
             font-size: 1rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
         
         .btn:hover {
-            background: #2980b9;
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
         }
         
         .btn-block {
@@ -281,14 +295,24 @@ class PHPMailer {
         
         .notification {
             background: #e8f4fc;
-            border-left: 4px solid #3498db;
+            border-left: 4px solid #1a2a6c;
             padding: 20px;
             border-radius: 8px;
             margin: 20px 0;
         }
         
+        .notification.success {
+            border-left-color: #2ecc71;
+            background-color: #e8f8ef;
+        }
+        
+        .notification.error {
+            border-left-color: #e74c3c;
+            background-color: #fceae9;
+        }
+        
         .notification h3 {
-            color: #3498db;
+            color: #1a2a6c;
             margin-bottom: 10px;
         }
         
@@ -300,7 +324,7 @@ class PHPMailer {
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
-            color: #2c3e50;
+            color: #1a2a6c;
         }
         
         .form-group input,
@@ -311,15 +335,11 @@ class PHPMailer {
             border: 1px solid #ddd;
             border-radius: 8px;
             font-size: 1rem;
-        }
-        
-        .form-group textarea {
-            min-height: 120px;
-            resize: vertical;
+            background-color: #f8f9fa;
         }
         
         .footer {
-            background: #2c3e50;
+            background: #1a2a6c;
             color: white;
             text-align: center;
             padding: 20px;
@@ -328,11 +348,11 @@ class PHPMailer {
         
         .email-preview {
             background: #f8f9fa;
-            border: 1px dashed #3498db;
+            border: 1px solid #1a2a6c;
             border-radius: 8px;
             padding: 20px;
             margin-top: 25px;
-            max-height: 300px;
+            max-height: 400px;
             overflow-y: auto;
         }
         
@@ -344,6 +364,7 @@ class PHPMailer {
             background: #e8f4fc;
             border-radius: 8px;
             margin-bottom: 20px;
+            border: 1px solid #1a2a6c;
         }
         
         .db-status .status-indicator {
@@ -351,19 +372,30 @@ class PHPMailer {
             height: 12px;
             border-radius: 50%;
             margin-right: 10px;
-        }
-        
-        .db-status.connected .status-indicator {
             background-color: #2ecc71;
         }
         
         .db-status .status-text {
             font-weight: 500;
+            color: #1a2a6c;
+        }
+        
+        .security-note {
+            background-color: #fff8e6;
+            border-left: 4px solid #ffcc00;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-size: 0.9rem;
         }
         
         @media (max-width: 768px) {
             .header h1 {
                 font-size: 2rem;
+            }
+            
+            .header {
+                padding: 20px;
             }
             
             .content {
@@ -379,22 +411,29 @@ class PHPMailer {
 <body>
     <div class="container">
         <div class="header">
+            <div class="mtn-logo">
+                <i class="fas fa-tower-cell"></i> MTN
+            </div>
             <div class="notification-bell">
                 <i class="fas fa-bell"></i>
             </div>
-            <h1>Oracle Database Update Tracker</h1>
-            <p>Get notified immediately when changes occur in your Oracle database</p>
+            <h1>Database Update Tracker</h1>
+            <p>Get notified immediately when changes occur in MTN's Oracle database</p>
         </div>
         
         <div class="content">
-            <div class="db-status connected">
+            <div class="db-status">
                 <div class="status-indicator"></div>
                 <div class="status-text">Connected to Oracle Database: <?php echo $connection_string; ?></div>
             </div>
             
+            <div class="security-note">
+                <i class="fas fa-shield-alt"></i> <strong>Security Note:</strong> Email credentials are stored securely outside the web root. Never store passwords in source code.
+            </div>
+            
             <div class="card">
                 <h2><i class="fas fa-info-circle"></i> How It Works</h2>
-                <p>This system automatically sends email notifications to administrators whenever updates occur in your Oracle database. The email includes details of what was changed, when it was changed, and which record was affected.</p>
+                <p>This system automatically sends email notifications to administrators whenever updates occur in MTN's Oracle database. The email includes details of what was changed, when it was changed, and which record was affected.</p>
                 
                 <div class="features">
                     <div class="feature">
@@ -406,13 +445,13 @@ class PHPMailer {
                     <div class="feature">
                         <i class="fas fa-envelope"></i>
                         <h3>Instant Alerts</h3>
-                        <p>Receive email notifications immediately after changes</p>
+                        <p>Receive Outlook email notifications immediately after changes</p>
                     </div>
                     
                     <div class="feature">
                         <i class="fas fa-shield-alt"></i>
                         <h3>Enhanced Security</h3>
-                        <p>Stay informed about critical data modifications</p>
+                        <p>Secure credential management and encrypted connections</p>
                     </div>
                 </div>
             </div>
@@ -424,7 +463,7 @@ class PHPMailer {
                 <div class="notification">
                     <h3>Step 1: Add tracking to your update script</h3>
                     <p>In your database update code, add logic to capture changes:</p>
-                    <pre style="background: #2c3e50; color: #ecf0f1; padding: 15px; border-radius: 5px; overflow-x: auto;">
+                    <pre style="background: #1a2a6c; color: white; padding: 15px; border-radius: 5px; overflow-x: auto;">
 // Before updating, get current values
 $sql_old = "SELECT * FROM NEW_SITES WHERE ID = :siteid";
 $stmt_old = oci_parse($conn, $sql_old);
@@ -454,21 +493,25 @@ if (!empty($changes)) {
                 
                 <div class="notification">
                     <h3>Step 2: Configure email settings</h3>
-                    <p>Set up your SMTP credentials in the configuration:</p>
-                    <pre style="background: #2c3e50; color: #ecf0f1; padding: 15px; border-radius: 5px; overflow-x: auto;">
-// Email configuration
-define('SMTP_HOST', 'smtp.example.com');
+                    <p>Set up your SMTP credentials in a secure configuration file:</p>
+                    <pre style="background: #1a2a6c; color: white; padding: 15px; border-radius: 5px; overflow-x: auto;">
+// File: secure_config.php (outside web root)
+&lt;?php
+// Secure configuration for MTN Outlook
+define('SMTP_HOST', 'smtp.office365.com');
 define('SMTP_PORT', 587);
-define('SMTP_USER', 'your@email.com');
+define('SMTP_USER', 'tkadilo@mtn.com');
 define('SMTP_PASS', 'your_password');
-define('FROM_EMAIL', 'notifications@yoursite.com');
-define('ADMIN_EMAIL', 'admin@yoursite.com');</pre>
+define('FROM_EMAIL', 'tkadilo@mtn.com');
+define('ADMIN_EMAIL', 'admin@mtn.com');
+define('SITE_NAME', 'MTN Database Tracker');
+?></pre>
                 </div>
             </div>
             
             <div class="card">
                 <h2><i class="fas fa-envelope"></i> Test Notification</h2>
-                <p>You can test the notification system by simulating an update:</p>
+                <p>Verify the notification system by simulating an update:</p>
                 
                 <form method="POST">
                     <div class="form-group">
@@ -482,15 +525,12 @@ define('ADMIN_EMAIL', 'admin@yoursite.com');</pre>
                     </div>
                     
                     <button type="submit" name="simulate_update" class="btn btn-block">
-                        <i class="fas fa-paper-plane"></i> Simulate Update and Send Email
+                        <i class="fas fa-paper-plane"></i> Simulate Update and Send Test Email
                     </button>
                 </form>
                 
                 <?php if (isset($message)): ?>
-                    <div class="notification" style="margin-top: 20px;">
-                        <h3>Test Result</h3>
-                        <p><?php echo $message; ?></p>
-                    </div>
+                    <?php echo $message; ?>
                 <?php endif; ?>
                 
                 <div class="email-preview">
@@ -498,54 +538,59 @@ define('ADMIN_EMAIL', 'admin@yoursite.com');</pre>
                     <p><strong>Subject:</strong> Database Update Notification: SITE-001</p>
                     <p><strong>To:</strong> <?php echo ADMIN_EMAIL; ?></p>
                     <p><strong>From:</strong> <?php echo FROM_EMAIL; ?></p>
-                    <hr style="margin: 15px 0; border-color: #eee;">
-                    <h2>Database Update Notification</h2>
-                    <p>A site in the database has been updated:</p>
-                    <table>
-                        <tr>
-                            <td><strong>Site ID:</strong></td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Site Code:</strong></td>
-                            <td>SITE-001</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Updated At:</strong></td>
-                            <td><?php echo date('Y-m-d H:i:s'); ?></td>
-                        </tr>
-                    </table>
-                    <h3>Changes:</h3>
-                    <table border="1" cellpadding="8" style="width: 100%; border-collapse: collapse;">
-                        <tr>
-                            <th>Field</th>
-                            <th>Old Value</th>
-                            <th>New Value</th>
-                        </tr>
-                        <tr>
-                            <td>site_name</td>
-                            <td>Old Site Name</td>
-                            <td>New Site Name</td>
-                        </tr>
-                        <tr>
-                            <td>power_backup</td>
-                            <td>Generator</td>
-                            <td>Solar</td>
-                        </tr>
-                        <tr>
-                            <td>coordinates</td>
-                            <td>40.7128° N, 74.0060° W</td>
-                            <td>40.7128° N, 74.0060° E</td>
-                        </tr>
-                    </table>
-                    <p>This is an automated notification. Please do not reply.</p>
+                    <hr style="margin: 15px 0; border-color: #ddd;">
+                    <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+                        <h2 style="color: #1a2a6c;">Database Update Notification</h2>
+                        <div style="background-color: #e8f4fc; border-left: 4px solid #3498db; padding: 15px; margin: 15px 0;">
+                            <p>A site in the database has been updated:</p>
+                            <table style="border-collapse: collapse; width: 100%;">
+                                <tr>
+                                    <td style="padding: 8px; border: 1px solid #ddd;"><strong>Site ID:</strong></td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">123</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px; border: 1px solid #ddd;"><strong>Site Code:</strong></td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">SITE-001</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px; border: 1px solid #ddd;"><strong>Updated At:</strong></td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;"><?php echo date('Y-m-d H:i:s'); ?></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <h3>Changes Detected:</h3>
+                        <table style="border-collapse: collapse; width: 100%;">
+                            <tr style="background-color: #1a2a6c; color: white;">
+                                <th style="padding: 10px; text-align: left;">Field</th>
+                                <th style="padding: 10px; text-align: left;">Old Value</th>
+                                <th style="padding: 10px; text-align: left;">New Value</th>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px; border: 1px solid #ddd;">site_name</td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">Old Site Name</td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">New Site Name</td>
+                            </tr>
+                            <tr style="background-color: #f2f2f2;">
+                                <td style="padding: 8px; border: 1px solid #ddd;">power_backup</td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">Generator</td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">Solar</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px; border: 1px solid #ddd;">coordinates</td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">40.7128° N, 74.0060° W</td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">40.7128° N, 74.0060° E</td>
+                            </tr>
+                        </table>
+                        <p>This is an automated notification. Please do not reply.</p>
+                        <p><strong>MTN Database Management System</strong></p>
+                    </div>
                 </div>
             </div>
         </div>
         
         <div class="footer">
-            <p>Oracle Database Update Notification System &copy; <?php echo date('Y'); ?></p>
-            <p>Connected as: <?php echo $username; ?></p>
+            <p>MTN Database Update Notification System &copy; <?php echo date('Y'); ?></p>
+            <p>Securely connected as: <?php echo $username; ?></p>
         </div>
     </div>
 </body>

@@ -70,7 +70,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
     
    
 ;
-    $multisectorid = "2770";
+    $multisectorid = "2775";
     
 
    //$query1 ="UPDATE `3gsites` SET `Site_Code`='$sitecode',`WBTS_Type`='$wbts',`RNC`='$RNC',`Site_Status`='$status',`3GON_AIR_DATE`='$date3G',`Renovation_Date`='$reno',`BTS_Type`='$BTS',`Number_Of_Carriers`='$carriers',`Notes`='$snote',`Real_RNC`='$RRNC',`Restoration_Date`='$restordate',`LAC`='$lac' WHERE Site_ID = '$sid'";

@@ -35,7 +35,7 @@ $orginal_sitecode = $row['SITE_CODE'];
 }
 
 
-if(isset($_POST['Search'])){
+
 if (!empty($_POST['searchcode'])) {
     $searchcode = $_POST['searchcode'];
     $user_id =  $_POST['userid1'];
@@ -48,8 +48,7 @@ if (!empty($_POST['searchcode'])) {
         // Output JavaScript alert if the site code is not valid
         //echo '<script>alert("Site code" .$code1." not valid");</script>';
     echo "Site code" .$code1." not valid";
-    header("Location: can't.php?id=" . $sid . "&user_id=" . $user_id1);
-        exit(); // Stop further script execution
+        exit; // Stop further script execution
     }
 
 
@@ -68,7 +67,7 @@ if (!empty($_POST['searchcode'])) {
         echo "<script>alert('No site found for the given code.');</script>";
     }
 }
-}
+
 if(isset($_POST['submit'])){
 
         // Debugging output
@@ -107,8 +106,7 @@ if(isset($_POST['submit'])){
     $qty         = $_POST ['qty'] ?? '';
     $cage        = $_POST['cage'] ?? '';
     $currentstatus = $_POST['currentstatus'] ?? '';
-    $warehouse   = $_POST['warehouse'] ?? '';
-    $warehouse_code =  $_POST['warehouse_sitecode'] ?? '';
+
     //tanks
     $tank1       = $_POST['tank1'] ?? '';
     $t1shape     = $_POST['t1shape'] ?? '';
@@ -150,10 +148,6 @@ if(isset($_POST['submit'])){
     $Ampere      = $_POST['Ampere'] ?? '';
     $ampcapacity = $_POST['ampcapacity'] ?? '';
     $ampduration = $_POST['ampduration'] ?? '';
-    $ampdate     = $_POST['ampdate'] ?? '';
-    
-
-
     //batteries
     $B1Battaries = $_POST['B1Battaries'] ?? '';
     $b1status    = $_POST['b1status']   ?? '';
@@ -181,6 +175,7 @@ if(isset($_POST['submit'])){
 
 
 
+
     $code2 = substr($sitecode , 0, 3);
 
     $userstat ="SELECT * FROM  USERS WHERE USER_ID =:userid AND USERNAME=:username";
@@ -191,20 +186,16 @@ if(isset($_POST['submit'])){
     oci_bind_by_name($result31,':username',$username1);
     
     oci_execute($result31); 
-    
-    
-    $row_user = oci_fetch_array($result31, OCI_ASSOC + OCI_RETURN_NULLS);
-    
-    $province = $row_user['PROVINCE'];
-    $provinceArray = explode('-', $province);
-    if (!in_array($code2, $provinceArray)) {
-        header("Location: can't.php?id=" . $sid . "&user_id=" . $user_id1);
-        exit(); // Exit the script if the site code is not valid
-    }
 
 
 
-else{
+
+
+
+
+
+
+
 
 
 
@@ -244,8 +235,11 @@ oci_bind_by_name($insert_stmt,':siteid'   ,$sid);
 oci_bind_by_name($insert_stmt,':sitecode' ,$sitecode);
 oci_bind_by_name($insert_stmt,':last_pid', $PID, -1, SQLT_INT);
 
+//echo $PID;
+//oci_execute($insert_stmt);
 if (oci_execute($insert_stmt)) {  
-   
+    //echo "DONE";
+    //header("Location:Update_thankyou.html");
  } 
    else { 
     $e = oci_error($insert_stmt); 
@@ -269,80 +263,14 @@ oci_bind_by_name($insert_electrical, ':owner' ,$cowner);
 oci_bind_by_name($insert_electrical, ':status1' ,$estatus);
 
 if (oci_execute($insert_electrical)) {  
-
+    //echo "DONE";
+    //header("Location:Update_thankyou.html");
  } 
    else { 
     $e = oci_error($insert_electrical); 
     echo "Error Updating Data: " . htmlentities($e['message']);
 
    }
-
-
-
-   //electrical audit
-
-   $sql11 = "INSERT INTO ELECTRICAL_AUDIT (
-    DETAIL_ID,
-    NEW_TYPE,
-    NEW_OWNER_SHIP,
-    NEW_STATUS,
-    NEW_CIRCUIT_BREAKER,
-    NEW_SERIAL_NUMBER,
-    ADDED_BY,
-    USER_ID,
-    SITE_CODE,
-    ADDED_AT,
-    NEW_ATS_INSTALLER,
-    ACTION
-) 
-VALUES (
-    ELECTRICAL_AUDIT_SEQ.NEXTVAL,  -- Assuming you want to generate a new ID
-    :newtype,
-    :newownership,
-    :newstatus,
-    :newcircut,
-    :newserial,
-    :username,
-    :userid,
-    :sitecode,
-    SYSDATE,
-    :newats,
-    'Insert'
-)
-RETURNING DETAIL_ID INTO :last_detail_id";
-
-$insert_electrical_audit = oci_parse($conn, $sql11);
-
-// Bind parameters
-oci_bind_by_name($insert_electrical_audit, ':last_detail_id', $DETAIL_ID, -1, SQLT_INT);
-oci_bind_by_name($insert_electrical_audit, ':newtype', $cpower);
-oci_bind_by_name($insert_electrical_audit, ':newcircut', $counter);
-oci_bind_by_name($insert_electrical_audit, ':newownership', $cowner);
-oci_bind_by_name($insert_electrical_audit, ':newstatus', $estatus);
-oci_bind_by_name($insert_electrical_audit, ':sitecode', $sitecode);
-oci_bind_by_name($insert_electrical_audit, ':newserial', $serial);
-oci_bind_by_name($insert_electrical_audit, ':username', $username1);
-oci_bind_by_name($insert_electrical_audit, ':userid', $user_id1);
-oci_bind_by_name($insert_electrical_audit, ':newats', $ATS);
-
-// Execute the insert
-$resultt = oci_execute($insert_electrical_audit);
-
-if ($resultt) {
-echo "Record inserted successfully.";
-} else {
-$e = oci_error($insert_electrical_audit);  // For oci_execute errors
-echo "Error inserting record: " . $e['message'];
-}
-
-// Free statement resources
-oci_free_statement($insert_electrical_audit);
-
-
-
-
-
-
 
     }
 
@@ -367,7 +295,8 @@ oci_bind_by_name($insert_cabinet, ':note' ,$cabnote);
 oci_bind_by_name($insert_cabinet, ':main' ,$main);
 
 if (oci_execute($insert_cabinet)) {  
-   
+    //echo "DONE";
+    //header("Location:Update_thankyou.html");
  } 
    else { 
     $e = oci_error($insert_cabinet); 
@@ -378,7 +307,6 @@ if (oci_execute($insert_cabinet)) {
 
 }
 
-    
 if (!empty($_POST['Gen']) && isset($_POST['Gen'])) {
 
     $sqlgen = "INSERT INTO GENERTAOR (PID , GID , SITE_CODE, BRAND, ENGINE_BRAND, INITIAL_STATUS, QUANTITY, OWNERSHIP, CAGE, CAPACITY ,CURRENT_STATUS) 
@@ -399,67 +327,8 @@ oci_bind_by_name($insert_gen, ':gid' ,$GID, -1, SQLT_INT);
 
 
 if (oci_execute($insert_gen)) {  
-
-    $sql_insert = "INSERT INTO GENERTAOR_AUDIT (
-        DETAIL_ID,
-        USER_ID,
-        SITE_CODE,
-        NEW_BRAND,
-        NEW_ENGINE_BRAND,
-        NEW_CAPACITY,
-        NEW_INITIAL_STATUS,
-        NEW_QUANTITY,
-        NEW_OWNERSHIP,
-        NEW_CAGE,
-        ADDED_BY,
-        ADDED_AT,
-        NEW_CURRENT_STATUS
-       
-    ) VALUES (
-        GENERATOR_SEQ.NEXTVAL,
-        :user_id,
-        :site_code,
-        :new_brand,
-        :new_engine_brand,
-        :new_capacity,
-        :new_initial_status,
-        :new_quantity,
-        :new_ownership,
-        :new_cage,
-        :user,
-        SYSDATE,
-        :new_curr
-          )RETURNING DETAIL_ID INTO :last_detail_id";
-    
-    $insert_stmt = oci_parse($conn, $sql_insert);
-    
-    // Bind variables
-    oci_bind_by_name($insert_stmt, ':last_detail_id', $DETAIL_ID, -1, SQLT_INT);
-    oci_bind_by_name($insert_stmt, ':user_id', $user_id1);
-    oci_bind_by_name($insert_stmt, ':site_code', $sitecode);
-    oci_bind_by_name($insert_stmt, ':new_brand', $gen_brand);
-    oci_bind_by_name($insert_stmt, ':new_engine_brand', $engine_brand);
-    oci_bind_by_name($insert_stmt, ':new_capacity', $capacity);
-    oci_bind_by_name($insert_stmt, ':new_initial_status', $new_initial_status);
-    oci_bind_by_name($insert_stmt, ':new_quantity', $qty);
-    oci_bind_by_name($insert_stmt, ':new_ownership', $ownership);
-    oci_bind_by_name($insert_stmt, ':new_cage', $cage);
-    oci_bind_by_name($insert_stmt, ':new_curr', $currentstatus);
-    oci_bind_by_name($insert_stmt, ':user', $username1);
- 
-    
-    // Execute the statement
-    if (oci_execute($insert_stmt)) {
-        //echo "Record inserted successfully.";
-    } else {
-        $e = oci_error($insert_stmt); // For detailed error
-        echo "Error inserting record: " . $e['message'];
-    }
-    
-
-
-
-
+    //echo "DONE";
+    //echo "Inserted successfully. Last GID: " . $GID; 
  } 
    else { 
     $e = oci_error($insert_gen); echo "Error Updating Data: " . htmlentities($e['message']);
@@ -570,25 +439,23 @@ elseif((empty($_POST['tank1']) || empty($_POST['tank2'])) && !empty($_POST['tank
 }
 
 
-
-
 if (!empty($_POST['Ampere']) && isset($_POST['Ampere'])) {
 
-    $sqlamp = "INSERT INTO AMPERE (PID , SITE_CODE , CAPACITY, DURATION ,DATE1) 
-    VALUES (:pid ,:sitecode, :capacity, :duration, :ampdate)";
+    $sqlamp = "INSERT INTO AMPERE (PID , SITE_CODE , CAPACITY, DURATION) 
+    VALUES (:pid ,:sitecode, :capacity, :duration)";
 
 $insert_amp = oci_parse($conn,$sqlamp);
 oci_bind_by_name($insert_amp, ':pid'      ,$PID);
 oci_bind_by_name($insert_amp, ':sitecode' ,$sitecode);
 oci_bind_by_name($insert_amp, ':capacity' ,$ampcapacity);
 oci_bind_by_name($insert_amp, ':duration' ,$ampduration);
-oci_bind_by_name($insert_amp, ':ampdate' ,$ampdate);
 
 
 
 
 if (oci_execute($insert_amp)) {  
-  
+    //echo "DONE";
+    //header("Location:Update_thankyou.html");
  } 
    else { 
     $e = oci_error($insert_amp); 
@@ -599,14 +466,6 @@ if (oci_execute($insert_amp)) {
 
 
 }
-
-
-
-
-
-
-
-
 
 
 
@@ -628,7 +487,8 @@ if (!empty($_POST['Hyprid']) && isset($_POST['Hyprid'])) {
     
     
     if (oci_execute($insert_hyprid)) {  
-  
+        //echo "DONE";
+        //header("Location:Update_thankyou.html");
      } 
        else { 
         $e = oci_error($insert_hyprid); echo "Error Updating Data: " . htmlentities($e['message']);
@@ -657,7 +517,8 @@ if (!empty($_POST['Hyprid']) && isset($_POST['Hyprid'])) {
 
         
         if (oci_execute($insert_battaries)) {  
-           
+            //echo "DONE";
+            //header("Location:Update_thankyou.html");
          } 
            else { 
             $e = oci_error($insert_battaries); echo "Error Updating Data: " . htmlentities($e['message']);
@@ -695,7 +556,8 @@ if (!empty($_POST['Hyprid']) && isset($_POST['Hyprid'])) {
         
                 
                 if (oci_execute($insert_battaries2)) {  
-                    
+                    //echo "DONE";
+                    //header("Location:Update_thankyou.html");
                  } 
                    else { 
                     $e = oci_error($insert_battaries2); echo "Error Updating Data: " . htmlentities($e['message']);
@@ -725,7 +587,8 @@ if (!empty($_POST['Hyprid']) && isset($_POST['Hyprid'])) {
             
                     
                     if (oci_execute($insert_lines)) {  
-                       
+                        //echo "DONE";
+                        //header("Location:Update_thankyou.html");
                      } 
                        else { 
                         $e = oci_error($insert_lines); echo "Error Updating Data: " . htmlentities($e['message']);
@@ -749,7 +612,8 @@ if (!empty($_POST['Hyprid']) && isset($_POST['Hyprid'])) {
                 
                         
                         if (oci_execute($update_cage)) {  
-                       
+                            //echo "DONE";
+                            //header("Location:Update_thankyou.html");
                          } 
                            else { 
                             $e = oci_error($update_cage); echo "Error Updating Data: " . htmlentities($e['message']);
@@ -772,7 +636,8 @@ if (!empty($_POST['Hyprid']) && isset($_POST['Hyprid'])) {
                     
                             
                             if (oci_execute($update_gurde)) {  
-                                
+                                //echo "DONE";
+                                //header("Location:Update_thankyou.html");
                              } 
                                else { 
                                 $e = oci_error($update_gurde); echo "Error Updating Data: " . htmlentities($e['message']);
@@ -783,7 +648,8 @@ if (!empty($_POST['Hyprid']) && isset($_POST['Hyprid'])) {
                             }
                      
 
-                           
+                            //echo '<script>alert("'.$row["SITE_CODE"].' Power backup inserted Successfully")</script>';
+                            
                          
 
 
@@ -825,10 +691,10 @@ if($OLD_TYPE == $cpower && $OLD_OWNERSHIP == $cowner && $OLD_STATUS == $estatus 
             NEW_CIRCUIT_BREAKER,
             OLD_SERIAL_NUMBER,
             NEW_SERIAL_NUMBER,
-            USER_NAME,
+            CHANGED_BY,
             USER_ID,
             SITE_CODE,
-            AUDIT_DATE,
+            CHANGE_AT,
             OLD_ATS_INSTALLER,
             NEW_ATS_INSTALLER
         ) 
@@ -930,102 +796,6 @@ oci_free_statement($update_electrical);
 
 }
 
-
-else{
-
-    $sql = "INSERT INTO ELECTRICAL_COUNTER (PID , SITE_CODE, SERIAL_NUMBER, TYPE, OWNER_SHIP, COUNTER_CIRCUIT_BREAKER, STATUS) 
-    VALUES (:pid , :sitecode, :serial, :type, :owner, :counter, :status1)";
-
-$insert_electrical = oci_parse($conn,$sql);
-oci_bind_by_name($insert_electrical, ':pid' ,$old_PID);
-oci_bind_by_name($insert_electrical, ':sitecode' ,$sitecode);
-oci_bind_by_name($insert_electrical, ':type' ,$cpower);
-oci_bind_by_name($insert_electrical, ':serial' ,$serial);
-oci_bind_by_name($insert_electrical, ':counter' ,$counter);
-oci_bind_by_name($insert_electrical, ':owner' ,$cowner);
-oci_bind_by_name($insert_electrical, ':status1' ,$estatus);
-
-if (oci_execute($insert_electrical)) {  
-$action = 'Insert';
-    $sql11 = "INSERT INTO ELECTRICAL_AUDIT (
-        DETAIL_ID,
-        NEW_TYPE,
-        NEW_OWNER_SHIP,
-        NEW_STATUS,
-        NEW_CIRCUIT_BREAKER,
-        NEW_SERIAL_NUMBER,
-        ADDED_BY,
-        USER_ID,
-        SITE_CODE,
-        ADDED_AT,
-        NEW_ATS_INSTALLER,
-        ACTION
-    ) 
-    VALUES (
-        ELECTRICAL_AUDIT_SEQ.NEXTVAL,  -- Assuming you want to generate a new ID
-        :newtype,
-        :newownership,
-        :newstatus,
-        :newcircut,
-        :newserial,
-        :username,
-        :userid,
-        :sitecode,
-        SYSDATE,
-        :newats,
-        :action
-    )
-    RETURNING DETAIL_ID INTO :last_detail_id";
-    
-    $insert_electrical_audit = oci_parse($conn, $sql11);
-    
-    // Bind parameters
-    oci_bind_by_name($insert_electrical_audit, ':last_detail_id', $DETAIL_ID, -1, SQLT_INT);
-    oci_bind_by_name($insert_electrical_audit, ':newtype', $cpower);
-    oci_bind_by_name($insert_electrical_audit, ':newcircut', $counter);
-    oci_bind_by_name($insert_electrical_audit, ':newownership', $cowner);
-    oci_bind_by_name($insert_electrical_audit, ':newstatus', $estatus);
-    oci_bind_by_name($insert_electrical_audit, ':sitecode', $sitecode);
-    oci_bind_by_name($insert_electrical_audit, ':newserial', $serial);
-    oci_bind_by_name($insert_electrical_audit, ':username', $username1);
-    oci_bind_by_name($insert_electrical_audit, ':userid', $user_id1);
-    oci_bind_by_name($insert_electrical_audit, ':newats', $ATS);
-    oci_bind_by_name($insert_electrical_audit, ':action', $action);
-
-
-    // Execute the insert
-    $resultt = oci_execute($insert_electrical_audit);
-    
-    if ($resultt) {
-    echo "Record inserted successfully.";
-    } else {
-    $e = oci_error($insert_electrical_audit);  // For oci_execute errors
-    echo "Error inserting record: " . $e['message'];
-    }
-    
-    // Free statement resources
-    oci_free_statement($insert_electrical_audit);
-    
-} 
-else { 
-$e = oci_error($insert_electrical); 
-echo "Error Updating Data: " . htmlentities($e['message']);
-
-}
-
-
-
-
-
-
-
-
-
-
-}
-
-
-
 $sql_cab = "SELECT * FROM CABINET WHERE PID=:pid";
 $select_cab = oci_parse($conn, $sql_cab);
 oci_bind_by_name($select_cab, ':pid', $old_PID);
@@ -1070,8 +840,8 @@ else{
         NEW_ELTEK_IP,
         OLD_CABINET_CAGE,
         NEW_CABINET_CAGE,
-        USER_NAME,
-        AUDIT_DATE,
+        CHANGED_BY,
+        CHANGE_AT,
         OLD_MAIN,
         NEW_MAIN
     ) 
@@ -1108,7 +878,7 @@ $insert_cabinet_audit = oci_parse($conn, $sql12);
 oci_bind_by_name($insert_cabinet_audit, ':last_detail_id', $DETAIL_ID, -1, SQLT_INT);
 oci_bind_by_name($insert_cabinet_audit, ':userid', $user_id1);
 oci_bind_by_name($insert_cabinet_audit, ':username', $username1);
-oci_bind_by_name($insert_cabinet_audit, ':sitecode', $sitecode);
+oci_bind_by_name($insert_cabinet_audit, ':sitecode', $orginal_sitecode);
 oci_bind_by_name($insert_cabinet_audit, ':oldcabinet', $CABINET_TYPE);
 oci_bind_by_name($insert_cabinet_audit, ':newcabinet', $cabtype);
 oci_bind_by_name($insert_cabinet_audit, ':oldrectifier',$RECTIFIER_TYPE);
@@ -1192,34 +962,6 @@ oci_free_statement($update_cabinet);
 
 
 }
-else{
-    $sqlcab = "INSERT INTO CABINET (PID , CABINET_TYPE, RECTIFIER_TYPE, AC_MODULE_QUANTITY, SOLAR_MOUDULE_QUANTITY, DELTA_IP, HWAUEI_IP, ELTEK_IP,CABINET_CAGE,NOTE,MAIN) 
-    VALUES (:pid , :cab, :rect, :acmodule, :solarmodule, :deltaip, :hwip ,:eltikip ,:cage, :note,:main)";
-
-
-$insert_cabinet = oci_parse($conn,$sqlcab);
-oci_bind_by_name($insert_cabinet, ':pid' ,$old_PID);
-oci_bind_by_name($insert_cabinet, ':cab' ,$cabtype);
-oci_bind_by_name($insert_cabinet, ':rect' ,$rectifier);
-oci_bind_by_name($insert_cabinet, ':acmodule' ,$ACqty);
-oci_bind_by_name($insert_cabinet, ':solarmodule' ,$solarqty);
-oci_bind_by_name($insert_cabinet, ':hwip' ,$HIP);
-oci_bind_by_name($insert_cabinet, ':deltaip' ,$DIP);
-oci_bind_by_name($insert_cabinet, ':eltikip' ,$EIP);
-oci_bind_by_name($insert_cabinet, ':cage' ,$cabinetcage);
-oci_bind_by_name($insert_cabinet, ':note' ,$cabnote);
-oci_bind_by_name($insert_cabinet, ':main' ,$main);
-
-if (oci_execute($insert_cabinet)) {  
-
-} 
-else { 
-$e = oci_error($insert_cabinet); 
-echo "Error Updating Data: " . htmlentities($e['message']);
-
-}
-
-}
 
 $sql_gen = "SELECT * FROM GENERTAOR WHERE SITE_CODE=:sitecode";
 $select_gen = oci_parse($conn, $sql_gen);
@@ -1259,8 +1001,8 @@ else{
         NEW_OWNERSHIP,
         OLD_CAGE,
         NEW_CAGE,
-        USER_NAME,
-        AUDIT_DATE,
+        CHANGED_BY,
+        CHANGE_AT,
         OLD_CURRENT_STATUS,
         NEW_CURRENT_STATUS
        
@@ -1282,7 +1024,7 @@ else{
         :new_ownership,
         :old_cage,
         :new_cage,
-        :user,
+        :changed_by,
         SYSDATE,
         :old_curr,
         :new_curr
@@ -1311,7 +1053,7 @@ else{
     oci_bind_by_name($insert_stmt, ':old_curr', $OLD_CURRENT_STATUS);
     oci_bind_by_name($insert_stmt, ':new_curr', $currentstatus);
 
-    oci_bind_by_name($insert_stmt, ':user', $username1);
+    oci_bind_by_name($insert_stmt, ':changed_by', $username1);
  
     
     // Execute the statement
@@ -1365,24 +1107,16 @@ $select_tank = oci_parse($conn, $sql_tank);
 oci_bind_by_name($select_tank, ':gid', $old_GID);
 oci_execute($select_tank);
 
-$has_rows = false; 
-$first_index  = false;
-$second_index = false;
-$third_index  = false;
-
 while($row_tank = oci_fetch_array($select_tank, OCI_ASSOC + OCI_RETURN_NULLS))
 {
 
-    $has_rows  = true; 
-  
+
+
 
     $index =  htmlspecialchars($row_tank['TANK_INDEX']);
 //echo $index.'HELLO';
 
     if ($index == 1){
-
-        $first_index  = true;
-
         $TANK1_SHAPE             = htmlspecialchars($row_tank['TANK_SHAPE']) ?? '';
         $TANK1_TYPE              = htmlspecialchars($row_tank['TANK_TYPE']) ?? '';
         $TANK1_ACTUAL_VOLUME     = htmlspecialchars($row_tank['TANK_ACTUAL_VOLUME']) ?? '';
@@ -1434,10 +1168,6 @@ while($row_tank = oci_fetch_array($select_tank, OCI_ASSOC + OCI_RETURN_NULLS))
     }
     
     if($index == 2){
-
-    $second_index = true;
-
-
         $TANK2_MAXIMUM           = htmlspecialchars($row_tank['TANK_MAXIMUM']) ?? '';
         $TANK2_SHAPE             = htmlspecialchars($row_tank['TANK_SHAPE']) ?? '';
         $TANK2_TYPE              = htmlspecialchars($row_tank['TANK_TYPE']) ?? '';
@@ -1489,8 +1219,6 @@ while($row_tank = oci_fetch_array($select_tank, OCI_ASSOC + OCI_RETURN_NULLS))
     }
     
     if($index == 3){
-
-     $third_index  = true;
     
         $TANK3_SHAPE             = htmlspecialchars($row_tank['TANK_SHAPE']) ?? '';
         $TANK3_ACTUAL_VOLUME     = htmlspecialchars($row_tank['TANK_ACTUAL_VOLUME']) ?? '';
@@ -1572,7 +1300,7 @@ else{
       DETAIL_ID,USER_ID,SITE_CODE,OLD_TANK1_SHAPE,NEW_TANK1_SHAPE,OLD_TANK1_TYPE,NEW_TANK1_TYPE,OLD_TANK1_VOLUME,NEW_TANK1_VOLUME,
       OLD_TANK1_HEIGHT,NEW_TANK1_HEIGHT,OLD_TANK1_WIDTH,NEW_TANK1_WIDTH,OLD_TANK1_LENGTH,NEW_TANK1_LENGTH,OLD_TANK1_MAXIMUM,
       OLD_TANK2_SHAPE,NEW_TANK2_SHAPE,OLD_TANK2_TYPE,NEW_TANK2_TYPE,OLD_TANK2_VOLUME,NEW_TANK2_VOLUME,OLD_TANK2_HEIGHT,NEW_TANK2_HEIGHT,
-      OLD_TANK2_WIDTH,NEW_TANK2_WIDTH,OLD_TANK2_LENGTH,NEW_TANK2_LENGTH,OLD_TANK2_MAXIMUM,OLD_TANK3_SHAPE,NEW_TANK3_SHAPE,OLD_TANK3_TYPE,NEW_TANK3_TYPE,OLD_TANK3_VOLUME,NEW_TANK3_VOLUME,OLD_TANK3_HEIGHT,NEW_TANK3_HEIGHT,OLD_TANK3_WIDTH,NEW_TANK3_WIDTH,OLD_TANK3_LENGTH,NEW_TANK3_LENGTH,OLD_TANK3_MAXIMUM,USER_NAME, AUDIT_DATE, NEW_TANK1_MAXIMUM, NEW_TANK2_MAXIMUM, NEW_TANK3_MAXIMUM
+      OLD_TANK2_WIDTH,NEW_TANK2_WIDTH,OLD_TANK2_LENGTH,NEW_TANK2_LENGTH,OLD_TANK2_MAXIMUM,OLD_TANK3_SHAPE,NEW_TANK3_SHAPE,OLD_TANK3_TYPE,NEW_TANK3_TYPE,OLD_TANK3_VOLUME,NEW_TANK3_VOLUME,OLD_TANK3_HEIGHT,NEW_TANK3_HEIGHT,OLD_TANK3_WIDTH,NEW_TANK3_WIDTH,OLD_TANK3_LENGTH,NEW_TANK3_LENGTH,OLD_TANK3_MAXIMUM,CHANGED_BY, CHANGE_AT, NEW_TANK1_MAXIMUM, NEW_TANK2_MAXIMUM, NEW_TANK3_MAXIMUM
     ) VALUES (
         TANK_AUDIT_SEQ.NEXTVAL,
         :user_id,
@@ -1616,7 +1344,7 @@ else{
         :old_tank3_length,
         :new_tank3_length,
         :old_tank3_maximum,
-        :user,
+        :changed_by,
         SYSDATE,
         :new_tank1_maximum,
         :new_tank2_maximum,
@@ -1667,7 +1395,7 @@ else{
     oci_bind_by_name($insert_stmt, ':old_tank3_length', $TANK3_LENGTH);
     oci_bind_by_name($insert_stmt, ':new_tank3_length', $t3length);
     oci_bind_by_name($insert_stmt, ':old_tank3_maximum', $TANK3_MAXIMUM);
-    oci_bind_by_name($insert_stmt, ':user', $username1);
+    oci_bind_by_name($insert_stmt, ':changed_by', $username1);
     oci_bind_by_name($insert_stmt, ':new_tank1_maximum', $t1max);
     oci_bind_by_name($insert_stmt, ':new_tank2_maximum', $t2max);
     oci_bind_by_name($insert_stmt, ':new_tank3_maximum', $t3max);
@@ -1699,443 +1427,9 @@ else{
 // Clean up
 oci_free_statement($update_gen);
 
-///
-
-
-
-if($has_rows == false){
-
-    if (!empty($_POST['tank1']) && isset($_POST['tank1'])) {
-    
-        $sqltank1 = "INSERT INTO TANK (GID, TANK_SHAPE, TANK_TYPE, TANK_ACTUAL_VOLUME, TANK_HEIGHT, TANK_WIDTH, TANK_LENGTH, TANK_MAXIMUM ,TANK_INDEX) 
-        VALUES (:gid , :shape, :type, :volume, :height, :width, :length ,:maximum,:indexx)";
-    
-        $insert_tank1 = oci_parse($conn, $sqltank1);
-        oci_bind_by_name($insert_tank1, ':gid'      ,$old_GID);
-        oci_bind_by_name($insert_tank1, ':shape'    ,$t1shape);
-        oci_bind_by_name($insert_tank1, ':type'     ,$t1type);
-        oci_bind_by_name($insert_tank1, ':volume'   ,$t1volume);
-        oci_bind_by_name($insert_tank1, ':height'   ,$t1height);
-        oci_bind_by_name($insert_tank1, ':width'    ,$t1width);
-        oci_bind_by_name($insert_tank1, ':length'   ,$t1length);
-        oci_bind_by_name($insert_tank1, ':maximum'  ,$t1max);
-        oci_bind_by_name($insert_tank1, ':indexx'  ,$tank1);
-    
-    
-    if(oci_execute($insert_tank1)){
-    
-    }
-    else{
-        $e = oci_error($insert_tank1); echo "Error Updating Data: " . htmlentities($e['message']);
-    }
-        
-    }
-    
-    
-    if (!empty($_POST['tank1']) && !empty($_POST['tank2']) && isset($_POST['tank2'])) {
-    
-       $sqltank2 = "INSERT INTO TANK (GID, TANK_SHAPE, TANK_TYPE, TANK_ACTUAL_VOLUME, TANK_HEIGHT, TANK_WIDTH, TANK_LENGTH, TANK_MAXIMUM ,TANK_INDEX) 
-        VALUES (:gid , :shape, :type, :volume, :height, :width, :length ,:maximum,:indexx)";
-    
-        $insert_tank2 = oci_parse($conn, $sqltank2);
-        oci_bind_by_name($insert_tank2, ':gid'      ,$old_GID);
-        oci_bind_by_name($insert_tank2, ':shape'    ,$t2shape);
-        oci_bind_by_name($insert_tank2, ':type'     ,$t2type);
-        oci_bind_by_name($insert_tank2, ':volume'   ,$t2volume);
-        oci_bind_by_name($insert_tank2, ':height'   ,$t2height);
-        oci_bind_by_name($insert_tank2, ':width'    ,$t2width);
-        oci_bind_by_name($insert_tank2, ':length'   ,$t2length);
-        oci_bind_by_name($insert_tank2, ':maximum'  ,$t2max);
-        oci_bind_by_name($insert_tank2, ':indexx'  ,$tank2);
-        
-    
-    
-    
-    
-    
-    if(oci_execute($insert_tank2)){
-    
-    }
-    else{
-        $e = oci_error($insert_tank2); echo "Error Updating Data: " . htmlentities($e['message']);
-    }
-        
-    }
-    elseif(empty($_POST['tank1']) && !empty($_POST['tank2']) && isset($_POST['tank2'])){
-        echo '<script>alert("Insert TANK1 before inserting TANK2")</script>';
-        
-    }
-    
-    if (!empty($_POST['tank1']) && !empty($_POST['tank2']) && !empty($_POST['tank3']) && isset($_POST['tank3'])) {
-    
-    
-    
-        $sqltank3 = "INSERT INTO TANK (GID, TANK_SHAPE, TANK_TYPE, TANK_ACTUAL_VOLUME, TANK_HEIGHT, TANK_WIDTH, TANK_LENGTH, TANK_MAXIMUM ,TANK_INDEX) 
-        VALUES (:gid , :shape, :type, :volume, :height, :width, :length ,:maximum,:indexx)";
-    
-        $insert_tank3 = oci_parse($conn, $sqltank3);
-        oci_bind_by_name($insert_tank3, ':gid'      ,$old_GID);
-        oci_bind_by_name($insert_tank3, ':shape'    ,$t3shape);
-        oci_bind_by_name($insert_tank3, ':type'     ,$t3type);
-        oci_bind_by_name($insert_tank3, ':volume'   ,$t3volume);
-        oci_bind_by_name($insert_tank3, ':height'   ,$t3height);
-        oci_bind_by_name($insert_tank3, ':width'    ,$t3width);
-        oci_bind_by_name($insert_tank3, ':length'   ,$t3length);
-        oci_bind_by_name($insert_tank3, ':maximum'  ,$t3max);
-        oci_bind_by_name($insert_tank3, ':indexx'  ,$tank3);
-        
-    
-    
-        
-    
-    if(oci_execute($insert_tank3)){
-    
-    }
-    else{
-        $e = oci_error($insert_tank3); echo "Error Updating Data: " . htmlentities($e['message']);
-    }
-        
-    }
-    elseif((empty($_POST['tank1']) || empty($_POST['tank2'])) && !empty($_POST['tank3']) && isset($_POST['tank3'])){
-        echo '<script>alert("Insert TANK1 & TANK2 before inserting TANK1")</script>';
-    }
-    
-
-
-
-
-
-
-    
-} 
-
-
-if ($first_index == true && $second_index == false && $third_index == false){
-
-
-    if (!empty($_POST['tank2']) && isset($_POST['tank2'])) {
-    
-        $sqltank2 = "INSERT INTO TANK (GID, TANK_SHAPE, TANK_TYPE, TANK_ACTUAL_VOLUME, TANK_HEIGHT, TANK_WIDTH, TANK_LENGTH, TANK_MAXIMUM ,TANK_INDEX) 
-         VALUES (:gid , :shape, :type, :volume, :height, :width, :length ,:maximum,:indexx)";
-     
-         $insert_tank2 = oci_parse($conn, $sqltank2);
-         oci_bind_by_name($insert_tank2, ':gid'      ,$old_GID);
-         oci_bind_by_name($insert_tank2, ':shape'    ,$t2shape);
-         oci_bind_by_name($insert_tank2, ':type'     ,$t2type);
-         oci_bind_by_name($insert_tank2, ':volume'   ,$t2volume);
-         oci_bind_by_name($insert_tank2, ':height'   ,$t2height);
-         oci_bind_by_name($insert_tank2, ':width'    ,$t2width);
-         oci_bind_by_name($insert_tank2, ':length'   ,$t2length);
-         oci_bind_by_name($insert_tank2, ':maximum'  ,$t2max);
-         oci_bind_by_name($insert_tank2, ':indexx'  ,$tank2);
-         
-     
-     
-     
-     
-     
-     if(oci_execute($insert_tank2)){
-     
-     }
-     else{
-         $e = oci_error($insert_tank2); echo "Error Updating Data: " . htmlentities($e['message']);
-     }
-         
-     }
-
-
-
-
-     if (!empty($_POST['tank2']) && !empty($_POST['tank3']) && isset($_POST['tank3'])) {
-    
-    
-    
-        $sqltank3 = "INSERT INTO TANK (GID, TANK_SHAPE, TANK_TYPE, TANK_ACTUAL_VOLUME, TANK_HEIGHT, TANK_WIDTH, TANK_LENGTH, TANK_MAXIMUM ,TANK_INDEX) 
-        VALUES (:gid , :shape, :type, :volume, :height, :width, :length ,:maximum,:indexx)";
-    
-        $insert_tank3 = oci_parse($conn, $sqltank3);
-        oci_bind_by_name($insert_tank3, ':gid'      ,$old_GID);
-        oci_bind_by_name($insert_tank3, ':shape'    ,$t3shape);
-        oci_bind_by_name($insert_tank3, ':type'     ,$t3type);
-        oci_bind_by_name($insert_tank3, ':volume'   ,$t3volume);
-        oci_bind_by_name($insert_tank3, ':height'   ,$t3height);
-        oci_bind_by_name($insert_tank3, ':width'    ,$t3width);
-        oci_bind_by_name($insert_tank3, ':length'   ,$t3length);
-        oci_bind_by_name($insert_tank3, ':maximum'  ,$t3max);
-        oci_bind_by_name($insert_tank3, ':indexx'  ,$tank3);
-        
-    
-    
-        
-    
-    if(oci_execute($insert_tank3)){
-    
-    }
-    else{
-        $e = oci_error($insert_tank3); echo "Error Updating Data: " . htmlentities($e['message']);
-    }
-
 
 
 }
-elseif((empty($_POST['tank2'])) && !empty($_POST['tank3']) && isset($_POST['tank3'])){
-    echo '<script>alert("Insert TANK2 before inserting TANK1")</script>';
-}
-
-
-
-
-
-
-
-}
-
-if ($first_index == true && $second_index == true && $third_index == false){
-
-
-    if (!empty($_POST['tank3']) && isset($_POST['tank3'])) {
-    
-    
-    
-        $sqltank3 = "INSERT INTO TANK (GID, TANK_SHAPE, TANK_TYPE, TANK_ACTUAL_VOLUME, TANK_HEIGHT, TANK_WIDTH, TANK_LENGTH, TANK_MAXIMUM ,TANK_INDEX) 
-        VALUES (:gid , :shape, :type, :volume, :height, :width, :length ,:maximum,:indexx)";
-    
-        $insert_tank3 = oci_parse($conn, $sqltank3);
-        oci_bind_by_name($insert_tank3, ':gid'      ,$old_GID);
-        oci_bind_by_name($insert_tank3, ':shape'    ,$t3shape);
-        oci_bind_by_name($insert_tank3, ':type'     ,$t3type);
-        oci_bind_by_name($insert_tank3, ':volume'   ,$t3volume);
-        oci_bind_by_name($insert_tank3, ':height'   ,$t3height);
-        oci_bind_by_name($insert_tank3, ':width'    ,$t3width);
-        oci_bind_by_name($insert_tank3, ':length'   ,$t3length);
-        oci_bind_by_name($insert_tank3, ':maximum'  ,$t3max);
-        oci_bind_by_name($insert_tank3, ':indexx'  ,$tank3);
-        
-    
-    
-        
-    
-    if(oci_execute($insert_tank3)){
-    
-    }
-    else{
-        $e = oci_error($insert_tank3); echo "Error Updating Data: " . htmlentities($e['message']);
-    }
-
-
-
-}
-
-
-
-}
-
-
-///
-}
-
-else{
-
-    if (!empty($_POST['Gen']) && isset($_POST['Gen'])) {
-
-        $sqlgen = "INSERT INTO GENERTAOR (PID , GID , SITE_CODE, BRAND, ENGINE_BRAND, INITIAL_STATUS, QUANTITY, OWNERSHIP, CAGE, CAPACITY ,CURRENT_STATUS) 
-        VALUES (:pid ,GENERATOR_SEQ.NEXTVAL, :sitecode, :brand, :engbrand, :status1, :qty, :owner1 ,:cage, :cap, :curr) RETURNING GID INTO :gid";
-    
-    $insert_gen = oci_parse($conn,$sqlgen);
-    oci_bind_by_name($insert_gen, ':pid'      ,$old_PID);
-    oci_bind_by_name($insert_gen, ':sitecode' ,$sitecode);
-    oci_bind_by_name($insert_gen, ':brand'    ,$gen_brand);
-    oci_bind_by_name($insert_gen, ':engbrand' ,$engine_brand);
-    oci_bind_by_name($insert_gen, ':status1'  ,$status);
-    oci_bind_by_name($insert_gen, ':qty'     ,$qty);
-    oci_bind_by_name($insert_gen, ':owner1'   ,$ownership);
-    oci_bind_by_name($insert_gen, ':cage'    ,$cage);
-    oci_bind_by_name($insert_gen, ':cap'    ,$capacity);
-    oci_bind_by_name($insert_gen, ':curr'    ,$currentstatus);
-    oci_bind_by_name($insert_gen, ':gid' ,$NewGID, -1, SQLT_INT);
-    
-    
-    if (oci_execute($insert_gen)) {  
-        //echo "DONE";
-        //echo "Inserted successfully. Last GID: " . $GID; 
-     } 
-       else { 
-        $e = oci_error($insert_gen); echo "Error Updating Data: " . htmlentities($e['message']);
-     
-    
-       }
-    
-    
-    
-    
-    if (!empty($_POST['tank1']) && isset($_POST['tank1'])) {
-    
-        $sqltank1 = "INSERT INTO TANK (GID, TANK_SHAPE, TANK_TYPE, TANK_ACTUAL_VOLUME, TANK_HEIGHT, TANK_WIDTH, TANK_LENGTH, TANK_MAXIMUM ,TANK_INDEX) 
-        VALUES (:gid , :shape, :type, :volume, :height, :width, :length ,:maximum,:indexx)";
-    
-        $insert_tank1 = oci_parse($conn, $sqltank1);
-        oci_bind_by_name($insert_tank1, ':gid'      ,$NewGID);
-        oci_bind_by_name($insert_tank1, ':shape'    ,$t1shape);
-        oci_bind_by_name($insert_tank1, ':type'     ,$t1type);
-        oci_bind_by_name($insert_tank1, ':volume'   ,$t1volume);
-        oci_bind_by_name($insert_tank1, ':height'   ,$t1height);
-        oci_bind_by_name($insert_tank1, ':width'    ,$t1width);
-        oci_bind_by_name($insert_tank1, ':length'   ,$t1length);
-        oci_bind_by_name($insert_tank1, ':maximum'  ,$t1max);
-        oci_bind_by_name($insert_tank1, ':indexx'  ,$tank1);
-    
-    
-    if(oci_execute($insert_tank1)){
-    
-    }
-    else{
-        $e = oci_error($insert_tank1); echo "Error Updating Data: " . htmlentities($e['message']);
-    }
-        
-    }
-    
-    
-    if (!empty($_POST['tank1']) && !empty($_POST['tank2']) && isset($_POST['tank2'])) {
-    
-       $sqltank2 = "INSERT INTO TANK (GID, TANK_SHAPE, TANK_TYPE, TANK_ACTUAL_VOLUME, TANK_HEIGHT, TANK_WIDTH, TANK_LENGTH, TANK_MAXIMUM ,TANK_INDEX) 
-        VALUES (:gid , :shape, :type, :volume, :height, :width, :length ,:maximum,:indexx)";
-    
-        $insert_tank2 = oci_parse($conn, $sqltank2);
-        oci_bind_by_name($insert_tank2, ':gid'      ,$NewGID);
-        oci_bind_by_name($insert_tank2, ':shape'    ,$t2shape);
-        oci_bind_by_name($insert_tank2, ':type'     ,$t2type);
-        oci_bind_by_name($insert_tank2, ':volume'   ,$t2volume);
-        oci_bind_by_name($insert_tank2, ':height'   ,$t2height);
-        oci_bind_by_name($insert_tank2, ':width'    ,$t2width);
-        oci_bind_by_name($insert_tank2, ':length'   ,$t2length);
-        oci_bind_by_name($insert_tank2, ':maximum'  ,$t2max);
-        oci_bind_by_name($insert_tank2, ':indexx'  ,$tank2);
-        
-    
-    
-    
-    
-    
-    if(oci_execute($insert_tank2)){
-    
-    }
-    else{
-        $e = oci_error($insert_tank2); echo "Error Updating Data: " . htmlentities($e['message']);
-    }
-        
-    }
-    elseif(empty($_POST['tank1']) && !empty($_POST['tank2']) && isset($_POST['tank2'])){
-        echo '<script>alert("Insert TANK1 before inserting TANK2")</script>';
-        
-    }
-    
-    if (!empty($_POST['tank1']) && !empty($_POST['tank2']) && !empty($_POST['tank3']) && isset($_POST['tank3'])) {
-    
-    
-    
-        $sqltank3 = "INSERT INTO TANK (GID, TANK_SHAPE, TANK_TYPE, TANK_ACTUAL_VOLUME, TANK_HEIGHT, TANK_WIDTH, TANK_LENGTH, TANK_MAXIMUM ,TANK_INDEX) 
-        VALUES (:gid , :shape, :type, :volume, :height, :width, :length ,:maximum,:indexx)";
-    
-        $insert_tank3 = oci_parse($conn, $sqltank3);
-        oci_bind_by_name($insert_tank3, ':gid'      ,$NewGID);
-        oci_bind_by_name($insert_tank3, ':shape'    ,$t3shape);
-        oci_bind_by_name($insert_tank3, ':type'     ,$t3type);
-        oci_bind_by_name($insert_tank3, ':volume'   ,$t3volume);
-        oci_bind_by_name($insert_tank3, ':height'   ,$t3height);
-        oci_bind_by_name($insert_tank3, ':width'    ,$t3width);
-        oci_bind_by_name($insert_tank3, ':length'   ,$t3length);
-        oci_bind_by_name($insert_tank3, ':maximum'  ,$t3max);
-        oci_bind_by_name($insert_tank3, ':indexx'  ,$tank3);
-        
-    
-    
-        
-    
-    if(oci_execute($insert_tank3)){
-    
-    }
-    else{
-        $e = oci_error($insert_tank3); echo "Error Updating Data: " . htmlentities($e['message']);
-    }
-        
-    }
-    elseif((empty($_POST['tank1']) || empty($_POST['tank2'])) && !empty($_POST['tank3']) && isset($_POST['tank3'])){
-        echo '<script>alert("Insert TANK1 & TANK2 before inserting TANK1")</script>';
-    }
-    
-    
-    
-    }
-
-    
-elseif(!empty($_POST['warehouse']) && isset($_POST['warehouse'])){
-    
-    $warehouse   = $_POST['warehouse'] ?? '';
-    $warehouse_code =  $_POST['warehouse_sitecode'] ?? '';
-
-$select_warehouse = "SELECT * FROM WAREHOUSE_GENERATOR WHERE OLD_SITE_CODE =:sitecode";
-$warehouse_stmt = oci_parse($conn,$select_warehouse);
-oci_bind_by_name($warehouse_stmt, ':sitecode' ,$warehouse_code);
-if(oci_execute($warehouse_stmt)){
-    if ($row1 = oci_fetch_array($warehouse_stmt, OCI_ASSOC + OCI_RETURN_NULLS)) {
-   
-       $warehouse_pid = $row1['PID'];
-       $warehouse_gid = $row1['GID'];
-    $warehouse_status = 'Restored From warehouse';
-    //}
-
-
-    $sqlgen = "UPDATE GENERTAOR 
-    SET PID = :pid, 
-        SITE_CODE= :sitecode 
-        WHERE GID = :gid";
-
-$update_gen = oci_parse($conn, $sqlgen);
-
-// Bind the parameters
-oci_bind_by_name($update_gen, ':pid', $warehouse_pid);
-oci_bind_by_name($update_gen, ':sitecode', $warehouse_code);
-oci_bind_by_name($update_gen, ':gid', $warehouse_gid);
-
-oci_execute($update_gen);
-
-$update_warehouse = "UPDATE WAREHOUSE_GENERATOR SET 
-STATUS = :status, 
-RESTORED_FOR = :sitecode,
-RESTORED_DATE = SYSDATE 
-WHERE GID =:gid";
-$update_stmtt = oci_parse($conn, $update_warehouse);
-oci_bind_by_name($update_stmtt, ':gid', $warehouse_gid);
-oci_bind_by_name($update_stmtt, ':status', $warehouse_status);
-oci_bind_by_name($update_stmtt, ':sitecode', $sitecode);
-oci_bind_by_name($update_stmtt, ':gid', $warehouse_gid);
-oci_execute($update_stmtt);
-
-
-
-$update_warehouse1 = "UPDATE WAREHOUSE_GENERATOR SET 
-STATUS = :status
-WHERE OLD_SITE_CODE=:sitecode";
-$update_stmtt1 = oci_parse($conn, $update_warehouse1);
-oci_bind_by_name($update_stmtt1, ':sitecode', $warehouse_code);
-oci_bind_by_name($update_stmtt1, ':status', $warehouse_status);
-oci_execute($update_stmtt1);
-
-}
-}
-}
-
-
-
-
-
-}
-
-
-
-
-
-
 
 
 $sql_amp = "SELECT * FROM AMPERE WHERE SITE_CODE=:sitecode";
@@ -2149,7 +1443,6 @@ if($row_amp = oci_fetch_array($select_amp, OCI_ASSOC + OCI_RETURN_NULLS))
 
     $CAPACITY = $row_amp['CAPACITY'];
     $DURATION = $row_amp['DURATION'];
-    $DATE     = $row_amp['DATE1'];
 
 
 
@@ -2165,8 +1458,8 @@ if($row_amp = oci_fetch_array($select_amp, OCI_ASSOC + OCI_RETURN_NULLS))
             NEW_CAPACITY,
             OLD_DURATION,
             NEW_DURATION,
-            USER_NAME,
-            AUDIT_DATE
+            CHANGED_BY,
+            CHANGE_AT
         ) VALUES (
             TANK_AUDIT_SEQ.NEXTVAL,
             :user_id,
@@ -2175,7 +1468,7 @@ if($row_amp = oci_fetch_array($select_amp, OCI_ASSOC + OCI_RETURN_NULLS))
             :new_capacity,
             :old_duration,
             :new_duration,
-            :user,
+            :changed_by,
             SYSDATE
         ) RETURNING DETAIL_ID INTO :last_detail_id";
 $insert_stmt = oci_parse($conn, $sql_insert);
@@ -2187,7 +1480,7 @@ oci_bind_by_name($insert_stmt, ':old_capacity', $CAPACITY);
 oci_bind_by_name($insert_stmt, ':new_capacity', $ampcapacity);
 oci_bind_by_name($insert_stmt, ':old_duration', $DURATION);
 oci_bind_by_name($insert_stmt, ':new_duration', $ampduration);
-oci_bind_by_name($insert_stmt, ':user', $username1);
+oci_bind_by_name($insert_stmt, ':changed_by', $username1);
 
 // Bind variable for returning the last inserted DETAIL_ID
 oci_bind_by_name($insert_stmt, ':last_detail_id', $last_detail_id, -1, SQLT_INT);
@@ -2207,8 +1500,7 @@ if (oci_execute($insert_stmt)) {
  
   $sqlamp = "UPDATE AMPERE 
   SET  CAPACITY = :capacity, 
-       DURATION = :duration,
-       DATE1   = :ampdate 
+       DURATION = :duration 
   WHERE PID = :pid";
 
 $update_amp = oci_parse($conn, $sqlamp);
@@ -2218,8 +1510,6 @@ oci_bind_by_name($update_amp, ':pid', $old_PID); // Unique identifier for the re
 //oci_bind_by_name($update_amp, ':sitecode', $sitecode);
 oci_bind_by_name($update_amp, ':capacity', $ampcapacity);
 oci_bind_by_name($update_amp, ':duration', $ampduration);
-oci_bind_by_name($update_amp, ':ampdate', $ampdate);
-
 
 // Execute the update
 $result = oci_execute($update_amp);
@@ -2235,37 +1525,6 @@ echo "Error updating record: " . $e['message'];
 oci_free_statement($update_amp);
 
 
-}
-
-else{
-
-    if (!empty($_POST['Ampere']) && isset($_POST['Ampere'])) {
-
-        $sqlamp = "INSERT INTO AMPERE (PID , SITE_CODE , CAPACITY, DURATION, DATE1) 
-        VALUES (:pid ,:sitecode, :capacity, :duration, :ampdate)";
-    
-    $insert_amp = oci_parse($conn,$sqlamp);
-    oci_bind_by_name($insert_amp, ':pid'      ,$old_PID);
-    oci_bind_by_name($insert_amp, ':sitecode' ,$sitecode);
-    oci_bind_by_name($insert_amp, ':capacity' ,$ampcapacity);
-    oci_bind_by_name($insert_amp, ':duration' ,$ampduration);
-    oci_bind_by_name($insert_amp, ':ampdate' ,$ampdate);
-    
-    
-    
-    
-    if (oci_execute($insert_amp)) {  
-      
-     } 
-       else { 
-        $e = oci_error($insert_amp); 
-        echo "Error Updating Data: " . htmlentities($e['message']);
-    
-       }
-    
-    
-    
-    }
 }
 
 $sql_hyp = "SELECT * FROM HYPRID WHERE SITE_CODE=:sitecode";
@@ -2292,7 +1551,7 @@ if($PANELS_QUANTITY == $panelqty && $PANELS_CAPACITY == $solarcapacity && $MODUL
 else{
 
     $sql_insert = "INSERT INTO HYPRID_AUDIT (
-        DETAIL_ID, USER_ID, SITE_CODE, OLD_TYPE, NEW_TYPE, OLD_PANELS_QTY, NEW_PANELS_QTY, OLD_PANELS_CAP, NEW_PANELS_CAP, OLD_STATUS, NEW_STATUS, OLD_MODULE_QTY, NEW_MODULE_QTY, OLD_BRAND, NEW_BRAND, USER_NAME, AUDIT_DATE
+        DETAIL_ID, USER_ID, SITE_CODE, OLD_TYPE, NEW_TYPE, OLD_PANELS_QTY, NEW_PANELS_QTY, OLD_PANELS_CAP, NEW_PANELS_CAP, OLD_STATUS, NEW_STATUS, OLD_MODULE_QTY, NEW_MODULE_QTY, OLD_BRAND, NEW_BRAND, CHANGED_BY, CHANGE_AT
     ) VALUES (
         AMPERE_AUDIT_SEQ.NEXTVAL,
         :user_id,
@@ -2309,7 +1568,7 @@ else{
         :new_module_qty,
         :old_brand,
         :new_brand,
-        :user,
+        :changed_by,
         SYSDATE
     ) RETURNING DETAIL_ID INTO :last_detail_id";
     
@@ -2330,7 +1589,7 @@ oci_bind_by_name($insert_stmt, ':old_module_qty', $MODULE_QUANTITY);
 oci_bind_by_name($insert_stmt, ':new_module_qty', $solarmodqty);
 oci_bind_by_name($insert_stmt, ':old_brand', $BRAND);
 oci_bind_by_name($insert_stmt, ':new_brand', $solarbrand);
-oci_bind_by_name($insert_stmt, ':user', $username1);
+oci_bind_by_name($insert_stmt, ':changed_by', $username1);
 
 // Bind variable for returning the last inserted DETAIL_ID
 oci_bind_by_name($insert_stmt, ':last_detail_id', $last_detail_id, -1, SQLT_INT);
@@ -2382,39 +1641,6 @@ echo "Error updating data: " . htmlentities($e['message']);
 
 // Clean up
 oci_free_statement($update_hyprid);
-
-
-}
-
-else{
-
-    if (!empty($_POST['Hyprid']) && isset($_POST['Hyprid'])) {
-
-        $sqlhyprid = "INSERT INTO HYPRID (PID , SITE_CODE, TYPE, PANELS_QUANTITY, PANELS_CAPACITY, STATUS, MODULE_QUANTITY, BRAND) 
-                      VALUES (:pid , :sitecode, :type, :pqty, :pcabacity, :status, :mqty,:brand)";
-        
-        
-        $insert_hyprid = oci_parse($conn,$sqlhyprid);
-        oci_bind_by_name($insert_hyprid, ':pid' ,$old_PID);
-        oci_bind_by_name($insert_hyprid, ':sitecode' ,$sitecode);
-        oci_bind_by_name($insert_hyprid, ':type' ,$solartype);
-        oci_bind_by_name($insert_hyprid, ':pqty' ,$panelqty);
-        oci_bind_by_name($insert_hyprid, ':pcabacity' ,$solarcapacity);
-        oci_bind_by_name($insert_hyprid, ':status' ,$solarstatus);
-        oci_bind_by_name($insert_hyprid, ':mqty' ,$solarmodqty);
-        oci_bind_by_name($insert_hyprid, ':brand' ,$solarbrand);
-        
-        
-        if (oci_execute($insert_hyprid)) {  
-  
-         } 
-           else { 
-            $e = oci_error($insert_hyprid); echo "Error Updating Data: " . htmlentities($e['message']);
-        
-           }
-        
-        
-        }
 
 
 }
@@ -2477,8 +1703,8 @@ else{
         NEW_G2_QUANTITY,
         OLD_G2_INSTALL_DATE,
         NEW_G2_INSTALL_DATE,
-        USER_NAME,
-        AUDIT_DATE
+        CHANGED_BY,
+        CHANGE_AT
     ) VALUES (
         BATTERIES_AUDIT_SEQ.NEXTVAL,
         :user_id,
@@ -2507,7 +1733,7 @@ else{
         :new_g2_quantity,
         :old_g2_install_date,
         :new_g2_install_date,
-        :user,
+        :changed_by,
         SYSDATE
     ) RETURNING DETAIL_ID INTO :last_detail_id";
 
@@ -2544,7 +1770,7 @@ oci_bind_by_name($insert_stmt, ':old_g2_quantity', $G2_QUANTITY);
 oci_bind_by_name($insert_stmt, ':new_g2_quantity', $b2qty);
 oci_bind_by_name($insert_stmt, ':old_g2_install_date', $G2_INSTALLATION_DATE);
 oci_bind_by_name($insert_stmt, ':new_g2_install_date', $b2b1date);
-oci_bind_by_name($insert_stmt, ':user', $username1);
+oci_bind_by_name($insert_stmt, ':changed_by', $username1);
 
 // Bind variable for returning the last inserted DETAIL_ID
 oci_bind_by_name($insert_stmt, ':last_detail_id', $last_detail_id, -1, SQLT_INT);
@@ -2601,7 +1827,9 @@ oci_bind_by_name($update_battaries, ':date2', $b2b1date);
 
 // Execute the update
 if (oci_execute($update_battaries)) {  
-
+//echo "Record updated successfully.";
+// Optionally redirect or perform other actions
+// header("Location: Update_thankyou.html");
 } else { 
 $e = oci_error($update_battaries); 
 echo "Error updating data: " . htmlentities($e['message']);
@@ -2609,87 +1837,6 @@ echo "Error updating data: " . htmlentities($e['message']);
 
 // Clean up
 oci_free_statement($update_battaries);
-
-}
-else{
-
-
-
-    if (!empty($_POST['B1Battaries']) && isset($_POST['B1Battaries'])) {
-
-        $sqlbattaries = "INSERT INTO BATTERIES (PID , SITE_CODE, G1_BRAND, G1_CAPACITY, G1_TYPE, G1_STATUS, G1_QUANTITY, G1_INSTALLATION_DATE) 
-                         VALUES (:pid , :sitecode, :brand, :cabacity, :type , :status, :qty, :date1)";
-        
-        
-        $insert_battaries = oci_parse($conn,$sqlbattaries);
-        oci_bind_by_name($insert_battaries, ':pid' ,$old_PID);
-        oci_bind_by_name($insert_battaries, ':sitecode' ,$sitecode);
-        oci_bind_by_name($insert_battaries, ':brand'    ,$b1brand);
-        oci_bind_by_name($insert_battaries, ':cabacity' ,$b1capacity);
-        oci_bind_by_name($insert_battaries, ':type'     ,$b1type);
-        oci_bind_by_name($insert_battaries, ':status'   ,$b1status);
-        oci_bind_by_name($insert_battaries, ':qty'      ,$b1qty);
-        oci_bind_by_name($insert_battaries, ':date1'     ,$b1b1date);
-
-        
-        if (oci_execute($insert_battaries)) {  
-         
-         } 
-           else { 
-            $e = oci_error($insert_battaries); echo "Error Updating Data: " . htmlentities($e['message']);
-        
-           }
-        
-     
-        }
-
-
-            if (!empty($_POST['B1Battaries']) &&!empty($_POST['B2Battaries']) && isset($_POST['B2Battaries'])) {
-
-                $sqlbattaries2 = "UPDATE BATTERIES SET 
-                G2_BRAND =:brand, 
-                G2_CAPACITY =:cabacity, 
-                G2_TYPE=:type, 
-                G2_STATUS =:status, 
-                G2_QUANTITY =:qty, 
-                G2_INSTALLATION_DATE=:date2
-                WHERE PID =:pid";
-                
-                
-
-
-
-                $insert_battaries2 = oci_parse($conn,$sqlbattaries2);
-                oci_bind_by_name($insert_battaries2, ':pid' ,$old_PID);
-                //oci_bind_by_name($insert_battaries2, ':sitecode' ,$sitecode);
-                oci_bind_by_name($insert_battaries2, ':brand'    ,$b2brand);
-                oci_bind_by_name($insert_battaries2, ':cabacity' ,$b2capacity);
-                oci_bind_by_name($insert_battaries2, ':type'     ,$b2type);
-                oci_bind_by_name($insert_battaries2, ':status'   ,$b2status);
-                oci_bind_by_name($insert_battaries2, ':qty'      ,$b2qty);
-                oci_bind_by_name($insert_battaries2, ':date2'     ,$b2b1date);
-        
-                
-                if (oci_execute($insert_battaries2)) {  
-                 
-                 } 
-                   else { 
-                    $e = oci_error($insert_battaries2); echo "Error Updating Data: " . htmlentities($e['message']);
-                
-                   }
-                
-             
-                }
-
-                else{
-                    //echo "Insert Batteries Groupe1 before Groupe2";
-                    echo '<script>alert("Insert Batteries Groupe1 before Groupe2")</script>';
-                }
-
-
-
-
-
 
 }
 
@@ -2713,15 +1860,15 @@ else{
         SITE_CODE,
         OLD_TYPE,
         NEW_TYPE,
-        USER_NAME,
-        AUDIT_DATE
+        CHANGED_BY,
+        CHANGE_AT
     ) VALUES (
         LINES_AUDIT_SEQ.NEXTVAL,
         :user_id,
         :site_code,
         :old_type,
         :new_type,
-        :user,
+        :changed_by,
         SYSDATE
     ) RETURNING DETAIL_ID INTO :last_detail_id";
     
@@ -2732,7 +1879,7 @@ oci_bind_by_name($insert_stmt, ':user_id', $user_id1);
 oci_bind_by_name($insert_stmt, ':site_code', $sitecode);
 oci_bind_by_name($insert_stmt, ':old_type', $old_type);
 oci_bind_by_name($insert_stmt, ':new_type', $lines);
-oci_bind_by_name($insert_stmt, ':user', $username1);
+oci_bind_by_name($insert_stmt, ':changed_by', $username1);
 
 // Bind variable for returning the last inserted DETAIL_ID
 oci_bind_by_name($insert_stmt, ':last_detail_id', $last_detail_id, -1, SQLT_INT);
@@ -2774,32 +1921,6 @@ oci_free_statement($update_lines);
 
 }
 
-else{
-    if (!empty($_POST['lines']) && isset($_POST['lines'])) {
-
-        $sqllines = "INSERT INTO LINES (PID, SITE_CODE, TYPE) 
-                         VALUES (:pid ,:sitecode, :type)";
-        
-        
-        $insert_lines = oci_parse($conn,$sqllines);
-        oci_bind_by_name($insert_lines, ':pid'      ,$old_PID);
-        oci_bind_by_name($insert_lines, ':sitecode' ,$sitecode);
-        oci_bind_by_name($insert_lines, ':type'     ,$lines);
-
-
-        
-        if (oci_execute($insert_lines)) {  
-          
-         } 
-           else { 
-            $e = oci_error($insert_lines); echo "Error Updating Data: " . htmlentities($e['message']);
-        
-           }
-        
-     
-        }
-}
-
 //echo '<script>alert("'.$row["SITE_CODE"].' Power backup updated Successfully")</script>';
 $power = "SELECT * FROM POWER_BACKUP WHERE SITE_CODE =:sitecode";
 
@@ -2810,7 +1931,7 @@ oci_bind_by_name($insert_power, ':sitecode', $sitecode);
 
 oci_execute($insert_power);
 
-if($row_power = oci_fetch_array($insert_power, OCI_ASSOC + OCI_RETURN_NULLS)) {  
+if($row_power = oci_fetch_array($select_lines, OCI_ASSOC + OCI_RETURN_NULLS)) {  
  
 
 $OLD_GURD1 = $row_power ['GURDE'] ?? '';
@@ -2841,9 +1962,7 @@ $OLD_CAGE1 = $row_power ['CAGE'] ?? '';
 
 
 }
-}
 
-$power_backup = [];
 
 $sqlpower = "SELECT SITE_CODE,OWNERSHIP, QUANTITY FROM  GENERTAOR WHERE SITE_CODE=:sitecode";      
 $result_power = oci_parse($conn,$sqlpower);
@@ -2852,9 +1971,7 @@ oci_bind_by_name($result_power, ':sitecode'   ,$sitecode);
 oci_execute($result_power);
 
 if($rowpower = oci_fetch_array($result_power, OCI_ASSOC + OCI_RETURN_NULLS)){
-$power_backup[] = 'Generator';
-
-
+  //echo "hi";
 $ownership = $rowpower['OWNERSHIP'];
 $quantity  = $rowpower['QUANTITY'];
 if($ownership == 'MTN'){
@@ -3189,7 +2306,6 @@ oci_bind_by_name($result_hyp, ':sitecode'   ,$sitecode);
 oci_execute($result_hyp);
 
 if($rowhyp = oci_fetch_array($result_hyp, OCI_ASSOC + OCI_RETURN_NULLS)){
-    $power_backup[] = 'Hyprid';
 $brand = $rowhyp['BRAND'];
 
 
@@ -3270,7 +2386,7 @@ oci_execute($result_amp);
 
 if($rowamp = oci_fetch_array($result_amp, OCI_ASSOC + OCI_RETURN_NULLS)){
 
-    $power_backup[] = 'Ampere';
+
 $code = $rowamp['SITE_CODE'];
 if(!empty($code) && isset($code)){
 
@@ -3293,7 +2409,7 @@ oci_bind_by_name($result_batt, ':sitecode'   ,$sitecode);
 oci_execute($result_batt);
 
 if($rowbatt = oci_fetch_array($result_batt, OCI_ASSOC + OCI_RETURN_NULLS)){
-    $power_backup[] = 'Batteries';
+
 
 $type1 = $rowbatt['G1_TYPE'];
 $type2 = $rowbatt['G2_TYPE'];
@@ -3349,7 +2465,7 @@ oci_bind_by_name($result_line, ':sitecode'   ,$sitecode);
 
 oci_execute($result_line);
 if($rowline = oci_fetch_array($result_line, OCI_ASSOC + OCI_RETURN_NULLS)){
-    $power_backup[] = 'Line';
+
 $line = $rowline['TYPE'];
 
 
@@ -3405,28 +2521,18 @@ $sql = "UPDATE POWER_BACKUP SET RATINING_LINE =:mtn WHERE SITE_CODE=:sitecode";
 }
 
 
-$power_backup_string = implode('-', $power_backup);
-//echo $power_backup_string;
-
-
-
-
-
-
-
-
-$stmt = "SELECT * FROM POWER_BACKUP WHERE SITE_CODE =:sitecode";
+$stmt = "SELECT * FROM POWER_BACKUP WHERE PID =:pid";
 
 $result = oci_parse($conn,$stmt);
 
-oci_bind_by_name($result,':sitecode',$sitecode);
+oci_bind_by_name($result,':pid',$PID);
 
 oci_execute($result);   
 
 if($row = oci_fetch_array($result, OCI_ASSOC + OCI_RETURN_NULLS)){
 
 $mtn1       =   isset($row['MTN_GEN'])           ? 'MTN Generator'             : '-';
-$oos1       =   isset($row['MTN_OOS_GEN'])       ? 'MTN OOS Generator'         : '-';
+$oos1       =   isset($row['MTN_OOS_GEN'])       ? 'MTN OSS Generator'         : '-';
 $rent1      =   isset($row['MTN_RENTED_GEN'])    ? 'MTN Rented Generator'      : '-';
 $othermtn1  =   isset($row['OTHER_MTN_GEN'])     ? 'Other MTN Generator'       : '-';
 $other1     =   isset($row['OTHER_GEN'])         ? 'Other Generator'           : '-';
@@ -3471,16 +2577,14 @@ GOLDEN_LINE=:golden,
 RATINING_LINE=:ration,
 G2_GEL_BATT=:gel,
 G2_LITHIUM_BATT =:lith,
-NON_RATINING_LINE=:non,
-POWER_BACKUP=:power_backup
- WHERE SITE_CODE=:sitecode
+NON_RATINING_LINE=:non WHERE PID =:pid AND SITE_CODE=:sitecode
 ";
 $updatepower = oci_parse($conn, $stmtt);
 
 
 
 
-// oci_bind_by_name($updatepower, ':pid', $PID);
+oci_bind_by_name($updatepower, ':pid', $PID);
 oci_bind_by_name($updatepower, ':sitecode', $sitecode);
 oci_bind_by_name($updatepower, ':mtn', $mtn1);
 oci_bind_by_name($updatepower, ':oosgen', $oos1);
@@ -3503,16 +2607,14 @@ oci_bind_by_name($updatepower, ':ration', $ration1);
 oci_bind_by_name($updatepower, ':gel', $gel1);
 oci_bind_by_name($updatepower, ':lith', $lithium1);
 oci_bind_by_name($updatepower, ':non', $nonration1);
-oci_bind_by_name($updatepower, ':power_backup', $power_backup_string);
 
 
 if (oci_execute($updatepower)) {  
-// echo "DONE";
-//echo $power_backup_string;
+echo "DONE";
+//header("Location:Update_thankyou.html");
 } 
 else { 
 $e = oci_error($updatepower); echo "Error Updating Data: " . htmlentities($e['message']);
-//echo "error";
 
 }
 
@@ -3524,17 +2626,16 @@ $e = oci_error($updatepower); echo "Error Updating Data: " . htmlentities($e['me
 
 
 
-
+//}
+//header("Location: Power_Thankyou.html");
          
+}
 
 
-
-header("Location: Power_Thankyou.php?id=" . $sid . "&user_id=" . $user_id1);
-exit(); // It's a good practice to call exit after header redirection
-
+header("Location: Power_Thankyou.html");
 
          }
-}
+
 
 
 
@@ -3551,11 +2652,7 @@ exit(); // It's a good practice to call exit after header redirection
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Power Backup Configuration</title>
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="CSS/bootstrap.min.css">
-    <link rel="stylesheet" href="styles.css">
-    <script defer src="JS/bootstrap.bundle.min.js"></script>
     <style>
     :root {
         --primary: #1c355c;
@@ -3597,28 +2694,6 @@ exit(); // It's a good practice to call exit after header redirection
         text-align: center;
         margin-bottom: 25px;
         box-shadow: var(--box-shadow);
-        position: relative;
-    }
-
-    .back-button {
-        position: absolute;
-        left: 20px;
-        top: 50%;
-        transform: translateY(-50%);
-        background: rgba(255, 255, 255, 0.2);
-        border: none;
-        border-radius: var(--border-radius);
-        color: white;
-        padding: 8px 15px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        cursor: pointer;
-        transition: var(--transition);
-    }
-
-    .back-button:hover {
-        background: rgba(255, 255, 255, 0.3);
     }
 
     .audit-info {
@@ -3915,130 +2990,6 @@ exit(); // It's a good practice to call exit after header redirection
         display: none;
     }
 
-    /* Search Form */
-    .search-form {
-        padding: 30px 20px;
-        background: var(--light);
-        text-align: center;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    }
-
-    .search-container {
-        max-width: 600px;
-        margin: 0 auto;
-        display: flex;
-        gap: 10px;
-    }
-
-    .search-input {
-        flex: 1;
-        padding: 15px 20px;
-        border: 2px solid #d1d9e6;
-        border-radius: 8px;
-        font-size: 1rem;
-        transition: var(--transition);
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    }
-
-    .search-input:focus {
-        outline: none;
-        border-color: var(--primary);
-        box-shadow: 0 5px 15px rgba(28, 53, 92, 0.1);
-    }
-
-    .search-button {
-        background: var(--primary);
-        color: white;
-        border: none;
-        border-radius: 8px;
-        padding: 0 30px;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: var(--transition);
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .search-button:hover {
-        background: #152a50;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .modal-btn {
-        padding: 16px 50px;
-        border-radius: 50px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        border: 2px solid transparent;
-        background: goldenrod;
-        color: white;
-        margin: auto;
-        font-size: medium;
-        min-width: 30%;
-    }
-
-    .modal-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        background: #1c355c;
-    }
-
-    /* New status badges */
-    .status-badge {
-        display: inline-block;
-        padding: 4px 8px;
-        border-radius: 4px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        margin-left: 8px;
-    }
-
-    .badge-active {
-        background-color: #d4edda;
-        color: #155724;
-    }
-
-    .badge-inactive {
-        background-color: #f8d7da;
-        color: #721c24;
-    }
-
-    /* IP fields container */
-    .ip-fields-container {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-        position: relative;
-    }
-
-    .ip-field {
-        transition: all 0.3s ease;
-        opacity: 0;
-        height: 0;
-        overflow: hidden;
-    }
-
-    option[style*="display: none"] {
-        display: none !important;
-    }
-
-    .ip-field.active {
-        opacity: 1;
-        height: auto;
-    }
-
-    .error-message {
-        color: #dc3545;
-        font-size: 0.85rem;
-        margin-top: 5px;
-        display: none;
-    }
-
     @media (max-width: 1200px) {
         .sub-options {
             grid-template-columns: repeat(3, 1fr);
@@ -4066,109 +3017,77 @@ exit(); // It's a good practice to call exit after header redirection
         .sub-options {
             grid-template-columns: 1fr;
         }
-
-        .ip-fields-container {
-            grid-template-columns: 1fr;
+    }
+/* Search Form */
+        .search-form {
+            padding: 30px 20px;
+            background: var(--light);
+            text-align: center;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
-    }
 
-    .logout-button {
-        padding: 5px 10px;
-        background-color: #1c355c;
-        color: #fff;
-        text-decoration: none;
-        border-radius: 4px;
-        margin-left: 15px;
-        transition: background-color 0.3s ease;
-    }
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            gap: 10px;
+        }
 
-    .logout-button:hover {
-        background-color: #e05a79;
-    }
+        .search-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid #d1d9e6;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
 
-    .user-info span {
-        display: none;
-    }
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 5px 15px rgba(28, 53, 92, 0.1);
+        }
 
-    .user-info {
-        padding: 6px 10px;
-    }
+        .search-button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
 
-    .user-info {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        background: rgba(255, 255, 255, 0.1);
-        padding: 8px 15px;
-        border-radius: 30px;
-    }
-
-    .user-avatar {
-        width: 35px;
-        height: 35px;
-        background: var(--accent);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        .search-button:hover {
+            background: #152a50;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+    .modal-btn {
+        padding: 16px 50px;
+        border-radius: 50px;
         font-weight: 600;
-        color: var(--primary);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        background: goldenrod;
+        color: white;
+        margin: auto;
+        font-size: medium;
+        min-width: 30%;
     }
 
-    label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 600;
-        color: #2c3e50;
-    }
-
-    .info-box {
-        background: #e8f4fc;
-        border-left: 4px solid #3498db;
-        padding: 15px;
-        border-radius: 4px;
-        margin-top: 25px;
-        font-size: 14px;
-        grid-column: 1 / -1;
-    }
-
-    .info-box h3 {
-        margin-bottom: 10px;
-        color: #2c3e50;
-    }
-
-    .info-box ul {
-        padding-left: 20px;
-        color: #555;
-    }
-
-    .info-box li {
-        margin-bottom: 5px;
-    }
-
-    .battery-icon {
-        text-align: center;
-        font-size: 40px;
-        color: #3498db;
-        margin: 15px 0;
-    }
-
-    .selected-value {
-        margin-top: 10px;
-        padding: 10px;
-        background: #e8f4fc;
-        border-radius: 6px;
-        font-weight: 500;
-    }
-
-    .compatibility-note {
-        font-size: 13px;
-        color: #6c757d;
-        margin-top: 5px;
-        font-style: italic;
+    .modal-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        background: #1c355c;
     }
     </style>
 </head>
@@ -4176,59 +3095,9 @@ exit(); // It's a good practice to call exit after header redirection
 <body>
     <div class="container">
         <form id="powerConfigForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-            <!-- <header class="card text-white mb-4">
-
-                <a href="<?php //echo 'searchpower.php?user=' . $userrname ; ?>"> -->
-            <!-- <button class="back-button">
-                    <i class="fas fa-arrow-left"></i><span>Back</span>
-                </button>
-                </a> -->
-
-            <!-- <h1><i class="fas fa-bolt"></i> Power Backup Configuration</h1>
+            <header>
+                <h1><i class="fas fa-bolt"></i> Power Backup Configuration</h1>
                 <p>Comprehensive setup for your site's power systems</p>
-
-                <div class="user-info">
-                    <div class="user-avatar"></div>
-                    <span></span>
-                    
-                </div> -->
-            <!-- </header> -->
-
-            <header class="card text-white mb-4">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <div>
-
-                        <a href="searchpower.php?user=<?php echo $userrname; ?>">
-                            <button class="btn btn-outline-primary btn-sm ms-3">
-                                <i class="fas fa-arrow-left me-1"></i><span>Back</span>
-                            </button>
-                        </a>
-                    </div>
-
-                    <div class="text-center">
-                        <h1 class="card-title mb-1"><i class="fas fa-bolt me-2"></i>Power Backup Configuration</h1>
-                        <p class="card-text mb-0">Comprehensive setup for your site's power systems</p>
-                    </div>
-                    <div class="d-flex align-items-center">
-                        <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-2"
-                            style="width: 40px; height: 40px;">
-                            <span class="fw-bold"><?php echo strtoupper(substr($userrname, 0, 2)); ?></span>
-                        </div>
-                        <?php
-// Check if the cookie exists
-if (isset($_COOKIE['loggedInUser'])) {
-    // Use htmlspecialchars to prevent cross-site scripting (XSS)
-    $username = htmlspecialchars($_COOKIE['loggedInUser']);
-	echo '<a href="logout.php"  class="btn btn-outline-danger btn-sm ms-3"> Logout</a>';
-    	// echo "Welcome, {$username}";
-    
-} else {
-    // Optionally, handle the case when the user is not logged in
-    echo '<li><a href="index.php"><i class="fas fa-sign-in-alt"></i> Login</a></li>';
-}
-?>
-                    </div>
-                </div>
             </header>
 
             <div class="audit-info">
@@ -4236,38 +3105,24 @@ if (isset($_COOKIE['loggedInUser'])) {
                 <div>All changes are logged in the audit trail for security and compliance purposes.</div>
             </div>
 
-            <!-- Search Form -->
-            <div class="search-form bg-light p-4 rounded mb-4">
-                <div class="search-container">
-                    <input type="hidden" name="userid1" value="<?php echo $user_id; ?>">
-                    <input type="hidden" name="username1" value="<?php echo $userrname; ?>">
-                    <input type="text" class="search-input" name="searchcode"
-                        placeholder="Enter site code (e.g., DAM123)">
 
-                    <button type="submit" name="Search" class="search-button">
-                        <i class="fas fa-search"></i>
-                        <span>Search</span>
-                    </button>
+            <div class="audit-info">
+                <i class="fas fa-info-circle"></i>
+                <div>
+                <!-- <input  type="text" name="searchcode" placeholder ="Enter site code to search">
+                <button type="button" name="Search">Search</button> -->
+
+                <input type="hidden" name="userid1" value="<?php echo $user_id; ?>">
+                <input type="hidden" name="username1" value="<?php echo $userrname; ?>">
+                <input type="text" name="searchcode" placeholder="Enter site code to search">
+                <button type="submit" name="Search">Search</button>
+
                 </div>
-                <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    const searchInput = document.querySelector('input[name="searchcode"]');
-
-                    if (searchInput) {
-                        searchInput.addEventListener('keypress', function(e) {
-                            if (e.key === 'Enter') {
-                                e.preventDefault();
-                                // Trigger the search button click
-                                document.querySelector('button[name="Search"]').click();
-                            }
-                        });
-                    }
-                });
-                </script>
             </div>
 
-            <div class="success-message alert alert-success" id="successMessage">
-                <i class="fas fa-check-circle me-2"></i> Configuration saved successfully!
+
+            <div class="success-message" id="successMessage">
+                <i class="fas fa-check-circle"></i> Configuration saved successfully!
             </div>
 
             <div class="form-container">
@@ -4279,13 +3134,17 @@ if (isset($_COOKIE['loggedInUser'])) {
                     </div>
                     <div class="section-content" style="display: grid; grid-template-columns: repeat(3, 1fr);">
                         <div class="form-group">
+
                             <label for="siteCode"><i class="fas fa-qrcode"></i> Site Code</label>
                             <input type="text" id="siteCode" name="sitecode" value="<?php echo $row['SITE_CODE']; ?>"
                                 readonly>
                             <input type="hidden" name="id" value="<?php echo $siteid; ?>">
                             <input type="hidden" name="userid" value="<?php echo $user_id; ?>">
                             <input type="hidden" name="username" value="<?php echo $userrname; ?>">
+
+
                         </div>
+
                         <div class="form-group">
                             <label for="siteName"><i class="fas fa-map-marker-alt"></i> Site Name</label>
                             <input type="text" id="siteName" name="siteName"
@@ -4294,8 +3153,8 @@ if (isset($_COOKIE['loggedInUser'])) {
                         <div class="form-group">
                             <label><i class="fa fa-list-alt"></i> Summary</label>
                             <button type="button" class="modal-btn" onclick="showPowerInfoModal()">View</button>
-
-                            <?php  echo "<a href= 'export power.php'><button type='button' class='modal-btn'>Export</button></a>";
+			
+                         <?php  echo "<a href= 'export power.php'><button type='button' class='modal-btn'>Export</button></a>";
 
                          ?>
 
@@ -4426,8 +3285,7 @@ if (isset($_COOKIE['loggedInUser'])) {
                             <label for="counter_status"><i class="fas fa-info-circle"></i> Counter Status</label>
                             <select id="counter_status" name="cstatus">
                                 <option value="">--</option>
-                                <option value="Not Exsist" <?php if($STATUS  == "Not Exsist")    echo 'Selected';?>>Not
-                                    Exsist
+				<option value="Not Exsist" <?php if($STATUS  == "Not Exsist")    echo 'Selected';?>>Not Exsist
                                 </option>
                                 <option value="Good" <?php if($STATUS  == "Good")    echo 'Selected';?>>Good
                                 </option>
@@ -4444,7 +3302,6 @@ if (isset($_COOKIE['loggedInUser'])) {
                         <div class="form-group">
                             <label for="counter_owner"><i class="fas fa-user-tag"></i> Ownership</label>
                             <select id="counter_owner" name="owner">
-                                <option value="--"> -- </option>
                                 <option value="MTN" <?php if($OWNER_SHIP  == "MTN") echo 'Selected';?>>MTN
                                 </option>
                                 <option value="Third Party" <?php if($OWNER_SHIP  == "Third Party")  echo 'Selected';?>>
@@ -4572,19 +3429,13 @@ if (!$execute_result1) {
 
                         <div class="form-group">
                             <label><i class="fas fa-network-wired"></i> IP Addresses</label>
-                            <div class="ip-fields-container">
-                                <div class="ip-field" id="huawei-ip">
-                                    <input type="text" name="HIP" placeholder="Huawei IP"
-                                        value="<?php echo $HWAUEI_IP ? $HWAUEI_IP : ''; ?>">
-                                </div>
-                                <div class="ip-field" id="delta-ip">
-                                    <input type="text" name="DIP" placeholder="Delta IP"
-                                        value="<?php echo $DELTA_IP  ? $DELTA_IP  : ''; ?>">
-                                </div>
-                                <div class="ip-field" id="eltek-ip">
-                                    <input type="text" name="EIP" placeholder="ELTEK IP"
-                                        value="<?php echo $ELTEK_IP  ? $ELTEK_IP : ''; ?>">
-                                </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                                <input type="text" name="HIP" placeholder="Huawei IP"
+                                    value="<?php echo $HWAUEI_IP ? $HWAUEI_IP : ''; ?>">
+                                <input type="text" name="DIP" placeholder="Delta IP"
+                                    value="<?php echo $DELTA_IP  ? $DELTA_IP  : ''; ?>">
+                                <input type="text" name="EIP" placeholder="ELTEK IP"
+                                    value="<?php echo $ELTEK_IP  ? $ELTEK_IP : ''; ?>">
                             </div>
                         </div>
 
@@ -4608,12 +3459,12 @@ if (!$execute_result1) {
                             <div class="radio-group">
                                 <div class="radio-item">
                                     <input type="radio" id="cabinet_cage_yes" name="cabinetcage" value="Yes"
-                                        <?php echo $checked1[0];?>>
+                                     <?php echo $checked1[0];?>>
                                     <label for="cabinet_cage_yes">Yes</label>
                                 </div>
                                 <div class="radio-item">
                                     <input type="radio" id="cabinet_cage_no" name="cabinetcage" value="No"
-                                        <?php echo $checked1[1];?>>
+                                     <?php echo $checked1[1];?>>
                                     <label for="cabinet_cage_no">No</label>
                                 </div>
                             </div>
@@ -4622,8 +3473,7 @@ if (!$execute_result1) {
                             <label><i class="fas fa-shield-alt"></i> Main Cabinet</label>
                             <div class="radio-group">
                                 <div class="radio-item">
-                                    <input type="checkbox" id="cabinet_yes" name="maincabinet" value="True"
-                                        <?php if ( $MAIN == "True") echo 'checked'; ?>>
+                                    <input type="checkbox" id="cabinet_yes" name="maincabinet" value="True" <?php if ( $MAIN == "True") echo 'checked'; ?>>
                                     <label for="cabinet_yes">Main</label>
                                 </div>
                             </div>
@@ -4637,12 +3487,21 @@ if (!$execute_result1) {
                         </div>
                     </div>
 
-                </div>
-                <?php
+                    <?php
                 }
                 ?>
-                
-                <?php 
+
+
+
+
+
+
+
+
+
+
+
+                    <?php 
 
 
 $sql_gen = "SELECT * FROM GENERTAOR WHERE SITE_CODE=:sitecode";
@@ -4723,39 +3582,19 @@ if (!$execute_result2) {
 
                 // Render the Electrical Counter section
                 ?>
-                <!-- Generator Information Section -->
-                <div class="form-section">
-                    <div class="section-header " data-section="generator">
-                        <h3><i class="fas fa-gas-pump"></i> Generator Information</h3>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="section-content">
-                        <div>
+                    <!-- Generator Information Section -->
+                    <div class="form-section">
+                        <div class="section-header " data-section="generator">
+                            <h3><i class="fas fa-gas-pump"></i> Generator Information</h3>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="section-content">
                             <div class="form-group">
-
-                                <!-- warehouse -->
-
-
-                                <div>
-                                    <input type="checkbox" id="generator_warehouse" name="warehouse" value="1">
-                                    <label for="generator_warehouse">Generator from WareHouse</label>
-                                    <div>
-                                        <div class="form-group">
-                                            <label for="warehouse_code"><i class="fas fa-industry"></i> Site
-                                                Code</label>
-                                            <input type="text" id="warehouse_code" name="warehouse_sitecode">
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <!-- warehouse re-->
-
-                                <!-- <label> Generator Installed</label> -->
+                                <label><i class="fas fa-check-circle"></i> Generator Installed</label>
                                 <div class="checkbox-group">
                                     <div class="checkbox-item">
                                         <input type="checkbox" id="generator_present" name="Gen" value="1">
-                                        <label for="generator_present">Generator Installed</label>
+                                        <label for="generator_present">Yes, we have a generator</label>
                                     </div>
                                 </div>
                             </div>
@@ -4764,7 +3603,6 @@ if (!$execute_result2) {
                                 <div class="form-group">
                                     <label for="generator_brand"><i class="fas fa-industry"></i> Generator Brand</label>
                                     <select id="generator_brand" name="gen_brand">
-                                        <option value="--"> -- </option>
                                         <option value="Paknika" <?php if($BRAND   == "Paknika")  echo 'Selected';?>>
                                             Paknika</option>
                                         <option value="Sdmo" <?php if($BRAND   == "Sdmo")     echo 'Selected';?>>Sdmo
@@ -4798,7 +3636,7 @@ if (!$execute_result2) {
                                 <div class="form-group">
                                     <label for="engine_brand"><i class="fas fa-cogs"></i> Engine Brand</label>
                                     <select id="engine_brand" name="engine_brand">
-                                        <option value="--"> -- </option>
+                                        <option value="-">-</option>
                                         <option value="Paknika"
                                             <?php if($ENGINE_BRAND   == "Paknika")   echo 'Selected';?>>
                                             Paknika</option>
@@ -4830,7 +3668,7 @@ if (!$execute_result2) {
                                     <label for="generator_status"><i class="fas fa-clipboard-check"></i> Initial
                                         Status</label>
                                     <select id="generator_status" name="status">
-                                        <option value="--"> -- </option>
+                                        <option value="-">-</option>
                                         <option value="Bad" <?php if($INITIAL_STATUS == "Bad")    echo 'Selected';?>>Bad
                                         </option>
                                         <option value="Good" <?php if($INITIAL_STATUS == "Good")   echo 'Selected';?>>
@@ -4848,7 +3686,7 @@ if (!$execute_result2) {
                                     <label for="generator_status"><i class="fas fa-clipboard-check"></i> Current
                                         Status</label>
                                     <select id="generator_status" name="currentstatus">
-                                        <option value="--"> -- </option>
+                                        <option value="-">-</option>
                                         <option value="Bad" <?php if($CURRENT_STATUS == "Bad")    echo 'Selected';?>>Bad
                                         </option>
                                         <option value="Good" <?php if($CURRENT_STATUS == "Good")   echo 'Selected';?>>
@@ -4865,8 +3703,7 @@ if (!$execute_result2) {
                                 <div class="form-group">
                                     <label for="generator_owner"><i class="fas fa-user-tag"></i> Ownership</label>
                                     <select id="generator_owner" name="ownership">
-                                        <option value="--"> -- </option>
-                                        <option value="MTN" <?php if($OWNERSHIP == "MTN") echo 'Selected';?>>MTN
+                                        <option value="MTN" <?php if($OWNERSHIP == "MTN_Rented") echo 'Selected';?>>MTN
                                         </option>
                                         <option value="MTN_OOS" <?php if($OWNERSHIP == "MTN_OOS")    echo 'Selected';?>>
                                             MTN_OOS</option>
@@ -4912,12 +3749,12 @@ if (!$execute_result2) {
                                     <div class="radio-group">
                                         <div class="radio-item">
                                             <input type="radio" id="generator_cage_yes" name="cage" value="Yes"
-                                                <?php echo $checked1[0];?>>
+                                             <?php echo $checked1[0];?>>
                                             <label for="generator_cage_yes">Yes</label>
                                         </div>
                                         <div class="radio-item">
                                             <input type="radio" id="generator_cage_no" name="cage" value="No"
-                                                <?php echo $checked1[1];?>>
+                                            <?php echo $checked1[1];?>>
                                             <label for="generator_cage_no">No</label>
                                         </div>
                                     </div>
@@ -4939,7 +3776,6 @@ if (!$execute_result2) {
                                                 <div class="form-group">
                                                     <label>Shape</label>
                                                     <select name="t1shape">
-                                                        <option value="--"> -- </option>
                                                         <option value="Cuboid"
                                                             <?php if($TANK1_SHAPE == "Cuboid")    echo 'Selected';?>>
                                                             Cuboid
@@ -4953,7 +3789,6 @@ if (!$execute_result2) {
                                                 <div class="form-group">
                                                     <label>Type</label>
                                                     <select name="t1type">
-                                                        <option value="--"> -- </option>
                                                         <option value="Internal"
                                                             <?php if( $TANK1_TYPE   == "Internal")  echo 'Selected';?>>
                                                             Internal
@@ -5000,7 +3835,6 @@ if (!$execute_result2) {
                                                 <div class="form-group">
                                                     <label>Shape</label>
                                                     <select name="t2shape">
-                                                        <option value="--"> -- </option>
                                                         <option value="Cuboid"
                                                             <?php if($TANK2_SHAPE   == "Cuboid")    echo 'Selected';?>>
                                                             Cuboid
@@ -5014,7 +3848,6 @@ if (!$execute_result2) {
                                                 <div class="form-group">
                                                     <label>Type</label>
                                                     <select name="t2type">
-                                                        <option value="--"> -- </option>
                                                         <option value="Internal"
                                                             <?php if( $TANK2_TYPE   == "Internal")  echo 'Selected';?>>
                                                             Internal
@@ -5061,7 +3894,6 @@ if (!$execute_result2) {
                                                 <div class="form-group">
                                                     <label>Shape</label>
                                                     <select name="t3shape">
-                                                        <option value="--"> -- </option>
                                                         <option value="Cuboid"
                                                             <?php if($TANK3_SHAPE   == "Cuboid")    echo 'Selected';?>>
                                                             Cuboid
@@ -5075,7 +3907,6 @@ if (!$execute_result2) {
                                                 <div class="form-group">
                                                     <label>Type</label>
                                                     <select name="t3type">
-                                                        <option value="--"> -- </option>
                                                         <option value="Internal"
                                                             <?php if( $TANK3_TYPE   == "Internal")  echo 'Selected';?>>
                                                             Internal
@@ -5170,11 +4001,11 @@ if (!$execute_result2) {
                         </div>
                         <div class="section-content">
                             <div class="form-group">
-                                <!-- <label> Hybrid/Solar Installed</label> -->
+                                <label><i class="fas fa-check-circle"></i> Hybrid/Solar Installed</label>
                                 <div class="checkbox-group">
                                     <div class="checkbox-item">
                                         <input type="checkbox" id="solar_present" name="Hyprid" value="1">
-                                        <label for="solar_present">Hybrid/Solar</label>
+                                        <label for="solar_present">Yes, we have solar system</label>
                                     </div>
                                 </div>
                             </div>
@@ -5182,11 +4013,10 @@ if (!$execute_result2) {
                             <div class="sub-options" id="solarOptions">
                                 <div class="form-group">
                                     <label for="solar_type"><i class="fas fa-cogs"></i> System Type</label>
-                                    <select id="solar_type" name="solarbrand">
-                                        <option value="--"> -- </option>
-                                        <option value="Delta" <?php if($BRAND == "Delta")    echo 'Selected';?>>Delta
+                                    <select id="solar_type" name="solartype">
+                                        <option value="Delta" <?php if($TYPE == "Delta")    echo 'Selected';?>>Delta
                                         </option>
-                                        <option value="Eltek" <?php if($BRAND == "Eltek")    echo 'Selected';?>>Eltek
+                                        <option value="Eltek" <?php if($TYPE == "Eltek")    echo 'Selected';?>>Eltek
                                         </option>
                                     </select>
                                 </div>
@@ -5195,7 +4025,6 @@ if (!$execute_result2) {
                                     <label for="solar_status"><i class="fas fa-clipboard-check"></i> Solar
                                         Status</label>
                                     <select id="solar_status" name="solarstatus">
-                                        <option value="--"> -- </option>
                                         <option value="Active" <?php if($STATUS == "Active")     echo 'Selected';?>>
                                             Active
                                         </option>
@@ -5207,14 +4036,14 @@ if (!$execute_result2) {
 
                                 <div class="form-group">
                                     <label for="solar_brand"><i class="fas fa-industry"></i> Systeme Status</label>
-                                    <select id="solar_brand" name="solartype">
-
-                                        <option value="--"> -- </option>
-                                        <option value="Installed" <?php if($TYPE  == "Installed") echo 'Selected';?>>
+                                    <select id="solar_brand" name="solarbrand">
+                                      
+                                      
+                                             <option value="installed" <?php if($BRAND  == "installed") echo 'Selected';?>>
                                             Installed</option>
-                                        <option value="OOS" <?php if($TYPE  == "OOS")       echo 'Selected';?>>OOS
+                                        <option value="OOS" <?php if($BRAND  == "OOS")       echo 'Selected';?>>OOS
                                         </option>
-
+                                     
                                     </select>
                                 </div>
 
@@ -5242,12 +4071,15 @@ if (!$execute_result2) {
                         </div>
                     </div>
                     <?php } ?>
-                    <!-- Ampere Information Section -->
+
+                    <!-- Batteries Information Section -->
                     <div class="form-section">
                         <div class="section-header" data-section="ampere">
                             <h3><i class="fas fa-bolt"></i> Ampere Information</h3>
                             <i class="fas fa-chevron-down toggle-icon"></i>
                         </div>
+
+
                         <?php 
 
 
@@ -5260,6 +4092,10 @@ if (!$execute_result4) {
   $e = oci_error($select_amp);
   echo "Error executing query: " . htmlentities($e['message']);
 }
+
+
+
+
  else {
       // Initialize a variable to hold the fetched row
       $row_emp = null;
@@ -5269,27 +4105,11 @@ if (!$execute_result4) {
           // Row fetched successfully
          $CAPACITY1           = htmlspecialchars($row_amp['CAPACITY']);
          $DURATION           = htmlspecialchars($row_amp['DURATION']);    
-         $DATE           = htmlspecialchars($row_amp['DATE1']);    
 
       } else {
           // No data found
           $CAPACITY1  = '';
           $DURATION   = '';
-          $DATE   = '';
-          $DATE_TYPE = 'text'; // Default to text type
-          if ($row_amp = oci_fetch_array($select_amp, OCI_ASSOC + OCI_RETURN_NULLS)) {
-            $CAPACITY1 = htmlspecialchars($row_amp['CAPACITY'] ?? '');
-            $DURATION = htmlspecialchars($row_amp['DURATION'] ?? '');
-            $DATE = htmlspecialchars($row_amp['DATE1'] ?? '');
-            
-            // Determine date type
-            if (preg_match('/^\d{1,2}\/\d{1,2}\/\d{4}$/', $DATE) || 
-                preg_match('/^\d{4}-\d{2}-\d{2}$/', $DATE)) {
-                $DATE_TYPE = 'date';
-            } else {
-                $DATE_TYPE = 'text';
-            }
-        }
       }
 
 ?>
@@ -5297,7 +4117,7 @@ if (!$execute_result4) {
 
                         <div class="section-content">
                             <div class="form-group">
-                                <!-- <label><i class="fas fa-bolt"></i> Ampere Backup</label> -->
+                                <label><i class="fas fa-bolt"></i> Ampere Backup</label>
                                 <div class="checkbox-group">
                                     <div class="checkbox-item">
                                         <input type="checkbox" id="ampere_present" name="Ampere" value="1">
@@ -5319,18 +4139,13 @@ if (!$execute_result4) {
                                     <input type="number" id="ampere_duration" name="ampduration"
                                         placeholder="Enter duration" value="<?php echo $DURATION ? $DURATION : ''; ?>">
                                 </div>
-                                <div class="form-group">
-                                    <label for="ampere_date"><i class="fas fa-clock"></i> Date</label>
-                                    <input type="date" id="ampere_date" name="ampdate" placeholder="Enter Date"
-                                        value="<?php echo $DATE ?? ''; ?>">
-                                </div>
                             </div>
 
                             <?php }?>
 
-                        </div>
 
-                        <?php 
+
+                            <?php 
 
             $sql_batt = "SELECT * FROM BATTERIES WHERE SITE_CODE=:sitecode";
             $select_batt = oci_parse($conn, $sql_batt);
@@ -5384,17 +4199,14 @@ if (!$execute_result4) {
 
 ?>
 
-                    </div>
-
-                    <!-- Batteries Information Section -->
-                    <div class="form-section">
-                        <div class="section-header" data-section="batteries">
-                            <h3><i class="fas fa-battery-three-quarters"></i> Batteries Information</h3>
-                            <i class="fas fa-chevron-down toggle-icon"></i>
                         </div>
-                        <div class="section-content">
+
+                        <div class="form-section">
+                            <div class="section-header" data-section="batteries">
+                                <h3><i class="fas fa-battery-three-quarters"></i> Batteries Information</h3>
+                                <i class="fas fa-chevron-down toggle-icon"></i>
+                            </div>
                             <div class="tank-grid">
-                                <!-- Group 1 Batteries -->
                                 <div class="tank-card">
                                     <h4>
                                         <i class="fas fa-battery-full"></i> Group 1 Batteries
@@ -5404,130 +4216,125 @@ if (!$execute_result4) {
                                     </h4>
                                     <div class="tank-fields">
                                         <div class="form-group">
-                                            <label for="battery1_type"><i class="fas fa-cogs"></i> Type</label>
-                                            <select id="battery1_type" name="b1type">
-                                                <option value="--"> -- </option>
-                                                <option value="Gel"
-                                                    <?php if(($G1_TYPE ?? '') == "Gel") echo 'Selected'; ?>>Gel</option>
-                                                <option value="Lithium"
-                                                    <?php if(($G1_TYPE ?? '') == "Lithium") echo 'Selected'; ?>>Lithium
-                                                </option>
-                                            </select>
-                                            <div class="selected-value" id="selected-type1">No type selected</div>
-                                        </div>
-
-                                        <div class="form-group">
                                             <label for="battery1_brand"><i class="fas fa-industry"></i> Brand</label>
                                             <select id="battery1_brand" name="b1brand">
-                                                <option value="--"> -- </option>
                                                 <option value="North_Star"
-                                                    <?php if(($G1_BRAND ?? '') == "North_Star") echo 'Selected'; ?>>
-                                                    North Star</option>
+                                                    <?php if($G1_BRAND  == "North_Star")     echo 'Selected';?>>North
+                                                    Star
+                                                </option>
                                                 <option value="Narada"
-                                                    <?php if(($G1_BRAND ?? '') == "Narada") echo 'Selected'; ?>>Narada
+                                                    <?php if($G1_BRAND  == "Narada")         echo 'Selected';?>>Narada
                                                 </option>
                                                 <option value="Power_Safe"
-                                                    <?php if(($G1_BRAND ?? '') == "Power_Safe") echo 'Selected'; ?>>
-                                                    Power Safe</option>
+                                                    <?php if($G1_BRAND  == "Power_Safe")     echo 'Selected';?>>Power
+                                                    Safe
+                                                </option>
                                                 <option value="CDTRUE"
-                                                    <?php if(($G1_BRAND ?? '') == "CDTRUE") echo 'Selected'; ?>>CDTRUE
+                                                    <?php if($G1_BRAND  == "CDTRUE")         echo 'Selected';?>>CDTRUE
                                                 </option>
                                                 <option value="Huawei"
-                                                    <?php if(($G1_BRAND ?? '') == "Huawei") echo 'Selected'; ?>>Huawei
+                                                    <?php if($G1_BRAND  == "Huawei")         echo 'Selected';?>>Huawei
                                                 </option>
                                                 <option value="Agisson"
-                                                    <?php if(($G1_BRAND ?? '') == "Agisson") echo 'Selected'; ?>>Agisson
+                                                    <?php if($G1_BRAND  == "Agisson")        echo 'Selected';?>>Agisson
                                                 </option>
                                                 <option value="Deye"
-                                                    <?php if(($G1_BRAND ?? '') == "Deye") echo 'Selected'; ?>>Deye
+                                                    <?php if($G1_BRAND  == "Deye")           echo 'Selected';?>>Deye
                                                 </option>
                                                 <option value="Riyada"
-                                                    <?php if(($G1_BRAND ?? '') == "Riyada") echo 'Selected'; ?>>Riyada
+                                                    <?php if($G1_BRAND  == "Riyada")         echo 'Selected';?>>Riyada
                                                 </option>
                                                 <option value="AHG"
-                                                    <?php if(($G1_BRAND ?? '') == "AHG") echo 'Selected'; ?>>AHG
+                                                    <?php if($G1_BRAND  == "AHG")            echo 'Selected';?>>AHG
                                                 </option>
                                                 <option value="VR-Solar"
-                                                    <?php if(($G1_BRAND ?? '') == "VR-Solar") echo 'Selected'; ?>>
-                                                    VR-Solar</option>
+                                                    <?php if($G1_BRAND  == "VR-Solar")       echo 'Selected';?>>
+                                                    VR-Solar
+                                                </option>
                                                 <option value="Shoto"
-                                                    <?php if(($G1_BRAND ?? '') == "Shoto") echo 'Selected'; ?>>Shoto
+                                                    <?php if($G1_BRAND  == "Shoto")          echo 'Selected';?>>Shoto
                                                 </option>
                                                 <option value="GFM"
-                                                    <?php if(($G1_BRAND ?? '') == "GFM") echo 'Selected'; ?>>GFM
+                                                    <?php if($G1_BRAND  == "GFM")            echo 'Selected';?>>GFM
                                                 </option>
                                                 <option value="Coslight"
-                                                    <?php if(($G1_BRAND ?? '') == "Coslight") echo 'Selected'; ?>>
-                                                    Coslight</option>
+                                                    <?php if($G1_BRAND  == "Coslight")       echo 'Selected';?>>
+                                                    Coslight
+                                                </option>
                                                 <option value="NO"
-                                                    <?php if(($G1_BRAND ?? '') == "NO") echo 'Selected'; ?>>NO</option>
+                                                    <?php if($G1_BRAND  == "NO")             echo 'Selected';?>>NO
+                                                </option>
                                                 <option value="Angeergy"
-                                                    <?php if(($G1_BRAND ?? '') == "Angeergy") echo 'Selected'; ?>>
-                                                    Angeergy</option>
+                                                    <?php if($G1_BRAND  == "Angeergy")       echo 'Selected';?>>
+                                                    Angeergy
+                                                </option>
                                                 <option value="Marathon"
-                                                    <?php if(($G1_BRAND ?? '') == "Marathon") echo 'Selected'; ?>>
-                                                    Marathon</option>
+                                                    <?php if($G1_BRAND  == "Marathon")       echo 'Selected';?>>
+                                                    Marathon
+                                                </option>
                                                 <option value="Fiamm"
-                                                    <?php if(($G1_BRAND ?? '') == "Fiamm") echo 'Selected'; ?>>Fiamm
+                                                    <?php if($G1_BRAND  == "Fiamm")          echo 'Selected';?>>Fiamm
                                                 </option>
                                                 <option value="Sonnenschein"
-                                                    <?php if(($G1_BRAND ?? '') == "Sonnenschein") echo 'Selected'; ?>>
+                                                    <?php if($G1_BRAND  == "Sonnenschein")   echo 'Selected';?>>
                                                     Sonnenschein</option>
                                                 <option value="LI_Ion"
-                                                    <?php if(($G1_BRAND ?? '') == "LI_Ion") echo 'Selected'; ?>>LI-Ion
+                                                    <?php if($G1_BRAND  == "LI_Ion")         echo 'Selected';?>>LI -
+                                                    Ion
                                                 </option>
-                                                <option value="Ritar_200A"
-                                                    <?php if(($G1_BRAND ?? '') == "Ritar_200A") echo 'Selected'; ?>>
-                                                    Ritar 200A</option>
-                                                <option value="Aspilsan_100A"
-                                                    <?php if(($G1_BRAND ?? '') == "Aspilsan_100A") echo 'Selected'; ?>>
-                                                    Aspilsan 100A</option>
                                             </select>
-                                            <div class="selected-value" id="selected-brand1">No brand selected</div>
-                                            <div class="compatibility-note" id="compatibility-note1"></div>
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="battery1_capacity"><i class="fas fa-battery-full"></i>
-                                                Capacity</label>
-                                            <input type="text" id="battery1_capacity" name="b1capacity"
-                                                placeholder="Enter capacity" value="<?php echo $G1_CAPACITY ?? ''; ?>">
+                                            <label for="battery1_type"><i class="fas fa-cogs"></i> Type</label>
+                                            <select id="battery1_type" name="b1type">
+                                                <option value="Gel"
+                                                    <?php if($G1_TYPE  == "Gel")     echo 'Selected' ;?>>Gel
+                                                </option>
+                                                <option value="Lithium"
+                                                    <?php if($G1_TYPE  == "Lithium") echo 'Selected' ;?>>Lithium
+                                                </option>
+                                            </select>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="battery1_status"><i class="fas fa-clipboard-check"></i>
                                                 Status</label>
                                             <select id="battery1_status" name="b1status">
-                                                <option value="--"> -- </option>
-                                                <option value="Good"
-                                                    <?php if(($G1_STATUS ?? '') == "Good") echo 'Selected'; ?>>Good
+                                                <option value="Active"
+                                                    <?php if($G1_STATUS   == "Active")     echo 'Selected' ;?>>Active
                                                 </option>
-                                                <option value="Need Replacement"
-                                                    <?php if(($G1_STATUS ?? '') == "Need Replacement") echo 'Selected'; ?>>
-                                                    Need Replacement</option>
-                                                <option value="Not Working"
-                                                    <?php if(($G1_STATUS ?? '') == "Not Working") echo 'Selected'; ?>>
-                                                    Not Working</option>
+                                                <option value="Not Active"
+                                                    <?php if($G1_STATUS   == "Not Active") echo 'Selected' ;?>>Not
+                                                    Active
+                                                </option>
                                             </select>
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="battery1_quantity"><i class="fas fa-calculator"></i>
-                                                Quantity</label>
-                                            <input type="number" id="battery1_quantity" name="b1quantity" min="1"
-                                                value="<?php echo $G1_QUANTITY ?? ''; ?>">
+                                            <label for="battery1_qty"><i class="fas fa-calculator"></i> Quantity</label>
+                                            <input type="number" id="battery1_qty" name="b1qty" min="1" value="1"
+                                                value="<?php echo $G1_QUANTITY ? $G1_QUANTITY : ''; ?>">
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="battery1_installation"><i class="fas fa-calendar"></i>
-                                                Installation Date</label>
-                                            <input type="date" id="battery1_installation" name="b1installation"
-                                                value="<?php echo $G1_INSTALLATION_DATE ?? ''; ?>">
+                                            <label for="battery1_capacity"><i class="fas fa-charging-station"></i>
+                                                Capacity
+                                                (Ah)</label>
+                                            <input type="number" id="battery1_capacity" name="b1capacity"
+                                                placeholder="Enter capacity"
+                                                value="<?php echo $G1_CAPACITY ? $G1_CAPACITY : ''; ?>">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="battery1_date"><i class="fas fa-calendar-alt"></i> Installation
+                                                Date</label>
+                                            <input type="date" id="battery1_date" name="b1date"
+                                                value="<?php echo $G1_INSTALLATION_DATE ? $G1_INSTALLATION_DATE : ''; ?>">
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Group 2 Batteries -->
                                 <div class="tank-card">
                                     <h4>
                                         <i class="fas fa-battery-full"></i> Group 2 Batteries
@@ -5537,132 +4344,128 @@ if (!$execute_result4) {
                                     </h4>
                                     <div class="tank-fields">
                                         <div class="form-group">
-                                            <label for="battery2_type"><i class="fas fa-cogs"></i> Type</label>
-                                            <select id="battery2_type" name="b2type">
-                                                <option value="--"> -- </option>
-                                                <option value="Gel"
-                                                    <?php if(($G2_TYPE ?? '') == "Gel") echo 'Selected'; ?>>Gel</option>
-                                                <option value="Lithium"
-                                                    <?php if(($G2_TYPE ?? '') == "Lithium") echo 'Selected'; ?>>Lithium
-                                                </option>
-                                            </select>
-                                            <div class="selected-value" id="selected-type2">No type selected</div>
-                                        </div>
-
-                                        <div class="form-group">
                                             <label for="battery2_brand"><i class="fas fa-industry"></i> Brand</label>
                                             <select id="battery2_brand" name="b2brand">
-                                                <option value="--"> -- </option>
                                                 <option value="North_Star"
-                                                    <?php if(($G2_BRAND ?? '') == "North_Star") echo 'Selected'; ?>>
-                                                    North Star</option>
+                                                    <?php if($G2_BRAND  == "North_Star")     echo 'Selected' ;?>>North
+                                                    Star
+                                                </option>
                                                 <option value="Narada"
-                                                    <?php if(($G2_BRAND ?? '') == "Narada") echo 'Selected'; ?>>Narada
+                                                    <?php if($G2_BRAND  == "Narada")         echo 'Selected' ;?>>Narada
                                                 </option>
                                                 <option value="Power_Safe"
-                                                    <?php if(($G2_BRAND ?? '') == "Power_Safe") echo 'Selected'; ?>>
-                                                    Power Safe</option>
+                                                    <?php if($G2_BRAND  == "Power_Safe")     echo 'Selected' ;?>>Power
+                                                    Safe
+                                                </option>
                                                 <option value="CDTRUE"
-                                                    <?php if(($G2_BRAND ?? '') == "CDTRUE") echo 'Selected'; ?>>CDTRUE
+                                                    <?php if($G2_BRAND  == "CDTRUE")         echo 'Selected' ;?>>CDTRUE
                                                 </option>
                                                 <option value="Huawei"
-                                                    <?php if(($G2_BRAND ?? '') == "Huawei") echo 'Selected'; ?>>Huawei
+                                                    <?php if($G2_BRAND  == "Huawei")         echo 'Selected' ;?>>Huawei
                                                 </option>
                                                 <option value="Agisson"
-                                                    <?php if(($G2_BRAND ?? '') == "Agisson") echo 'Selected'; ?>>Agisson
+                                                    <?php if($G2_BRAND  == "Agisson")        echo 'Selected' ;?>>Agisson
                                                 </option>
                                                 <option value="Deye"
-                                                    <?php if(($G2_BRAND ?? '') == "Deye") echo 'Selected'; ?>>Deye
+                                                    <?php if($G2_BRAND  == "Deye")           echo 'Selected' ;?>>Deye
                                                 </option>
                                                 <option value="Riyada"
-                                                    <?php if(($G2_BRAND ?? '') == "Riyada") echo 'Selected'; ?>>Riyada
+                                                    <?php if($G2_BRAND  == "Riyada")         echo 'Selected' ;?>>Riyada
                                                 </option>
                                                 <option value="AHG"
-                                                    <?php if(($G2_BRAND ?? '') == "AHG") echo 'Selected'; ?>>AHG
+                                                    <?php if($G2_BRAND  == "AHG")            echo 'Selected' ;?>>AHG
                                                 </option>
                                                 <option value="VR-Solar"
-                                                    <?php if(($G2_BRAND ?? '') == "VR-Solar") echo 'Selected'; ?>>
-                                                    VR-Solar</option>
+                                                    <?php if($G2_BRAND  == "VR-Solar")       echo 'Selected' ;?>>
+                                                    VR-Solar
+                                                </option>
                                                 <option value="Shoto"
-                                                    <?php if(($G2_BRAND ?? '') == "Shoto") echo 'Selected'; ?>>Shoto
+                                                    <?php if($G2_BRAND  == "Shoto")          echo 'Selected' ;?>>Shoto
                                                 </option>
                                                 <option value="GFM"
-                                                    <?php if(($G2_BRAND ?? '') == "GFM") echo 'Selected'; ?>>GFM
+                                                    <?php if($G2_BRAND  == "GFM")            echo 'Selected' ;?>>GFM
                                                 </option>
                                                 <option value="Coslight"
-                                                    <?php if(($G2_BRAND ?? '') == "Coslight") echo 'Selected'; ?>>
-                                                    Coslight</option>
+                                                    <?php if($G2_BRAND  == "Coslight")       echo 'Selected' ;?>>
+                                                    Coslight
+                                                </option>
                                                 <option value="NO"
-                                                    <?php if(($G2_BRAND ?? '') == "NO") echo 'Selected'; ?>>NO</option>
+                                                    <?php if($G2_BRAND  == "NO")             echo 'Selected' ;?>>NO
+                                                </option>
                                                 <option value="Angeergy"
-                                                    <?php if(($G2_BRAND ?? '') == "Angeergy") echo 'Selected'; ?>>
-                                                    Angeergy</option>
+                                                    <?php if($G2_BRAND  == "Angeergy")       echo 'Selected' ;?>>
+                                                    Angeergy
+                                                </option>
                                                 <option value="Marathon"
-                                                    <?php if(($G2_BRAND ?? '') == "Marathon") echo 'Selected'; ?>>
-                                                    Marathon</option>
+                                                    <?php if($G2_BRAND  == "Marathon")       echo 'Selected' ;?>>
+                                                    Marathon
+                                                </option>
                                                 <option value="Fiamm"
-                                                    <?php if(($G2_BRAND ?? '') == "Fiamm") echo 'Selected'; ?>>Fiamm
+                                                    <?php if($G2_BRAND  == "Fiamm")          echo 'Selected' ;?>>Fiamm
                                                 </option>
                                                 <option value="Sonnenschein"
-                                                    <?php if(($G2_BRAND ?? '') == "Sonnenschein") echo 'Selected'; ?>>
+                                                    <?php if($G2_BRAND  == "Sonnenschein")   echo 'Selected' ;?>>
                                                     Sonnenschein</option>
                                                 <option value="LI_Ion"
-                                                    <?php if(($G2_BRAND ?? '') == "LI_Ion") echo 'Selected'; ?>>LI-Ion
+                                                    <?php if($G2_BRAND  == "LI_Ion")         echo 'Selected' ;?>>LI -
+                                                    Ion
                                                 </option>
-                                                <option value="Ritar_200A"
-                                                    <?php if(($G2_BRAND ?? '') == "Ritar_200A") echo 'Selected'; ?>>
-                                                    Ritar 200A</option>
-                                                <option value="Aspilsan_100A"
-                                                    <?php if(($G2_BRAND ?? '') == "Aspilsan_100A") echo 'Selected'; ?>>
-                                                    Aspilsan 100A</option>
                                             </select>
-                                            <div class="selected-value" id="selected-brand2">No brand selected</div>
-                                            <div class="compatibility-note" id="compatibility-note2"></div>
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="battery2_capacity"><i class="fas fa-battery-full"></i>
-                                                Capacity</label>
-                                            <input type="text" id="battery2_capacity" name="b2capacity"
-                                                placeholder="Enter capacity" value="<?php echo $G2_CAPACITY ?? ''; ?>">
+                                            <label for="battery2_type"><i class="fas fa-cogs"></i> Type</label>
+                                            <select id="battery2_type" name="b2type">
+                                                <option value="Gel"
+                                                    <?php if($G2_TYPE  == "Gel")     echo 'Selected' ;?>>Gel
+                                                </option>
+                                                <option value="Lithium"
+                                                    <?php if($G2_TYPE  == "Lithium") echo 'Selected' ;?>>Lithium
+                                                </option>
+                                            </select>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="battery2_status"><i class="fas fa-clipboard-check"></i>
                                                 Status</label>
                                             <select id="battery2_status" name="b2status">
-                                                <option value="--"> -- </option>
-                                                <option value="Good"
-                                                    <?php if(($G2_STATUS ?? '') == "Good") echo 'Selected'; ?>>Good
+                                                <option value="Active"
+                                                    <?php if($G2_STATUS   == "Active")     echo 'Selected' ;?>>Active
                                                 </option>
-                                                <option value="Need Replacement"
-                                                    <?php if(($G2_STATUS ?? '') == "Need Replacement") echo 'Selected'; ?>>
-                                                    Need Replacement</option>
-                                                <option value="Not Working"
-                                                    <?php if(($G2_STATUS ?? '') == "Not Working") echo 'Selected'; ?>>
-                                                    Not Working</option>
+                                                <option value="Not Active"
+                                                    <?php if($G2_STATUS   == "Not Active") echo 'Selected' ;?>>Not
+                                                    Active
+                                                </option>
                                             </select>
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="battery2_quantity"><i class="fas fa-calculator"></i>
-                                                Quantity</label>
-                                            <input type="number" id="battery2_quantity" name="b2quantity" min="1"
-                                                value="<?php echo $G2_QUANTITY ?? ''; ?>">
+                                            <label for="battery2_qty"><i class="fas fa-calculator"></i> Quantity</label>
+                                            <input type="number" id="battery2_qty" name="b2qty" min="1" value="1"
+                                                value="<?php echo $G2_QUANTITY ? $G2_QUANTITY : ''; ?>">
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="battery2_installation"><i class="fas fa-calendar"></i>
-                                                Installation Date</label>
-                                            <input type="date" id="battery2_installation" name="b2installation"
-                                                value="<?php echo $G2_INSTALLATION_DATE ?? ''; ?>">
+                                            <label for="battery2_capacity"><i class="fas fa-charging-station"></i>
+                                                Capacity
+                                                (Ah)</label>
+                                            <input type="number" id="battery2_capacity" name="b2capacity"
+                                                placeholder="Enter capacity"
+                                                value="<?php echo $G2_CAPACITY ? $G2_CAPACITY : ''; ?>">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="battery2_date"><i class="fas fa-calendar-alt"></i> Installation
+                                                Date</label>
+                                            <input type="date" id="battery2_date" name="b2date"
+                                                value="<?php echo $G2_INSTALLATION_DATE ? $G2_INSTALLATION_DATE : ''; ?>">
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <?php } ?>
                         </div>
                     </div>
-                    <?php }?>
 
                     <?php 
 
@@ -5717,7 +4520,7 @@ $TYPE = '';
                         </div>
                         <div class="section-content">
                             <div class="form-group">
-                                <!-- <label><i class="fas fa-bolt"></i> Power Lines</label> -->
+                                <label><i class="fas fa-bolt"></i> Power Lines</label>
                                 <div class="checkbox-group">
                                     <div class="checkbox-item">
                                         <input type="checkbox" id="lines_present" name="lines" value="1">
@@ -5730,7 +4533,6 @@ $TYPE = '';
                                 <div class="form-group">
                                     <label for="line_type"><i class="fas fa-bolt"></i> Power Lines Type</label>
                                     <select id="line_type" name="ltype">
-                                        <option value="--"> -- </option>
                                         <option value="Industrial" <?php if($TYPE == "Industrial")  echo 'Selected' ;?>>
                                             Industrial</option>
                                         <option value="Golden" <?php if($TYPE == "Golden")  echo 'Selected' ;?>>Golden
@@ -5748,7 +4550,7 @@ $TYPE = '';
 ?>
 
 
-                            <?php
+<?php
 
 $sql_pow = "SELECT * FROM POWER_BACKUP WHERE SITE_CODE =:sitecode";
 
@@ -5794,20 +4596,18 @@ if (!$execute_result7) {
                             <div class="form-group">
                                 <label><i class="fas fa-shield-virus"></i> Site Cage</label>
                                 <div class="radio-group">
-                                    <?php
+                                <?php
   $checked1 = [];
   $checked1[0] =    (isset($GURDE)    && $GURDE == "Yes") ? 'checked' : '';
   $checked1[1] =    (isset($GURDE)    && $GURDE == "No")  ? 'checked' : '';
   //echo $CAGE;
   ?>
                                     <div class="radio-item">
-                                        <input type="radio" id="site_cage_yes" name="sitecage" value="Yes"
-                                            <?php echo $checked1[0];?>>
+                                        <input type="radio" id="site_cage_yes" name="sitecage" value="Yes" <?php echo $checked1[0];?>>
                                         <label for="site_cage_yes">Yes</label>
                                     </div>
                                     <div class="radio-item">
-                                        <input type="radio" id="site_cage_no" name="sitecage" value="No"
-                                            <?php echo $checked1[1];?>>
+                                        <input type="radio" id="site_cage_no" name="sitecage" value="No" <?php echo $checked1[1];?>>
                                         <label for="site_cage_no">No</label>
                                     </div>
                                 </div>
@@ -5816,27 +4616,25 @@ if (!$execute_result7) {
                             <div class="form-group">
                                 <label><i class="fas fa-hard-hat"></i> Guard Presence</label>
                                 <div class="radio-group">
-                                    <?php
+                                <?php
   $checked11 = [];
   $checked11[0] =    (isset($CAGE2)    && $CAGE2 == "Yes") ? 'checked' : '';
   $checked11[1] =    (isset($CAGE2)    && $CAGE2 == "No")  ? 'checked' : '';
   //echo $CAGE;
   ?>
                                     <div class="radio-item">
-                                        <input type="radio" id="site_guard_yes" name="sitegurde" value="Yes"
-                                            <?php echo $checked11[0];?>>
+                                        <input type="radio" id="site_guard_yes" name="sitegurde" value="Yes" <?php echo $checked11[0];?>>
                                         <label for="site_guard_yes">Yes</label>
                                     </div>
                                     <div class="radio-item">
-                                        <input type="radio" id="site_guard_no" name="sitegurde" value="No"
-                                            <?php echo $checked11[1];?>>
+                                        <input type="radio" id="site_guard_no" name="sitegurde" value="No"<?php echo $checked11[1];?>>
                                         <label for="site_guard_no">No</label>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <?php }?>
+<?php }?>
                     <!-- Form Footer -->
                     <div class="form-footer">
                         <button type="reset" class="btn btn-secondary">
@@ -5851,205 +4649,47 @@ if (!$execute_result7) {
     </div>
 
     <script>
-    // Wait for the DOM to be fully loaded
-    document.addEventListener('DOMContentLoaded', function() {
-        // Battery Compatibility Code
-        const brandTypeMap = {
-            'North_Star': 'Gel',
-            'Narada': 'Gel,Lithium',
-            'Power_Safe': 'Gel',
-            'CDTRUE': 'Gel',
-            'Huawei': 'Lithium',
-            'Agisson': 'Gel',
-            'Deye': 'Lithium',
-            'Riyada': 'Gel',
-            'AHG': 'Gel',
-            'VR-Solar': 'Gel',
-            'Shoto': 'Gel',
-            'GFM': 'Gel',
-            'Coslight': 'Gel',
-            'NO': '--',
-            'Angeergy': '--',
-            'Marathon': 'Gel',
-            'Fiamm': 'Gel',
-            'Sonnenschein': 'Gel',
-            'LI_Ion': 'Lithium',
-            'Ritar_200A': 'Lithium',
-            'Aspilsan_100A': 'Lithium'
-        };
+    // Collapsible section functionality
+    document.querySelectorAll('.section-header').forEach(header => {
+        header.addEventListener('click', () => {
+            const content = header.nextElementSibling;
+            const isExpanded = header.classList.contains('expanded');
 
-        // Set data-type attributes on all brand options
-        function setupBatteryCompatibility() {
-            document.querySelectorAll('select[id$="_brand"]').forEach(select => {
-                Array.from(select.options).forEach(opt => {
-                    if (opt.value !== '--') {
-                        const compatibleTypes = brandTypeMap[opt.value] || '';
-                        opt.setAttribute('data-type', compatibleTypes);
-                    }
-                });
-            });
-        }
-
-        // Filter brands based on selected type
-        function filterBrandsByType(typeSelect, brandSelect) {
-            const selectedType = typeSelect.value;
-
-            // Show all options if no type selected
-            if (selectedType === '--') {
-                Array.from(brandSelect.options).forEach(opt => {
-                    opt.style.display = '';
-                });
-                return;
-            }
-
-            // Show/hide options based on compatibility
-            Array.from(brandSelect.options).forEach(opt => {
-                if (opt.value === '--') {
-                    opt.style.display = '';
-                } else {
-                    const compatibleTypes = opt.getAttribute('data-type') || '';
-                    opt.style.display = compatibleTypes.split(',').includes(selectedType) ? '' : 'none';
-                }
-            });
-
-            // Reset selection if current selection is not compatible
-            if (brandSelect.value !== '--') {
-                const selectedOpt = brandSelect.options[brandSelect.selectedIndex];
-                if (selectedOpt.style.display === 'none') {
-                    brandSelect.value = '--';
-                }
-            }
-        }
-
-        // Update the displayed selected values and compatibility note
-        function updateSelectedValues(typeSelect, brandSelect, typeDiv, brandDiv, noteDiv) {
-            const selectedType = typeSelect.value;
-            const selectedBrand = brandSelect.value;
-
-            // Update displayed values
-            typeDiv.textContent = selectedType === '--' ? 'No type selected' : `Type: ${selectedType}`;
-            brandDiv.textContent = selectedBrand === '--' ? 'No brand selected' : `Brand: ${selectedBrand}`;
-
-            // Clear note if either is not selected
-            if (selectedType === '--' || selectedBrand === '--') {
-                noteDiv.textContent = '';
-                noteDiv.className = 'compatibility-note';
-                return;
-            }
-
-            // Check compatibility
-            const brandOption = brandSelect.querySelector(`option[value="${selectedBrand}"]`);
-            const compatibleTypes = brandOption.getAttribute('data-type') || '';
-            const isCompatible = compatibleTypes.split(',').includes(selectedType);
-
-            // Update note
-            if (isCompatible) {
-                noteDiv.textContent = '✅ Compatible';
-                noteDiv.className = 'compatibility-note compatible';
-            } else {
-                noteDiv.textContent = '❌ Incompatible';
-                noteDiv.className = 'compatibility-note incompatible';
-            }
-        }
-
-        // Initialize a battery group
-        function initBatteryGroup(groupNum) {
-            const typeSelect = document.getElementById(`battery${groupNum}_type`);
-            const brandSelect = document.getElementById(`battery${groupNum}_brand`);
-            const typeDiv = document.getElementById(`selected-type${groupNum}`);
-            const brandDiv = document.getElementById(`selected-brand${groupNum}`);
-            const noteDiv = document.getElementById(`compatibility-note${groupNum}`);
-
-            if (!typeSelect || !brandSelect) return;
-
-            // Add event listeners
-            typeSelect.addEventListener('change', () => {
-                filterBrandsByType(typeSelect, brandSelect);
-                updateSelectedValues(typeSelect, brandSelect, typeDiv, brandDiv, noteDiv);
-            });
-
-            brandSelect.addEventListener('change', () => {
-                updateSelectedValues(typeSelect, brandSelect, typeDiv, brandDiv, noteDiv);
-            });
-
-            // Initialize state
-            filterBrandsByType(typeSelect, brandSelect);
-            updateSelectedValues(typeSelect, brandSelect, typeDiv, brandDiv, noteDiv);
-        }
-
-        // Initialize battery compatibility
-        setupBatteryCompatibility();
-        initBatteryGroup(1);
-        initBatteryGroup(2);
-
-        // Collapsible section functionality
-        document.querySelectorAll('.section-header').forEach(header => {
-            header.addEventListener('click', () => {
-                const content = header.nextElementSibling;
-                const icon = header.querySelector('.toggle-icon');
-
-                // Toggle content visibility
-                if (content.style.display === 'none' || content.style.display === '') {
-                    content.style.display = 'grid';
-                    icon.classList.remove('fa-chevron-down');
-                    icon.classList.add('fa-chevron-up');
-                } else {
-                    content.style.display = 'none';
-                    icon.classList.remove('fa-chevron-up');
-                    icon.classList.add('fa-chevron-down');
-                }
-            });
+            header.classList.toggle('expanded', !isExpanded);
+            header.classList.toggle('collapsed', isExpanded);
+            content.classList.toggle('collapsed', isExpanded);
         });
+    });
 
-        // Toggle options based on checkboxes
-        const toggleOptions = (checkboxId, optionsId) => {
-            const checkbox = document.getElementById(checkboxId);
-            const options = document.getElementById(optionsId);
+    // Toggle options based on checkboxes
+    const toggleOptions = (checkboxId, optionsId) => {
+        const checkbox = document.getElementById(checkboxId);
+        const options = document.getElementById(optionsId);
 
-            if (checkbox && options) {
-                // Initial state
+        if (checkbox && options) {
+            // Initial state
+            options.style.display = checkbox.checked ? 'grid' : 'none';
+
+            // Toggle on change
+            checkbox.addEventListener('change', () => {
                 options.style.display = checkbox.checked ? 'grid' : 'none';
-
-                // Toggle on change
-                checkbox.addEventListener('change', () => {
-                    options.style.display = checkbox.checked ? 'grid' : 'none';
-                });
-            }
-        };
-
-        // Initialize toggle functionality
-        toggleOptions('generator_present', 'generatorOptions');
-        toggleOptions('solar_present', 'solarOptions');
-        toggleOptions('ampere_present', 'ampereOptions');
-        toggleOptions('lines_present', 'linesOptions');
-
-        // Cabinet Type Change Handler
-        const handleCabinetTypeChange = () => {
-            const cabinetType = document.getElementById('cabinet_type').value;
-            const ipFields = {
-                'Huawei': 'huawei-ip',
-                'Delta': 'delta-ip',
-                'Eltek': 'eltek-ip'
-            };
-
-            // Hide all IP fields
-            document.querySelectorAll('.ip-field').forEach(field => {
-                field.classList.remove('active');
             });
-
-            // Show the relevant IP field
-            if (ipFields[cabinetType]) {
-                document.getElementById(ipFields[cabinetType]).classList.add('active');
-            }
-        };
-
-        // Set up cabinet type change listener
-        const cabinetTypeSelect = document.getElementById('cabinet_type');
-        if (cabinetTypeSelect) {
-            cabinetTypeSelect.addEventListener('change', handleCabinetTypeChange);
-            // Trigger initially to set correct state
-            handleCabinetTypeChange();
         }
+    };
+
+    // Initialize toggle functionality
+    document.addEventListener('DOMContentLoaded', () => {
+        // Generator options
+        toggleOptions('generator_present', 'generatorOptions');
+
+        // Solar options
+        toggleOptions('solar_present', 'solarOptions');
+
+        // Ampere options
+        toggleOptions('ampere_present', 'ampereOptions');
+
+        // Lines options
+        toggleOptions('lines_present', 'linesOptions');
 
         // Tank fields toggle
         document.querySelectorAll('.tank-card input[type="checkbox"]').forEach(checkbox => {

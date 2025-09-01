@@ -52,7 +52,7 @@ $data = [
 
 }
     ?>
-<?php    
+    <?php    
 
 if(isset($_POST['submit']))
 {
@@ -65,219 +65,232 @@ if(isset($_POST['submit']))
 <!DOCTYPE html>
 <html lang="en">
 <html>
-
 <head>
-    <meta charset="UTF-8" />
-    <link rel="stylesheet" href="fontawesome-free-6.5.2-web\css\all.min.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> 3G Site page </title>
+<meta charset="UTF-8" />
+<link rel="stylesheet" href= "fontawesome-free-6.5.2-web\css\all.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> 3G Info page </title>
 
-    <style>
-    .footer {
-        background: #1c355c;
-        font-size: 17px;
-        margin-top: 10px;
-        color: white;
-        width: 99%;
-        padding-left: 10px;
-        padding-bottom: 10px;
-        padding-top: 30px;
+<style>
 
+.footer
+{
+    background: #1c355c;
+    font-size: 17px;
+    margin-top:10px;
+    color: white;
+    width: 99%;
+    padding-left:10px;
+    padding-bottom:10px;
+    padding-top:30px;
+ 
+ 
 
-
-    }
-
-
-
-
-    .submit {
-        width: 20%;
-
-        float: right;
-        display: flex;
+}
 
 
-    }
-
-    .submit input {
-
-        width: 70%;
-        Height: 35px;
-        font-size: 17px;
-        font-weight: bold;
-        margin: 10px;
-        border-radius: 10px;
-        text-align: center;
-        border: none;
-        color: #1c355c;
-
-    }
 
 
-    body {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: goldenrod;
+.submit{
+    width: 20%;
+    
+   float : right; 
+   display: flex;
+ 
+ 
+}
+
+.submit input {
+    
+   width: 70%;
+   Height: 35px;
+   font-size: 17px;
+   font-weight: bold;
+   margin:10px;
+   border-radius: 10px;
+text-align:center;
+  border:none;
+   color:#1c355c;
+
+}
 
 
-    }
-
-    .container {
-        /*position: relative;*/
-
-        width: 60%;
-        background: whitesmoke;
-        padding-top: 0;
-        margin-top: 0px;
-        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-
-        border: 2px solid gray;
-        color: #1c355c;
-        border-radius: 5px;
-
-    }
-
-    h1 {
-        text-align: center;
-        width: 100%;
-        height: 100px;
-        margin-top: 0;
-        color: white;
-        margin-bottom: 0px;
+body
+{
+min-height: 100vh;
+display: flex;
+align-items: center;
+justify-content: center;
+background: goldenrod;
 
 
-    }
+}
+
+.container
+{
+    /*position: relative;*/
+
+width: 70%;
+background: whitesmoke;
+padding-top:0;
+margin-top:0px;
+box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+
+border:2px solid gray;
+color: #1c355c;
+border-radius:5px;
+
+}
+h1{
+    text-align: center;
+    width: 100%;
+    height: 100px;
+    margin-top:0;
+    color: white;
+    margin-bottom:0px;
+    
+    
+}
 
 
-    .header {
+.header {
+    
+    width: 100%;
+    background: #1c355c;
+    color: white;
+    text-align: center;
+    
+    
+}
 
-        width: 100%;
-        background: #1c355c;
-        color: white;
-        text-align: center;
+.form1{
+    margin-top: 15px;
+    width: 95%;
+    padding: 40px;
+    padding-right:0px;
+   
+}
+input {
+    background-color:#e1e6ed;
+    border:0.5px solid #e1e6ed;
+    color:#1c355c;
+    opacity: 1;
+}
+select {
+    background-color:#e1e6ed;
+    border:0.5px solid #e1e6ed;
+    color:#1c355c;
+    opacity: 1;
+}
+input[type=text]:focus{
+    border:0.8px solid #e1e6ed;
+}
+input[type=select]:focus{
+    border:0.8px solid #e1e6ed;
+
+}
+table, th, td {
+    border:2px solid #b4c5e0;
+    border-collapse: collapse;
+    text-align:center;
+    
+    
+}
+table, tr, td {
+  
+    font-size: 14px;
+    height: 30px;
+    white-space: nowrap;
+    
+    
+}
+.table-wrapper{
+    display:flex;
+flex-direction:column;
+align-items: stretch;
+width:100%;
+overflow-x: auto; 
+}
 
 
-    }
+ .table-wrapper table{
+width:100%;
+border-collapse:collapse;
+margin-bottom:20px;
+ }
 
-    .form1 {
-        margin-top: 15px;
-        width: 80%;
-        padding: 40px;
+ thead {
+    display: table-header-group; /* Keep the header fixed */
+}
 
-    }
-
-    input {
-        background-color: #e1e6ed;
-        border: 0.5px solid #e1e6ed;
-        color: #1c355c;
-        opacity: 1;
-    }
-
-    select {
-        background-color: #e1e6ed;
-        border: 0.5px solid #e1e6ed;
-        color: #1c355c;
-        opacity: 1;
-    }
-
-    input[type=text]:focus {
-        border: 0.8px solid #e1e6ed;
-    }
-
-    input[type=select]:focus {
-        border: 0.8px solid #e1e6ed;
-
-    }
-    </style>
+tbody {
+    display: table-row-group; /* Group rows together */
+}
+hr{
+    color:#1c355c;
+}
+</style>
 
 
 
 
 
 </head>
-
 <body>
-    <div class="container">
-        <div class="header">
-            <h1></br> <?php echo $row['SITE_CODE']; ?> </h1>
-            3G details Info.</br>
-            </br>
+<div class="container">
+<div class="header">
+            <h1></br>  <?php echo $row['SITE_CODE']; ?>  </h1>
+              3G details Info.</br>
+</br>
         </div>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            <div class="form1">
-                <div>
-                    <input type="hidden" name="id" value="<?php echo $siteid; ?>">
-                    Site Code:<input type="text" name="sitecode" disabled
-                        value="<?php echo $row['SITE_CODE']; ?>"></br></br>
-                    Site Name:<input type="text" name="sitename" disabled
-                        value="<?php echo $row['SITE_NAME']; ?>"></br></br>
-                </div>
-                <div>
-                    <label for="wbts">WBTS ID:</label>
-                    <input type="text" name="wbts" size="5" id="wbts" disabled
-                        value="<?php echo $row['WBTS_TYPE']; ?>"></br></br>
-                </div>
-
-                <div>
-                    RNC: <select name="RNC" disabled value="<?php echo $row['RNC']; ?>">
-                        <option value="">--</option>
-                        <option value="">RNC_ALP2 </option>
-                        <option value="">RNC_ALP3 </option>
-                        <option value="">RNC_ALP4 </option>
-                        <option value="">RNC_Hama </option>
-                        <option value="">RNC_Homs2</option>
-                        <option value="">RNC_TRS1 </option>
-                        <option value="">RNC_TRS4 </option>
-                        <option value="">RNC3_LTK </option>
-                        <option value="">HBSC2_Thawra</option>
-                        <option value="">HBSC4_DahietKudsaya</option>
-                        <option value="">HBSC7_Swaida</option>
-                        <option value="">HBSC8_Daraa </option>
-                        <option value="">HBSC10_YouthCity</option>
-                        <option value="">HBSC11_DahietQudsaya</option>
-                    </select>
-                    </br></br>
-                </div>
+<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" onsubmit="window.close();">
+<div class="form1">
+<div>
+<input type ="hidden" name ="id" value="<?php echo $siteid; ?>">
+<input type ="hidden" name ="sitecode" disabled value="<?php echo $row['SITE_CODE']; ?>">
+<input type ="hidden" name ="sitename" disabled value="<?php echo $row['SITE_NAME']; ?>">
+</div>
+<div>
 
 
+<h2>Site Informations: </h2>
+        <div class="table-wrapper">
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Site Code</th>
+                <th>WBTS ID</th>
+                <th>RNC</th>
+                <th>Site Status</th>
+                <th>3G On Air Date</th>
+                <th>Renovation Date</th>
+                <th>BTS Type</th>
+                <th>Number Of Carries</th>
+                <th>Restoration Date</th>
+                <th>Real RNC</th>
+                <th>LAC</th>
+                
+            </tr>
+        </thead>
+<tbody>
+<tr>
+   <td><?php echo $row['SITE_CODE'];  ?></td>
+   <td><?php echo $row['WBTS_TYPE'];  ?></td>
+   <td><?php echo $row['RNC'];  ?></td>
+   <td><?php echo $row['SITE_STATUS'];  ?></td>
+   <td><?php echo $row['THREE_G_ON_AIR_DATE'];  ?></td>
+   <td><?php echo $row['RENOVATION_DATE'];  ?></td>
+   <td><?php echo $row['BTS_TYPE'];  ?></td>
+   <td><?php echo $row['NUMBER_OF_CARRIERS'];  ?></td>
+   <td><?php echo $row['RESTORATION_DATE'];  ?></td>
+   <td><?php echo $row['REAL_RNC'];  ?></td>
+   <td><?php echo $row['LAC'];  ?></td>
 
-                <div>
-                    <label for="air date">3G On Air Date:</label>
-                    <input type="text" name="onairdate" size="15" id="air date" disabled
-                        value="<?php echo $row['THREE_G_ON_AIR_DATE']; ?>"></br></br>
-                </div>
-
-                <div>
-                    BTS Type: <select name="bts" disabled value="<?php echo $row['BTS_TYPE']; ?>">
-                        <option value="">--</option>
-                        <option value="">3206</option>
-                        <option value="">6102</option>
-                        <option value="">6130</option>
-                        <option value="">6150</option>
-                        <option value="">6201</option>
-                        <option value="">6601</option>
-
-                    </select>
-                    </br></br>
-                </div>
-                <div>
-                    <label for="carry">Numbers Of Carries:</label>
-                    <input type="text" name="numcarriers" size="3" id="carry" disabled
-                        value="<?php echo $row['NUMBER_OF_CARRIERS']; ?>"></br></br>
-                </div>
-
-                <div>
-                    <label for="rest">Restoration Date:</label>
-                    <input type="text" name="restoration" size="15" id="rest" disabled
-                        value="<?php echo $row['RESTORATION_DATE']; ?>"></br></br>
-                </div>
-                <div>
-                    <label for="lac">LAC:</label>
-                    <input type="text" name="lac" size="4" id="lac" disabled
-                        value="<?php echo $row['LAC']; ?>"></br></br>
-                </div>
+   
+   
+</tbody>
+</table>
+</div>
 
 
 
@@ -285,58 +298,86 @@ if(isset($_POST['submit']))
 
 
 
-                <label for="note1">Site Notes:</label>
-                <input type="text" name="snotes" size="75" id="note1" disabled
-                    value="<?php echo $row['NOTES']; ?>"></br></br>
-
-                Select Cells:</br>
-                <?php 
-foreach (['A','B','C','X','Y','Z','D','W','V','E'] as $letter) : ?>
 
 
-                <div>
 
 
-                    </br>
-                    <input type="checkbox" name="cell[]" disabled value="<?= $letter ?>"
-                        <?php if ( $data[$letter]) echo 'checked'; ?>><?= $letter ?>
+<label for="note1">Site Notes:</label>
+    <input type ="text" name="snotes" size="100" id="note1" disabled value="<?php echo $row['NOTES']; ?>"></br></br>
+  
+<h2> Cells Informations:</h2>
+</br>
 
-                    <input type="text" name="cellid" size="4" placeholder="Cell ID" disabled
-                        value="<?= $data[$letter]['CELL_ID']?? '' //echo cell_id and if it is null echo ''?>">
-                    <input type="text" name="cellcode" size="5" placeholder="Cell Code" disabled
-                        value="<?= $data[$letter]['CELL_CODE']?? '' ?>">
-                    <input type="text" name="cellname" size="15" placeholder="Cell Name" disabled
-                        value="<?= $data[$letter]['CELL_NAME']?? '' ?>">
-                    <input type="text" name="azimuth" size="3" placeholder="Azimuth" disabled
-                        value="<?= $data[$letter]['AZIMUTH']?? '' ?>">
-                    <input type="text" name="celldate" size="6" placeholder="On Air Date" disabled
-                        value="<?= $data[$letter]['ON_AIR_DATE']?? '' ?>">
-                    <input type="text" name="height" size="3" placeholder="Height" disabled
-                        value="<?= $data[$letter]['HIEGHT']?? '' ?>">
-                    <input type="text" name="mtilt" size="3" placeholder="M_TILT" disabled
-                        value="<?= $data[$letter]['M_TILT']?? '' ?>">
-                    <input type="text" name="etilt" size="3" placeholder="E_TILT" disabled
-                        value="<?= $data[$letter]['E_TILT']?? '' ?>"></br>
-                    <input type="text" name="area1" size="20" placeholder="Arabic Serving Area" disabled
-                        value="<?= $data[$letter]['SERVING_AREA']?? '' ?>">
-                    <input type="text" name="area2" size="20" placeholder="English Serving Area" disabled
-                        value="<?= $data[$letter]['SERVING_AREA_IN_ENGLISH']?? '' ?>"></br></br>
-                    <input type="text" name="cnotes" size="75" placeholder="Note" disabled
-                        value="<?= $data[$letter]['NOTE']?? '' ?>">
+<?php 
 
-                </div>
-                <?php endforeach; ?>
-            </div>
 
-            <div class="footer">
 
-                <div class="submit">
-                    <input type="submit" name="submit" value="Done">
-                </div>
-                <div style="clear:both;"></div>
-            </div>
-        </form>
-    </div>
+while ($row1 = oci_fetch_array($resultt, OCI_ASSOC + OCI_RETURN_NULLS)) {
+    // Get The Letter of Cell Code
+    $cellcode_char = substr($row1['CELL_CODE'], -1);
+    
+    // Search in $data array to find one of these letters
+    if (in_array($cellcode_char, ['A', 'B', 'C', 'D', 'X', 'Y', 'Z', 'W', 'V', 'E'])) {
+        // Store the row from fetching result in array due to letter  
+        $data[$cellcode_char] = $row1;
+    }
+}
+
+// Display the table only once
+if (!empty($data)): ?>
+<div class="table-wrapper">
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Cell Code</th>
+                <th>Cell ID</th>
+                <th>Cell Name</th>
+                <th>Azimuth</th>
+                <th>On Air Date</th>
+                <th>Height</th>
+                <th>M_TILT</th>
+                <th>E_TILT</th>
+                <th>CGI</th>
+                
+                <th class="cell">Arabic Serving Area</th>
+                <th class="cell">English Serving Area</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php 
+            // Loop through the cell codes and display the rows
+            foreach (['A', 'B', 'C', 'D', 'X', 'Y', 'Z', 'W', 'V', 'E'] as $cellcode_char) {
+                if (isset($data[$cellcode_char])) { ?>
+                    <tr>
+                        <td><?= $data[$cellcode_char]['CELL_CODE'] ?? '-' ?></td>
+                        <td><?= $data[$cellcode_char]['CELL_ID'] ?? '-' ?></td>
+                        <td><?= $data[$cellcode_char]['CELL_NAME'] ?? '-' ?></td>
+                        <td><?= $data[$cellcode_char]['AZIMUTH'] ?? '-' ?></td>
+                        <td><?= $data[$cellcode_char]['ON_AIR_DATE'] ?? '-' ?></td>
+                        <td><?= $data[$cellcode_char]['HIEGHT'] ?? '-' ?></td>
+                        <td><?= $data[$cellcode_char]['M_TILT'] ?? '-' ?></td>
+                        <td><?= $data[$cellcode_char]['E_TILT'] ?? '-' ?></td>
+                        <td><?= $data[$cellcode_char]['CGI'] ?? '-'?></td>
+                       
+                        <td><?= $data[$cellcode_char]['SERVING_AREA'] ?? '-' ?></td>
+                        <td><?= $data[$cellcode_char]['SERVING_AREA_IN_ENGLISH'] ?? '-' ?></td>
+                    </tr>
+                <?php }
+            } ?>
+        </tbody>
+    </table>
+</div>
+<?php endif; ?>
+        </div>
+ </div>
+<div class="footer">
+
+<div class="submit">
+    <input type="submit" name="submit" value="Done">
+</div>
+<div style="clear:both;"></div>
+</div>
+</form>
+</div>
 </body>
-
 </html>

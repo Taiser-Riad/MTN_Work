@@ -1,8 +1,9 @@
 <?php 
 include "config.php";
 header('Content-Type: text/html; charset=UTF-8');
-$userrname = '';  // default value
-$dep = ''; 
+//$userrname = '';  // default value
+//$username = '';
+//$dep = ''; 
 if(isset($_GET['user']))
 {
 $username =$_GET['user'];
@@ -20,6 +21,7 @@ $dep = $row['DEPARTMENT'];
 <?php
 $results = [];
 if($_SERVER["REQUEST_METHOD"] == "POST"){
+$username = $_POST['username'] ?? '';
 $selectedTables = isset($_POST['tech']) ? $_POST['tech'] : [];
 $selectedzone = isset($_POST['Zone']) ? $_POST['Zone'] : '';
 $selectedCity = isset($_POST['C/R']) ? $_POST['C/R'] : null;
@@ -1458,7 +1460,7 @@ tbody {
   color: #fff;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  /* Ensures that overflowing parts (icons sliding in) don’t break layout */
+  /* Ensures that overflowing parts (icons sliding in) donï¿½t break layout */
   overflow: hidden;
 }
 
@@ -1518,7 +1520,11 @@ tbody {
 
     <br>
         <div class="form1">
+        <div>
+            <input type="hidden" name="username" value="<?php echo $userrname; ?>">
+                    </div>
             <div class="filter">
+        
                 <div>
                     <label for="Zone"><i class="fas fa-globe icon" aria-hidden="true"></i>Zone:</label>  
                         <select id="Zone" name="Zone" >
@@ -1841,7 +1847,7 @@ tbody {
            <!--  <p>&copy; <?php echo date("Y"); ?> MTN SYRIA</p> -->
             <!-- Back Button -->
 <?php
-echo "<button type='button' class='button back-button' onclick=\"location.href='Mainpage.php?user=" . $userrname . "';\">";
+echo "<button type='button' class='button back-button' onclick=\"location.href='Mainpage.php?user=".$username."';\">";
 echo "<span class='btn-icon'>&laquo;</span>";
 echo "<span class='btn-text'>Back</span>";
 echo "</button>";

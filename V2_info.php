@@ -137,6 +137,7 @@
         border-color:gray;
     }
 
+    
     .info-item select.info-value {
         width: 100%;
         background-color: #f8f9fa;

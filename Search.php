@@ -11,9 +11,10 @@ $sqll= "SELECT * FROM USERS WHERE USERNAME= :username";
 $result = oci_parse($conn,$sqll);
 oci_bind_by_name($result, ':username' ,$username);
 oci_execute($result);
-$row = oci_fetch_array($result , OCI_ASSOC + OCI_RETURN_NULLS);
-$userrname = $row['USERNAME'];
-$dep = $row['DEPARTMENT'];
+$row11 = oci_fetch_array($result , OCI_ASSOC + OCI_RETURN_NULLS);
+$userrname = $row11['USERNAME'];
+$dep = $row11['DEPARTMENT'];
+$user_id =  $row11['USER_ID'];
 //echo $userrname;
 
 }
@@ -323,15 +324,15 @@ border-radius:5px;
                                     <td>' . $row['SITE_ON_AIR_DATE'] . '</td>';
                                     if($dep == 'Power'){
                                echo
-                                    '<td> <a href="power.php?id='. $row['ID'] .'" target="_blank">Add Power Backup</a></td>
+                                    '<td> <a href="addpower.php?id='. $row['ID'] .' & user_id='.$user_id.'" target="_blank">Add Power Backup</a></td>
                                     <td> <a href="Delete_quest.php?id2='. $row['ID'] .'"target="_blank" class="disabled-link">Cancel Site</a></td>
                                     </tr>
                                     </tbody>';
                                     }
                                     else {
                                         echo
-                                        '<td> <a href="update_basic_info.php?id='. $row['ID'] .'" target="_blank"  class="disabled-link">Update</a></td>
-                                        <td> <a href="Delete_quest.php?id2='. $row['ID'] .'"target="_blank"  class="disabled-link">Cancel Site</a></td>
+                                        '<td> <a href="update_basic_info.php?id='. $row['ID'] .'" target="_blank">Update</a></td>
+                                        <td> <a href="Delete_quest.php?id2='. $row['ID'] .'"target="_blank" >Cancel Site</a></td>
                                         </tr>
                                         </tbody>'; 
                                     }
@@ -349,13 +350,21 @@ border-radius:5px;
                     
                     <?php
                     
-                 
+                    if($dep == 'Power'){
                      echo"<div><div class= 'Lfloat'><button type='button' class= 'btn'><a href='Info.php?id2=". $id ."' target='_blank'> More Details</a></button></div>";
                      echo"<div class='Rfloat'><button type='button' class='btn' class ='btnn'><a href='Delete_quest.php?id2=". $id ."' target='_blank' class='disabled-link'>Cancel Site with all technologies</a></button></div><div style='clear:both;'></div></div>
                      
                      
                      ";
-              
+                    }
+
+                    else{
+                        echo"<div><div class= 'Lfloat'><button type='button' class= 'btn'><a href='Info.php?id2=". $id ."' target='_blank'> More Details</a></button></div>";
+                        echo"<div class='Rfloat'><button type='button' class='btn' class ='btnn'><a href='Delete_quest.php?id2=". $id ."' target='_blank' >Cancel Site with all technologies</a></button></div><div style='clear:both;'></div></div>
+                        
+                        
+                        ";
+                    }
                  
 
                         }
@@ -394,14 +403,36 @@ border-radius:5px;
                          <td>' . $roww['CELL_CODE']                  . '</td>
                          <td>'  .$roww['CELL_NAME']                 . '</td>
                          <td>' . $roww['CELL_ID']                   . '</td>
-                         <td>' . $roww['CELL_ON_AIR_DATE']          . '</td>
-                         <td> <a href="update2G.php?id2='. $roww['SITE_ID'] .'" " target="_blank"  class="disabled-link">Update</a></td>
-                        
-                         <td> <a href="delete2Gcellquest.php?id2='. $roww['CELL_CODE'] .'"" target="_blank"  class="disabled-link">Delete Cell</a></td>
+                         <td>' . $roww['CELL_ON_AIR_DATE']          . '</td>';
 
-                         
-                       </tr>
-                       </tbody>';
+                        
+
+                         if($dep == 'Power'){
+                            echo
+                            ' <td> <a href="update2G.php?id2='. $roww['SITE_ID'] .'" " target="_blank"  class="disabled-link">Update</a></td>
+                            
+                             <td> <a href="delete2Gcellquest.php?id2='. $roww['CELL_CODE'] .'"" target="_blank"  class="disabled-link">Delete Cell</a></td>
+    
+                             
+                           </tr>
+                           </tbody>';
+                         }
+
+                         else{
+                            echo
+                            ' <td> <a href="update2G.php?id2='. $roww['SITE_ID'] .'" " target="_blank" >Update</a></td>
+                            
+                            <td> <a href="delete2Gcellquest.php?id2='. $roww['CELL_CODE'] .'"" target="_blank">Delete Cell</a></td>
+   
+                            
+                          </tr>
+                          </tbody>';
+                         }
+
+
+
+
+               
                    }while ($roww = oci_fetch_array($resultt, OCI_ASSOC + OCI_RETURN_NULLS));
                     echo "</div>";
                     
@@ -411,15 +442,21 @@ border-radius:5px;
                 ?>
                 </table>
                 <?php
+                   if($dep == 'Power'){
                      echo"<div><div class= 'Lfloat'><button type='button' class= 'btn'><a href='info2G.php?id2=". $id2 ."' target='_blank'> More Details</a></button></div>";
                      echo"<div class='Rfloat'><button type='button' class='btn' class ='btnn'><a href='Delete2Gquest.php?id12=". $id ."' target='_blank'  class='disabled-link'> Cancell 2G Site</a></button></div><div style='clear:both;'></div></div>";
-                   
+                   }
+                   else{
+                    echo"<div><div class= 'Lfloat'><button type='button' class= 'btn'><a href='info2G.php?id2=". $id2 ."' target='_blank'> More Details</a></button></div>";
+                    echo"<div class='Rfloat'><button type='button' class='btn' class ='btnn'><a href='Delete2Gquest.php?id12=". $id ."' target='_blank' > Cancell 2G Site</a></button></div><div style='clear:both;'></div></div>";
+                  }
+                  
                 }
                         else {
                     echo "2G Site Is Not Exist!!";
                     if($result !== false){
                         if (isset($id) && !empty($id)) {
-                    echo "</br> <div><div class= 'Lfloat'><button type='button' class= 'btn'><a href='2G.php?id=". $id ."' target='_blank'  class='disabled-link'> Add 2G Tech</a></button></div>";
+                    echo "</br> <div><div class= 'Lfloat'><button type='button' class= 'btn'><a href='2G.php?id=". $id ."' target='_blank'> Add 2G Tech</a></button></div>";
                         }
                     }
                     }
@@ -460,11 +497,25 @@ border-radius:5px;
                  <td>'  .$roww2['CELL_NAME']                 . '</td>
                  <td>' . $roww2['CELL_ID']                   . '</td>
                  <td>'.  $roww2['THREE_G_ON_AIR_DATE']             . '</td>
-                 <td>' . $roww2['ON_AIR_DATE']               . '</td>
+                 <td>' . $roww2['ON_AIR_DATE']               . '</td>';
+
+                 if($dep == 'Power'){
+                    echo'
                  <td> <a href="update3G.php?id3='. $roww2['SITE_ID'] .'" " target="_blank"  class="disabled-link">Update</a></td>
                  <td> <a href="delete3Gcellquest.php?id3='. $roww2['CELL_CODE'] .'"" target="_blank"  class="disabled-link">Delete Cell</a></td>
                 </tr>
                 </tbody>';
+                 }
+
+
+                 else{
+                    echo'
+                 <td> <a href="update3G.php?id3='. $roww2['SITE_ID'] .'" " target="_blank"  >Update</a></td>
+                 <td> <a href="delete3Gcellquest.php?id3='. $roww2['CELL_CODE'] .'"" target="_blank"  >Delete Cell</a></td>
+                </tr>
+                </tbody>';
+                 }
+
                 
              }while ($roww2 = oci_fetch_array($resultt2, OCI_ASSOC + OCI_RETURN_NULLS));
         
@@ -475,15 +526,26 @@ border-radius:5px;
         </table>
         <?php
 
+
+  
+
+if($dep == 'Power'){
+
                 echo"<div><div class= 'Lfloat'><button type='button' class= 'btn'><a href='Info3G.php?id3=". $id3 ."' target='_blank'> More Details</a></button></div>";
                 echo"<div class='Rfloat'><button type='button' class='btn' class ='btnn'> <a href='delete3Gques.php?id13=". $id ."' target='_blank'  class='disabled-link'>Cancell 3G Site </a></button></div><div style='clear:both;'></div></div>";
-                 
+}
+
+
+else{
+    echo"<div><div class= 'Lfloat'><button type='button' class= 'btn'><a href='Info3G.php?id3=". $id3 ."' target='_blank'> More Details</a></button></div>";
+    echo"<div class='Rfloat'><button type='button' class='btn' class ='btnn'> <a href='delete3Gques.php?id13=". $id ."' target='_blank'>Cancell 3G Site </a></button></div><div style='clear:both;'></div></div>";
+}
                       }
                         else {
                     echo "3G Site Is Not Exist!!";
                     if($result !== false){
                         if (isset($id) && !empty($id)) {
-                    echo"</br> <div><div class= 'Lfloat'><button type='button' class= 'btn'><a href='3G.php?id2=". $id ."' target='_blank'  class='disabled-link'> Add 3G Tech</a></button></div>";        
+                    echo"</br> <div><div class= 'Lfloat'><button type='button' class= 'btn'><a href='3G.php?id2=". $id ."' target='_blank'> Add 3G Tech</a></button></div>";        
                         }
                     }
                     }
@@ -520,13 +582,28 @@ border-radius:5px;
                  <td>'  .$roww3['CELL_NAME']                 . '</td>
                  <td>' . $roww3['CELL_ID']                   . '</td>
                  <td>'.  $roww3['ACTIVATION_DATE']           . '</td>
-                 <td>' . $roww3['ON_AIR_DATE']               . '</td>
+                 <td>' . $roww3['ON_AIR_DATE']               . '</td>';
+                 if($dep == 'Power'){
+                    echo'
+
                  <td> <a href="update4G.php?id4='. $roww3['SID'] .'" " target="_blank"   class="disabled-link">Update</a></td>
                  <td> <a href="delete4Gcellquest.php?id4='. $roww3['CELL_CODE'] .'"" target="_blank"  class="disabled-link">Delete Cell</a></td>
                 </tr>
                 </tbody>';
                
-    
+                 }
+
+                else{
+                    echo'
+
+                 <td> <a href="update4G.php?id4='. $roww3['SID'] .'" " target="_blank">Update</a></td>
+                 <td> <a href="delete4Gcellquest.php?id4='. $roww3['CELL_CODE'] .'"" target="_blank">Delete Cell</a></td>
+                </tr>
+                </tbody>';
+               
+                 }
+                 
+
 
              
             }while ($roww3 = oci_fetch_array($resultt3, OCI_ASSOC + OCI_RETURN_NULLS));
@@ -536,17 +613,25 @@ border-radius:5px;
             ?>
     </table>
     <?php
-
+if($dep == 'Power'){
                     echo"<div><div class= 'Lfloat'><button type='button' class= 'btn'><a href='Info4G.php?id4=". $id4 ."' target='_blank'> More Details</a></button></div>";
                     echo"<div class='Rfloat'><button type='button' class='btn' class ='btnn'> <a href='delete4Gques.php?id14=". $id ."' target='_blank'  class='disabled-link'>Cancell 4G Site</a></button></div><div style='clear:both;'></div></div>";
 
-                   
+}
+else{
+    echo"<div><div class= 'Lfloat'><button type='button' class= 'btn'><a href='Info4G.php?id4=". $id4 ."' target='_blank'> More Details</a></button></div>";
+    echo"<div class='Rfloat'><button type='button' class='btn' class ='btnn'> <a href='delete4Gques.php?id14=". $id ."' target='_blank' >Cancell 4G Site</a></button></div><div style='clear:both;'></div></div>";
+
+}
+
+
+
                       }
                         else {
                     echo "4G Site Is Not Exist!!";
                     if($result !== false){
                         if (isset($id) && !empty($id)) {
-                    echo"</br> <div><div class= 'Lfloat'><button type='button' class= 'btn'><a href='4G.php?id3=". $id ."' target='_blank'  class='disabled-link'> Add 4G Tech</a></button></div>";
+                    echo"</br> <div><div class= 'Lfloat'><button type='button' class= 'btn'><a href='4G.php?id3=". $id ."' target='_blank'  Add 4G Tech</a></button></div>";
                     }
                 }
                 }

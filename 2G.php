@@ -4,7 +4,7 @@ include "config.php";
 <?php
 if(isset($_GET['id']))
 {
-$siteid =$_GET['id'];
+$user =$_GET['id'];
 
 $sqll = "SELECT * FROM NEW_SITES WHERE ID = :siteid";
 $result = oci_parse($conn, $sqll);
@@ -556,7 +556,8 @@ try{
             // Database connection details
             $username = "C##Hadeel";
             $password = "MTN";
-            $connection_string = "//localhost/XE"; // Change XE if your SID is different
+            $connection_string = "//localhost/sitem"; // Change XE if your SID is different
+           //$connection_string = "//10.10.89.198:1521/orclpdb";
             
             // Connect to Oracle
             $conn = oci_connect($username, $password, $connection_string);
